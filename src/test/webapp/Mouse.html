@@ -1,0 +1,117 @@
+<!--
+
+    Copyright (C) 2008 Ovea <dev@testatoo.org>
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+        "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <link type="text/css" href="css/ui.all.css" rel="stylesheet"/>
+    <script type="text/javascript" src="scripts/jquery-1.4.js"></script>
+    <script type="text/javascript" src="scripts/ui.core.js"></script>
+    <script type="text/javascript" src="scripts/ui.draggable.js"></script>
+    <script type="text/javascript" src="scripts/ui.droppable.js"></script>
+    <style type="text/css">
+        #draggable {
+            width: 75px;
+            height: 25px;
+            background: silver;
+            padding: 10px;
+        }
+
+        #droppable {
+            position: absolute;
+            left: 250px;
+            top: 0;
+            width: 125px;
+            height: 75px;
+            background: gray;
+            color: white;
+            padding: 10px;
+        }
+    </style>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#draggable").draggable();
+            $("#droppable").droppable({
+                drop: function() {
+                    $("#image").attr("style", "");
+                }
+            });
+            $("#element_1").bind("click", function() {
+                $("#element_1").attr("value", "Element 1 clicked");
+            });
+            $("#element_2").bind("dblclick", function() {
+                $("#element_2").attr("value", "Element 2 double clicked");
+            });
+
+            $("#element_3").bind("mouseover", function() {
+                $("#element_3").attr("value", "Element 3 mouse over");
+            });
+
+            $("#element_4").bind("mouseout", function() {
+                $("#element_4").attr("value", "Element 4 mouse out");
+            });
+
+            jQuery('#element_5').bind('contextmenu', function() {
+                $("#element_5").attr("value", "Element 5 right click");
+            });
+        });
+    </script>
+</head>
+<body style="font-size:62.5%;">
+
+<div id="droppable">Drop here</div>
+<div id="draggable">Drag me</div>
+
+<img id="image" src="images/forward.png" alt="image" style="visibility:hidden"/>
+
+<br/>
+
+<input type="text" id="textFocus" value="blablabla"/>
+
+<div class="testatoo">
+    <input type="text" id="element_1" value="Element 1"/>
+</div>
+
+<div class="testatoo">
+    <input type="text" id="element_2" value="Element 2"/>
+</div>
+
+<div class="testatoo">
+    <input type="text" id="element_3" value="Element 3"/>
+</div>
+
+<div class="testatoo">
+    <input type="text" id="element_4" value="Element 4"/>
+</div>
+
+<div class="testatoo">
+    <input type="text" id="element_5" value="Element 5"/>
+</div>
+
+<form action="Component.html">
+    Textfield 1<input type="text" id="textfield_1">
+    <br/>
+    Textfield 2<input type="text" id="textfield_2">
+</form>
+
+
+<input id="debug" type="text"/>
+
+</body>
+</html>

@@ -1,0 +1,277 @@
+<!--
+
+    Copyright (C) 2008 Ovea <dev@testatoo.org>
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+        "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <title>Table test</title>
+</head>
+<body>
+
+<h1>Table tests</h1>
+<hr/>
+
+<table id="table_1" title="tableTitle">
+    <tr>
+        <td>Sample table 1</td>
+    </tr>
+</table>
+
+<table name="tableName">
+    <tr>
+        <td>Sample named table</td>
+    </tr>
+</table>
+
+<table id="table_2" dir="ltr" lang="ca" class="myClass" style="color:black" title="tableTitle"
+       summary="tableSummary" width="50%" height="50%" frame="box" rules="all">
+    <tr>
+        <td>Sample table 2</td>
+    </tr>
+</table>
+<br/>
+
+<table id="table_3" border="5" frame="vsides" rules="cols">
+    <thead>
+    <tr>
+        <th id="th_ess1" title="th1_Title" style="color:brown" class="MyTHClass" lang="ca">table_3</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    <tr id="tr_ess1" dir="ltr" lang="ca" class="MyTRClass" style="color:black" title="tr1_Title">
+        <td>1</td>
+        <td>2</td>
+        <td>3</td>
+    </tr>
+    <tr id="tr_ess2" dir="rtl" lang="fr">
+        <td>4</td>
+        <td>5</td>
+        <td>6</td>
+    </tr>
+    <tr id="tr_ess3" cellvalign="top" cellhalign="left">
+        <td>7</td>
+        <td>8</td>
+        <td>9</td>
+    </tr>
+    </tbody>
+</table>
+<br/>
+
+<table id="table_4" border="1" cellspacing="10" cellpadding="8%"
+       summary="This table gives some statistics about fruit
+                   flies: average height and weight, and percentage
+                   with red eyes (for both males and females).">
+    <caption><em>A test table with merged cells, cellpadding and cellspacing</em></caption>
+    <tr>
+        <th id="th_ess2" rowspan="2" lang="fr" dir="rtl">---</th>
+        <th id="th_ess3" colspan="2" abbr="abbr tests for th" cellhalign="left" cellvalign="top">Average</th>
+        <th rowspan="2">Red<br>eyes</th>
+    </tr>
+    <tr>
+        <th id="th_ess4" axis="cat1, cat2, cat3" headers="id_cell1,id_cell2,id_cell3" scope="col">height</th>
+        <th>weight</th>
+    </tr>
+    <tr>
+        <th>Males</th>
+        <td>1.9</td>
+        <td>0.003</td>
+        <td>40%</td>
+    </tr>
+    <tr id="female">
+        <th>Females</th>
+        <td>1.7</td>
+        <td>0.002</td>
+        <td>43%</td>
+    </tr>
+</table>
+<br/>
+
+
+<table id="table_5" cellspacing="10%" cellpadding="30" border="1">
+    <caption id="caption_table5" title="caption5_title" lang="ar" dir="rtl" style="font-size:10pt"
+             class="MyCAPTIONClass">
+        <em>A test table with cellspacing and cellpadding</em></caption>
+    <tr>
+        <td>Data1</td>
+        <td>Data2</td>
+        <td>Data3</td>
+    </tr>
+</table>
+<br/>
+
+
+<table id="table_6" frame="box" rules="groups" summary="The Results of the Big XHTML Playoffs.">
+    <caption id="caption_table6">The XHTML Playoffs</caption>
+    <col title="col_0"/>
+    <colgroup id="colgroup" align="center">
+        <col title="col_1"/>
+        <col title="col_2" style="background-color: #FFFFAA;">
+        <col title="col_3" style="background-color: #BDFCC9;">
+    </colgroup>
+    <thead id="thead_ess1" title="thead1_Title" cellhalign="justify" lang="fr" style="color:blue"
+           class="MyTHEADClass">
+    <tr>
+        <th>results</th>
+    </tr>
+    <tr>
+        <th>Game</th>
+        <th>Elements</th>
+        <th>Entities</th>
+    </tr>
+    </thead>
+    <tbody id="tbody_ess1" title="tbody1_Title" cellhalign="justify" lang="fr" style="color:red"
+           class="MyTBODYClass">
+    <tr>
+        <td>1</td>
+        <td>3</td>
+        <td>0</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>5</td>
+        <td>4</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>2</td>
+        <td>8</td>
+    </tr>
+    <tr>
+        <td>4</td>
+        <td>7</td>
+        <td>9</td>
+    </tr>
+    <tr>
+        <td>5</td>
+        <td>0</td>
+        <td>1</td>
+    </tr>
+    </tbody>
+
+    <tfoot id="tfoot_ess1" style="background-color: #05FFFF;" lang="fr">
+    <tr>
+        <td colspan="3">Entities Win!</td>
+    </tr>
+    </tfoot>
+</table>
+<br/>
+
+<table id="table_7" border="1">
+    <caption><em>A test table for alignments</em></caption>
+    <thead id="thead_ess2" cellhalign="right" cellvalign="top" dir="rtl" lang="ar">
+    <tr>
+        <td>header</td>
+    </tr>
+    </thead>
+    <tr>
+        <th>Vegetable</th>
+        <th>Cost<br> per<br> kilo</th>
+        <tbody id="tbody_ess2" cellhalign="center" cellvalign="baseline" dir="rtl" lang="ar">
+    <tr>
+        <td>Lettuce</td>
+        <td>$1</td>
+    </tr>
+    <tr>
+        <td>Silver carrots</td>
+        <td>$10.50</td>
+    </tr>
+    <tr>
+        <td>Golden turnips</td>
+        <td>$100.30</td>
+    </tr>
+    <tfoot id="tfoot_ess2" style="background-color:pink;" lang="es" title="tfoot_title2"
+           class="MyTFOOTClass" dir="rtl" cellhalign="left" cellvalign="bottom">
+    <tr id="tfoot_tr">
+        <td>footer</td>
+    </tr>
+    </tfoot>
+</table>
+<br/>
+
+<table id="table_8" border="1" summary="Example table used to show the use of the HTML colgroup tag.">
+    <caption><em>A test table for colgroup and for td</em></caption>
+    <colgroup id="colgroup_ess1" title="colgroup1_Title" cellhalign="justify" lang="fr" style="color:blue"
+              class="MyCOLGROUPClass" span="2">
+    </colgroup>
+    <colgroup id="colgroup_ess2" span="4" style="width: 2.28em" align="right" cellhalign="right"
+              width="20%" cellvalign="top" dir="rtl" lang="ar">
+    </colgroup>
+    <tr>
+        <td id="td_ess1" style="color:yellow;" abbr="abbreviation tests for td" axis="cat4, cat5, cat6" dir="rtl"
+            lang="ca">Sean
+        </td>
+        <td id="td_ess2" headers="cell3, cell4, cell5" colspan="4" rowspan="3" cellhalign="left">Male</td>
+        <td id="td_ess3" cellvalign="top" scope="rowgroup" class="MyTDClass">5</td>
+        <td>4</td>
+        <td>2</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>Anne</td>
+        <td>Female</td>
+        <td>4</td>
+        <td>1</td>
+        <td>5</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>Cynthia</td>
+        <td>Female</td>
+        <td>2</td>
+        <td>0</td>
+        <td>1</td>
+        <td>No</td>
+    </tr>
+</table>
+<br>
+
+<table id="table_9" border="1" summary="Example table used to show the use of the HTML col tag.">
+    <caption><em>A test table for col</em></caption>
+    <col id="col_ess1" title="col1_Title" style="width:7.6em" class="MyCOLClass" span="3"/>
+    <col id="col_ess2" style="width: 7.6em" lang="su" dir="rtl" width="40%"/>
+    <col id="col_ess3" style="width: 3.8em" cellhalign="right" cellvalign="top"/>
+    <tr>
+        <th>Name</th>
+        <th>Gender</th>
+        <th>Age</th>
+    </tr>
+    <tr>
+        <td>Richard</td>
+        <td>Male</td>
+        <td>32</td>
+    </tr>
+    <tr>
+        <td>Anna</td>
+        <td>Female</td>
+        <td>18</td>
+    </tr>
+    <tr>
+        <td>Dean</td>
+        <td>Male</td>
+        <td>23</td>
+    </tr>
+    <tr>
+        <td>Sean</td>
+        <td>Male</td>
+        <td>65</td>
+    </tr>
+</table>
+</body>
+</html>

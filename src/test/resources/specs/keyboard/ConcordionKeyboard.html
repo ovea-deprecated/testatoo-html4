@@ -1,0 +1,37 @@
+<html xmlns:concordion="http://www.concordion.org/2007/concordion">
+<link href="../concordion.css" rel="stylesheet" type="text/css"/>
+<body>
+
+<h1>Keyboard test</h1>
+
+<p>
+    Keyboard typing from Testatoo works in input field
+</p>
+
+<div class="example">
+
+    <h3>Type and verify input value</h3>
+
+    <p>
+        When Testatoo type into text field <b concordion:set="#input">input_language</b>
+        the value <b concordion:set="#value"> guy</b> then the
+        html input now contains the value <b concordion:assertEquals="typeAndCheck(#input, #value)">french guy</b>
+    </p>
+
+</div>
+
+<div class="example">
+
+    <h3>Type and verify input value</h3>
+
+    <p>
+        When Testatoo type into text field <b concordion:set="#input">input_language</b>
+        the value <b concordion:set="#value"> AS language</b> then the
+        html input now contains the value <b concordion:assertEquals="typeAndCheck(#input, #value)">french AS
+        language</b>
+    </p>
+
+</div>
+
+</body>
+</html>

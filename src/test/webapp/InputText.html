@@ -1,0 +1,69 @@
+<!--
+
+    Copyright (C) 2008 Ovea <dev@testatoo.org>
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+        "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <title>InputText tests</title>
+</head>
+<body>
+<h1>InputText tests</h1>
+<hr/>
+<form>
+
+    <input type="checkbox" id="inputTextError"/>
+
+    <input type="text" id="input_1" value="textValue" maxlength="10" readonly size="20" name="inputTextName"
+           title="inputTextTitle"/>
+    <br/>
+
+    <input type="text" id="input_language" value="french" size="20" maxlength="20"/>
+    <br/>
+
+    <input type="text" name="inputTextName" value="french" size="20"/>
+    <br/>
+
+    <input type="text" title="inputTextTitle" value="french" size="20"/>
+    <br/>
+
+    <input type="text" id="text_def" size="10"/>
+    <br/>
+    <input type="text" id="disabledtext" size="25" disabled value="disabled value"/>
+    <br/>
+    <input type="text" id="readonlytext" size="25" readonly value="readonly value"/>
+    <br/>
+
+    <label for="text">Text label</label>
+    <input type="text" id="text" title="textTitle" value="textValue" name="myText" accesskey="C" size="15"
+           readonly alt="short description" tabindex="5" lang="fr" dir="rtl" class="myClass"
+           maxLength="20" style="color:black;"/>
+    <br/>
+
+    <p>
+        <label>Home phone number
+            <input type="text" name="homenumber" id="toto">
+        </label>
+        <label for="cellphone">Cell phone number</label>
+        <input id="cellphone" type="text" name="cellnumber">
+    </p>
+
+</form>
+
+</body>
+</html>

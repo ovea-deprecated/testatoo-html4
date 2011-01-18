@@ -1,0 +1,65 @@
+<!--
+
+    Copyright (C) 2008 Ovea <dev@testatoo.org>
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+        "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <title>Text Area tests</title>
+</head>
+<h1>Text Area tests</h1>
+
+<body>
+<form id="myForm" action="Exit.html" method="post" accept="all" accept-charset="utf-8"
+      enctype="xml/html" lang="fr" dir="ltr" class="myClass" style="color:black" title="formTitle">
+    <p>
+        <textarea id="textArea_1" name="textAreaName" rows="10" cols="50" tabIndex="3" accesskey="T"
+                  lang="en" dir="ltr" class="myTEXTAREAClass" style="color:blue" title="textAreaTitle">
+            First line of initial text.
+            Second line of initial text.
+        </textarea>
+        <br>
+        <input type="submit" value="Send"><input type="reset">
+    </p>
+
+    <p>
+        <label for="textArea_2">Text with two lines</label>
+        <textarea id="textArea_2" rows="25" cols="85" readonly>
+            First line of initial text.
+            Second line of initial text.
+        </textarea>
+        <br>
+        <input type="submit" value="Send"><input type="reset">
+    </p>
+
+    <p>
+        <label>Text with three lines
+            <textarea name="textArea3linesName" rows="25" cols="85" disabled>
+                First line of text.
+                Second line of text.
+                Third line of text.
+            </textarea>
+        </label>
+        <br>
+        <input type="submit" value="Send"><input type="reset">
+    </p>
+
+</form>
+<abbr id="abbr_ess1" title="abbr1_Title" style="color:blue">TextTestAbbr1</abbr>
+</body>
+</html>

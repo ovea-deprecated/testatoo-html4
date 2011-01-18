@@ -1,0 +1,154 @@
+<!--
+
+    Copyright (C) 2008 Ovea <dev@testatoo.org>
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+        "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <title>Select tests</title>
+</head>
+<script src="scripts/jquery-1.4.js"></script>
+
+<script>
+    function demo() {
+        $("#cities").bind("change", function(e) {
+            $("#onChangeTest").val("OnChange Event Fired");
+        });
+    }
+    jQuery(document).ready(demo);
+</script>
+
+<body>
+<h1>Select tests</h1>
+
+<label for="cities">Cities list</label>
+<select id="cities" size="3" multiple="multiple" name="cityName" title="cityTitle">
+    <option label="Montreal" value="Montreal">Montreal</option>
+    <option label="Quebec" value="Quebec" disabled>Quebec</option>
+    <option label="Montpellier" value="Montpellier">Montpellier</option>
+    <option label="New York" value="New York" selected="selected">New York</option>
+    <option label="Casablanca" value="Casablanca">Casablanca</option>
+    <option label="Munich" value="Munich" selected="selected">Munich</option>
+</select>
+<br/>
+<input type="text" id="onChangeTest"/>
+
+<br/>
+<br/>
+
+<label for="elements">Elements list</label>
+<select id="elements" name="elementName" size="2" title="elementTitle" tabindex="2" lang="fr" dir="ltr" class="myClass"
+        style="color:black">
+    <option label="H" value="1">Helium</option>
+    <option label="B" value="5">Boron</option>
+    <option label="Pol" value="84">Polonium</option>
+    <option label="Ca" value="20">Calcium</option>
+    <option label="Ra" value="88">Radium</option>
+</select>
+
+<br/>
+<br/>
+
+<label for="countries">Countries list</label>
+<select id="countries" disabled>
+    <option label="Canada">Canada</option>
+    <option label="France">France</option>
+    <option label="Spain">Spain</option>
+</select>
+
+<br/>
+<br/>
+
+<label for="planets">planets list</label>
+<select id="planets" multiple="multiple">
+    <option value="1">Mercury</option>
+    <option value="2">Venus</option>
+    <option value="3">Earth</option>
+    <option value="4">Mars</option>
+    <option value="5">Jupiter</option>
+    <option value="6">Saturn</option>
+    <option value="7">Uranus</option>
+    <option value="8">Neptune</option>
+</select>
+
+<br/>
+<br/>
+
+<select id="os">
+    <option selected label="none" value="none">None</option>
+    <optgroup id="linux" label="linux" name="linuxGrpName" title="linuxGrpTitle" lang="fr" dir="ltr" class="myClass"
+              style="color:black">
+        <option label="KubuntuLabel" value="KubuntuValue" id="kubuntuOption">Kubuntu</option>
+        <option label="RedHatLabel" value="RedHatValue">Fedora</option>
+        <option label="GentooLabel" value="GentooValue">Gentoo</option>
+    </optgroup>
+    <optgroup label="win32">
+        <option label="XPLabel" value="XPValue">XP</option>
+        <option label="VistaLabel" value="VistaValue">Vista</option>
+    </optgroup>
+    <optgroup label="BSD">
+        <option label="FreeBSDLabel" value="FreeBSDValue">FreeBSD</option>
+        <option label="OpenBSDLabel" value="OpenBSDValue">OpenBSD</option>
+    </optgroup>
+</select>
+
+<br/>
+<br/>
+
+<select id="name" disabled>
+    <option value="1">John</option>
+    <option value="2">Alexander</option>
+    <option value="2">Patrick</option>
+</select>
+
+<br/>
+<br/>
+
+<label>girls list
+    <select name="girlsList">
+        <option>Sandra</option>
+        <option>Clemecia</option>
+        <option>Rhea</option>
+    </select>
+</label>
+
+<br/>
+<br/>
+
+<label for="oceans">oceans list</label>
+<select id="oceans" multiple="multiple">
+    <option value="304">Arctic</option>
+    <option value="208">Atlantic</option>
+    <option value="378">Pacific</option>
+    <option value="153">Indian</option>
+    <option value="357">Antartic</option>
+</select>
+
+<br/>
+<br/>
+<select id="emptyList" multiple="multiple">
+</select>
+
+<br/>
+<br/>
+<input type="radio" id="radio" value="yes" name="response"/>
+<var id="var_ess1" title="var1_Title" style="color:blue">TextTestVar1</var>
+<br/>
+
+</body>
+</html>

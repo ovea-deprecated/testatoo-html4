@@ -1,0 +1,61 @@
+<!--
+
+    Copyright (C) 2008 Ovea <dev@testatoo.org>
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+        "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <title>Image tests</title>
+</head>
+<body>
+
+<h1>Image tests</h1>
+<hr/>
+
+<br/>
+<img id="image_1" src="images/Montpellier.jpg" alt="Montpellier tramway" longdesc="Montpellier first line tramway"
+     name="imageName" title="imageTitle" usemap="http://mySite/images" lang="fr" dir="ltr" class="MyIMAGEClass"
+     style="color:black" height="100%" width="95%"/>
+
+<div id="div_1">
+    <img id="image_2" src="images/mapExample1.jpg" alt="" usemap="#map_2"/>
+    <map id="map_2" name="map_2" class="MyMAPClass" dir="rtl" lang="en" style="color:blue" title="map_title2">
+        <area id="area_1" shape="rect" coords="40,144,80,171" href="Exit.html" lang="dr" dir="rtl"
+              style="color:red"
+              title="area_title1" class="MyAREAClass" accesskey="C" alt="area1"/>
+        <area id="area_2" shape="rect" coords="112,144,152,171" href="Exit.html" style="color:red"
+              title="area_title2" tabindex="2" alt="area2"/>
+        <area id="area_3" nohref coords="184,144,224,171" alt=""/>
+        <area coords="256,144,296,171" href="Exit.html" alt=""/>
+    </map>
+</div>
+
+<p>
+    <a href="Exit.html">
+        <img id="image_3" src="images/forward.png" ismap alt="target">
+    </a>
+</p>
+
+<div id="image_4">
+    <a href="Exit.html">
+        <img src="images/mapExample1.jpg" alt="" ismap="ismap">
+    </a>
+</div>
+
+</body>
+</html>

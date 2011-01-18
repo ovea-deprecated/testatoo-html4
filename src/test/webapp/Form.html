@@ -1,0 +1,68 @@
+<!--
+
+    Copyright (C) 2008 Ovea <dev@testatoo.org>
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+        "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <title>Form tests</title>
+</head>
+<body>
+
+<h1>Form tests</h1>
+<hr/>
+
+<form id="myForm" action="Exit.html" method="post" name="formName" accept="all" accept-charset="UTF-8"
+      enctype="application/x-www-form-urlencoded" lang="fr" dir="ltr" class="myClass" style="color:black"
+      title="formTitle">
+    <p>
+        <label for="firstname">First name: </label>
+        <input type="text" id="firstname"/><br/>
+        <label for="lastname">Last name: </label>
+        <input type="text" id="lastname"/><br/>
+        <label for="email">email: </label>
+        <input type="text" id="email"/><br/>
+        <input type="radio" name="gender" id="male" value="Male"/> Male<br/>
+        <input type="radio" name="gender" id="female" value="Female"/> Female<br/>
+
+        <input type="checkbox" name="yes"/> Male<br/>
+        <input type="checkbox" name="no"/> Female<br/>
+
+        <select id="cities">
+            <option label="Montreal">Montreal</option>
+            <option label="Quebec" disabled>Quebec</option>
+            <option label="Montpellier">Montpellier</option>
+            <option label="New York" selected="selected">New York</option>
+            <option label="Casablanca">Casablanca</option>
+        </select>
+        <br/>
+
+        <input type="image" value="Send" src="images/forward.png" id="submitImage"/><br/>
+        <button>Submit</button>
+        <br/>
+        <input type="submit" value="Send"/><input type="reset"/>
+    </p>
+</form>
+
+<form id="myForm2" action="Exit.html" title="formTitle" name="formName">
+</form>
+
+<form id="myForm3" action="Exit.html"/>
+
+</body>
+</html>

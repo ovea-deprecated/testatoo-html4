@@ -1,0 +1,68 @@
+<!--
+
+    Copyright (C) 2008 Ovea <dev@testatoo.org>
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <title>Object tests</title>
+</head>
+<body>
+<h1>Object tests</h1>
+<hr/>
+
+<object id="object_1" class="MyOBJECTClass" title="objectTitle1" style="color:blue;"
+        data="images/forward.png" type="image/jpg" lang="es">
+</object>
+
+<br/>
+
+<object id="object_2" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
+        codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=4,0,0,0"
+        name="object_name2">
+    <param id="param_1" name="movie" value="images/dropdown.swf"/>
+    <param id="param_2" name="quality" value="high"/>
+    <param name="bgcolor" value="#FFFFFF"/>
+    <embed src="images/dropdown.swf" quality="high"
+           pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash"/>
+
+</object>
+
+<object id="object_3" data="images/NiagaraFalls1.jpg" width="300" height="300"
+        usemap="#map" type="image/jpg" standby="loading......." archive="http://ma-cabane-au-canada.com/">
+    Niagara falls.
+    <map name=map>
+        <ul>
+            <li><a href="/reference/" coords="5,5,95,195">HTML and CSS Reference</a></li>
+            <li><a href="/design/" coords="105,5,195,195">Design Guide</a></li>
+            <li><a href="/tools/" coords="205,5,295,195">Tools</a></li>
+        </ul>
+    </map>
+</object>
+
+<object id="object_4" codetype="application/octet-stream">
+    <param id="param_3" valuetype="ref" type="image/gif" name="IMAGE1" value="flash/camera.swf">
+</object>
+
+<var id="var_ess1" title="var1_Title" style="color:blue">TextTestVar1</var>
+
+<br/>
+
+
+</body>
+</html>
