@@ -73,7 +73,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.testatoo.core</groupId>
+            <groupId>org.testatoo</groupId>
             <artifactId>testatoo-core</artifactId>
             <version>1.0-rc1-SNAPSHOT</version>
         </dependency>
