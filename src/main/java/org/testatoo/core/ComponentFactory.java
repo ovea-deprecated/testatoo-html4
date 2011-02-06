@@ -47,14 +47,6 @@ public final class ComponentFactory {
         return component(Page.class, By.xpath("//html"));
     }
 
-    public static AlertBox alertbox() {
-        return new org.testatoo.cartridge.html4.element.AlertBox(evaluator());
-    }
-
-    public static Selection<Button> buttons(By by) {
-        return components(Button.class, by);
-    }
-
     public static <T extends Component> T component(Class<T> componentType, String id) {
         return component(componentType, By.id(id));
     }
@@ -62,6 +54,8 @@ public final class ComponentFactory {
     public static <T extends Component> T component(Class<T> componentType, By by) {
         Class cmpType = componentType;
 
+        if (componentType.equals(AlertBox.class) || componentType.equals(org.testatoo.cartridge.html4.element.AlertBox.class))
+            return (T) new org.testatoo.cartridge.html4.element.AlertBox(evaluator());
         if (componentType.equals(DropDown.class))
             cmpType = org.testatoo.cartridge.html4.element.DropDown.class;
         if (componentType.equals(ListBox.class))

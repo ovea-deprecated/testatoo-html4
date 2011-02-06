@@ -31,7 +31,6 @@ import org.testatoo.core.component.datagrid.DataGrid;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
-import static org.testatoo.core.ComponentFactory.buttons;
 import static org.testatoo.core.ComponentFactory.components;
 import static org.testatoo.core.ComponentFactory.findAll;
 import static org.testatoo.core.ComponentFactory.page;
@@ -44,7 +43,6 @@ public class FinderTest extends WebTest {
         Selection<Button> buttons = findAll(Button.class);
         assertThat(buttons.size(), is(7));
 
-        assertThat(buttons(By.jQuery(":submit")).size(), is(2));
         assertThat(components(Button.class, By.jQuery(":submit")).size(), is(2));
     }
 

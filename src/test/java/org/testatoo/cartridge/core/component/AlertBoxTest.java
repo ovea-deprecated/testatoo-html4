@@ -27,7 +27,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.fail;
-import static org.testatoo.core.ComponentFactory.alertbox;
 import static org.testatoo.core.ComponentFactory.component;
 import static org.testatoo.core.ComponentFactory.page;
 import static org.testatoo.core.input.Mouse.clickOn;
@@ -42,28 +41,29 @@ public class AlertBoxTest extends WebTest {
     @Test
     public void can_find_alertbox() {
         try {
-            alertbox();
+            component(AlertBox.class, "");
             fail();
         } catch (ComponentException e) {
             assertThat(e.getMessage(), containsString("Cannot find component defined by id="));
         }
         clickOn(component(Button.class, "alertButton"));
-        alertbox();
-        alertbox().close();
+        AlertBox alertbox = component(AlertBox.class, "");
+        alertbox.close();
     }
 
     @Test
     public void can_test_title() {
         clickOn(component(Button.class, "alertButton"));
         // On HTML alertbox have no title
-        assertThat(alertbox().title(), is(""));
-        alertbox().close();
+        AlertBox alertbox = component(AlertBox.class, "");
+        assertThat(alertbox.title(), is(""));
+        alertbox.close();
     }
 
     @Test
     public void can_test_message() {
         clickOn(component(Button.class, "alertButton"));
-        AlertBox alertbox = alertbox();
+        AlertBox alertbox = component(AlertBox.class, "");
         assertThat(alertbox.message(), is("Changes saved successfully."));
         alertbox.close();
     }
@@ -71,10 +71,10 @@ public class AlertBoxTest extends WebTest {
     @Test
     public void can_close_alertbox() {
         clickOn(component(Button.class, "alertButton"));
-        AlertBox alertbox = alertbox();
+        AlertBox alertbox = component(AlertBox.class, "");
         alertbox.close();
         try {
-            alertbox();
+            component(AlertBox.class, "");
         } catch (ComponentException e) {
             assertThat(e.getMessage(), containsString("Cannot find component defined by id="));
         }
@@ -83,7 +83,7 @@ public class AlertBoxTest extends WebTest {
     @Test
     public void test_toString() {
         clickOn(component(Button.class, "alertButton"));
-        AlertBox alertbox = alertbox();
+        AlertBox alertbox = component(AlertBox.class, "");
         assertThat(alertbox.toString(), is("class org.testatoo.cartridge.html4.element.AlertBox with state : enabled:true, visible:true, title:, message:Changes saved successfully."));
         alertbox.close();
     }
