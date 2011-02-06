@@ -186,7 +186,7 @@ public final class ComponentFactory {
             return components(Panel.class, By.jQuery("div")).transform(componentType);
         }
 
-        // IMage
+        // Image
         // Dropdown
         // COmbobox
         // Checkbox
