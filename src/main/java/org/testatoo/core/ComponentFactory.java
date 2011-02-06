@@ -188,7 +188,7 @@ public final class ComponentFactory {
 
         // Image
         // Dropdown
-        // COmbobox
+        // Combobox
         // Checkbox
 
         if (componentType == DataGrid.class) {
