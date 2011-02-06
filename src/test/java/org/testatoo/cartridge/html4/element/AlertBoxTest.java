@@ -16,7 +16,6 @@
 
 package org.testatoo.cartridge.html4.element;
 
-import org.hamcrest.MatcherAssert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
