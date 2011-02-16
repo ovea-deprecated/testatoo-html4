@@ -974,10 +974,22 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
         }
 
         if (expression.startsWith("jquery:")) {
+//            String query;
+//            if (expression.contains("tQuery"))
+//                query = expression.substring(7, expression.length());
+//            else
+//                query =  "window.tQuery('" +  expression.substring(7, expression.length()) + "')";
+//            String query = "(function($){" + expression.substring(7, expression.length()) + ";})(window.tQuery);";
             String query = expression.substring(7, expression.length()).replace("$", "window.tQuery");
+//            String query = expression.substring(7, expression.length());
             if (!Boolean.valueOf(evaluate(query + ".length > 0"))) {
                 throw new EvaluatorException("Cannot find component defined by the jquery expression : " + query);
             }
+
+//            String query = expression.substring(7, expression.length());
+//            if (!Boolean.valueOf(evaluate("window.tQuery('" + query + "').length > 0"))) {
+//                throw new EvaluatorException("Cannot find component defined by the jquery expression : " + query);
+//            }
 
             id = evaluate(query + ".attr('id')");
             if (id.isEmpty()) {
@@ -985,6 +997,21 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
                 id = UUID.randomUUID().toString();
                 evaluate(query + ".attr('id', '" + id + "')");
             }
+
+//            String query = "(function($){" + expression.substring(7, expression.length()) + ";})(window.tQuery);";
+//            if (!Boolean.valueOf(evaluate("(function($){" + expression.substring(7, expression.length()) + ".length > 0;})(window.tQuery);"))) {
+//                throw new EvaluatorException("Cannot find component defined by the jquery expression : " + query);
+//            }
+//
+//            id = evaluate("(function($){" + expression.substring(7, expression.length()) + ".attr('id');})(window.tQuery);");
+//            if (id.isEmpty()) {
+//                // Ok exists but without identifier so create one
+//                id = UUID.randomUUID().toString();
+//                evaluate(query + ".attr('id', '" + id + "')");
+//            }
+
+
+
         }
         return id;
     }
@@ -1013,6 +1040,13 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
         }
 
         if (expression.startsWith("jquery:")) {
+//            String query;
+//            if (expression.contains("tQuery"))
+//                query = expression.substring(7, expression.length());
+//            else
+//                query =  "window.tQuery('" +  expression.substring(7, expression.length()) + "')";
+//            String query = expression.substring(7, expression.length());
+//            String query = "(function($){" + expression.substring(7, expression.length()) + ";})(window.tQuery);";
             String query = expression.substring(7, expression.length()).replace("$", "window.tQuery");
             if (!Boolean.valueOf(evaluate(query + ".length > 0"))) {
                 throw new EvaluatorException("Cannot find component defined by the jquery expression : " + query);
