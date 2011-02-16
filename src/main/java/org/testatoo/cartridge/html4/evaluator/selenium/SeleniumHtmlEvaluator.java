@@ -974,16 +974,16 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
         }
 
         if (expression.startsWith("jquery:")) {
-            String query = expression.substring(7, expression.length());
-            if (!Boolean.valueOf(evaluate("window.tQuery('" + query + "').length > 0"))) {
+            String query = expression.substring(7, expression.length()).replace("$", "window.tQuery");
+            if (!Boolean.valueOf(evaluate(query + ".length > 0"))) {
                 throw new EvaluatorException("Cannot find component defined by the jquery expression : " + query);
             }
 
-            id = evaluate("window.tQuery('" + query + "').attr('id')");
+            id = evaluate(query + ".attr('id')");
             if (id.isEmpty()) {
                 // Ok exists but without identifier so create one
                 id = UUID.randomUUID().toString();
-                evaluate("window.tQuery('" + query + "').attr('id', '" + id + "')");
+                evaluate(query + ".attr('id', '" + id + "')");
             }
         }
         return id;
@@ -1013,8 +1013,8 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
         }
 
         if (expression.startsWith("jquery:")) {
-            String query = expression.substring(7, expression.length());
-            if (!Boolean.valueOf(evaluate("window.tQuery('" + query + "').length > 0"))) {
+            String query = expression.substring(7, expression.length()).replace("$", "window.tQuery");
+            if (!Boolean.valueOf(evaluate(query + ".length > 0"))) {
                 throw new EvaluatorException("Cannot find component defined by the jquery expression : " + query);
             }
 
@@ -1023,7 +1023,7 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
                 String id = resultId[i];
                 if (id.equals("")) {
                     id = UUID.randomUUID().toString();
-                    evaluate("window.tQuery(window.tQuery('" + query + "')[" + i + "]).attr('id', '" + id + "')");
+                    evaluate("window.tQuery(" + query + "[" + i + "]).attr('id', '" + id + "')");
                     resultId[i] = id;
                 }
             }
@@ -1188,7 +1188,7 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
 
     private String loadUserExtensions() {
         String script = "";
-        script += addScript("tquery-1.4.2-min.js");
+        script += addScript("tquery-1.5.js");
         script += addScript("tquery-simulate.js");
         script += addScript("tquery-util.js");
         return script;
