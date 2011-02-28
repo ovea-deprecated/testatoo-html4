@@ -19,7 +19,6 @@ package org.testatoo.cartridge.html4.element;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.testatoo.cartridge.WebTest;
-import org.testatoo.cartridge.html4.By;
 import org.testatoo.core.ComponentException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -63,30 +62,6 @@ public class RadioTest extends WebTest {
         assertThat(radio.alt(), is("short description"));
         assertThat(radio.tabindex(), is(5));
         assertThat(radio.accesskey(), is("C"));
-    }
-
-    @Test
-    public void can_find_radio_by_name() {
-        component(Radio.class, By.name("radioName"));
-
-        try {
-            component(Radio.class, By.name("otherRadioName"));
-            fail();
-        } catch (ComponentException e) {
-            assertThat(e.getMessage(), is("Cannot find component defined by name=otherRadioName"));
-        }
-    }
-
-    @Test
-    public void can_find_radio_by_title() {
-        component(Radio.class, By.title("radioTitle"));
-
-        try {
-            component(Radio.class, By.title("otherRadioTitle"));
-            fail();
-        } catch (ComponentException e) {
-            assertThat(e.getMessage(), is("Cannot find component defined by title=otherRadioTitle"));
-        }
     }
 
     @Test

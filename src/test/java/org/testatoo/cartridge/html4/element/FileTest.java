@@ -19,7 +19,6 @@ package org.testatoo.cartridge.html4.element;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.testatoo.cartridge.WebTest;
-import org.testatoo.cartridge.html4.By;
 import org.testatoo.core.ComponentException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -55,30 +54,6 @@ public class FileTest extends WebTest {
             fail();
         } catch (ComponentException e) {
             assertThat(e.getMessage(), is("The component with id=radio is not a FileDialog but a Radio"));
-        }
-    }
-
-    @Test
-    public void can_find_file_by_name() {
-        component(File.class, By.name("fileName"));
-
-        try {
-            component(File.class, By.name("otherFileName"));
-            fail();
-        } catch (ComponentException e) {
-            assertThat(e.getMessage(), is("Cannot find component defined by name=otherFileName"));
-        }
-    }
-
-    @Test
-    public void can_find_file_by_title() {
-        component(File.class, By.title("fileTitle"));
-
-        try {
-            component(File.class, By.title("otherFileTitle"));
-            fail();
-        } catch (ComponentException e) {
-            assertThat(e.getMessage(), is("Cannot find component defined by title=otherFileTitle"));
         }
     }
 

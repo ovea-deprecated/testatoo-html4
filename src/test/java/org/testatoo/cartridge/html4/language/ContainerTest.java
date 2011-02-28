@@ -41,7 +41,7 @@ public class ContainerTest extends WebTest {
         // For form
         goTo("Form.html");
 
-        Radio genderRadio = component(Radio.class, By.name("gender"));
+        Radio genderRadio = component(Radio.class, By.jQuery("$('[name=gender]')"));
 
         assertThat(component(Form.class, "myForm").contains(genderRadio), is(true));
         assertThat(component(Form.class, "myForm2").contains(genderRadio), is(false));

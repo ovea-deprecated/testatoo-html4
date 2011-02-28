@@ -115,7 +115,7 @@ public class FormTest extends WebTest {
         Radio radio = component(Radio.class, "male");
         assertThat(myForm.contains(radio), is(true));
 
-        CheckBox checkBox = component(CheckBox.class, By.name("yes"));
+        CheckBox checkBox = component(CheckBox.class, By.jQuery("$('[name=yes]')"));
         assertThat(myForm.contains(checkBox), is(true));
 
         Button button = component(Button.class, "submitImage");
@@ -129,7 +129,7 @@ public class FormTest extends WebTest {
         enter("email@noname.com", into(into(component(InputText.class, "email"))));
 
         check(component(Radio.class, "male"));
-        check(component(CheckBox.class, By.name("yes")));
+        check(component(CheckBox.class, By.jQuery("$('[name=yes]')")));
 
         on(component(Select.class, "cities")).select("Casablanca");
 
@@ -140,7 +140,7 @@ public class FormTest extends WebTest {
         assertThat(component(InputText.class, "email").value(), is(""));
 
         assertThat(component(Radio.class, "male").isChecked(), is(false));
-        assertThat(component(CheckBox.class, By.name("yes")).isChecked(), is(false));
+        assertThat(component(CheckBox.class, By.jQuery("$('[name=yes]')")).isChecked(), is(false));
 
         assertThat(component(Select.class, "cities").selectedOptions().get(0).content(), is("New York"));
 
@@ -149,7 +149,7 @@ public class FormTest extends WebTest {
         enter("email@noname.com", into(component(InputText.class, "email")));
 
         check(component(Radio.class, "male"));
-        check(component(CheckBox.class, By.name("yes")));
+        check(component(CheckBox.class, By.jQuery("$('[name=yes]')")));
 
         on(component(Select.class, "cities")).select("Casablanca");
 
@@ -160,7 +160,7 @@ public class FormTest extends WebTest {
         assertThat(component(InputText.class, "email").value(), is(""));
 
         assertThat(component(Radio.class, "male").isChecked(), is(false));
-        assertThat(component(CheckBox.class, By.name("yes")).isChecked(), is(false));
+        assertThat(component(CheckBox.class, By.jQuery("$('[name=yes]')")).isChecked(), is(false));
 
         assertThat(component(Select.class, "cities").selectedOptions().get(0).content(), is("New York"));
     }
@@ -186,30 +186,6 @@ public class FormTest extends WebTest {
         component(Form.class, "myForm").submit();
 
         assertThat(page().title(), is("Exit page"));
-    }
-
-    @Test
-    public void can_find_form_by_name() {
-        component(Form.class, By.name("formName"));
-
-        try {
-            component(Form.class, By.name("otherFormName"));
-            fail();
-        } catch (ComponentException e) {
-            assertThat(e.getMessage(), is("Cannot find component defined by name=otherFormName"));
-        }
-    }
-
-    @Test
-    public void can_find_form_by_title() {
-        component(Form.class, By.title("formTitle"));
-
-        try {
-            component(Form.class, By.title("otherFormTitle"));
-            fail();
-        } catch (ComponentException e) {
-            assertThat(e.getMessage(), is("Cannot find component defined by title=otherFormTitle"));
-        }
     }
 
     @Test

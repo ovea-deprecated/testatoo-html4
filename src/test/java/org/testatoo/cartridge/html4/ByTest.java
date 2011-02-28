@@ -22,10 +22,7 @@ import org.junit.Test;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class ByTest {
 
@@ -55,46 +52,23 @@ public class ByTest {
     // ----------------------------------------------------------------------------------------------
 
     @Test
-    public void can_find_component_by_xpath() {
-        when(evaluator.elementId("xpath://button[@name='test']")).thenReturn(id);
-
-        By by = By.xpath("//button[@name='test']");
-        by.id(evaluator);
-
-        verify(evaluator, times(1)).elementId("xpath://button[@name='test']");
-
-    }
-
-    @Test
-    public void can_find_components_by_xpath() {
-        String[] result = {"myId_1", "myId_2", "myId_3"};
-        when(evaluator.elementsId("xpath://button[@name='test']")).thenReturn(result);
-
-        By by = By.xpath("//button[@name='test']");
-        by.ids(evaluator);
-        verify(evaluator, times(1)).elementsId("xpath://button[@name='test']");
-    }
-
-    // ----------------------------------------------------------------------------------------------
-
-    @Test
     public void can_find_component_by_jquery() {
 
-        when(evaluator.elementId("jquery:div#content .photo")).thenReturn(id);
+        when(evaluator.elementId("jquery:$('div#content .photo')")).thenReturn(id);
 
-        By by = By.jQuery("div#content .photo");
+        By by = By.jQuery("$('div#content .photo')");
         by.id(evaluator);
-        verify(evaluator, times(1)).elementId("jquery:div#content .photo");
+        verify(evaluator, times(1)).elementId("jquery:$('div#content .photo')");
     }
 
     @Test
     public void can_find_components_by_jquery() {
         String[] result = {"myId_1", "myId_2", "myId_3"};
-        when(evaluator.elementsId("jquery:#tableId tr")).thenReturn(result);
+        when(evaluator.elementsId("jquery:$('#tableId tr')")).thenReturn(result);
 
-        By by = By.jQuery("#tableId tr");
+        By by = By.jQuery("$('#tableId tr')");
         by.ids(evaluator);
-        verify(evaluator, times(1)).elementsId("jquery:#tableId tr");
+        verify(evaluator, times(1)).elementsId("jquery:$('#tableId tr')");
 
     }
 }

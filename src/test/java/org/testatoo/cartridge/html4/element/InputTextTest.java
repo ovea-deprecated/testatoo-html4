@@ -117,32 +117,8 @@ public class InputTextTest extends WebTest {
     @Test
     public void test_label() {
         assertThat(component(InputText.class, "text").label(), is("Text label"));
-        assertThat(component(InputText.class, By.name("cellnumber")).label(), is("Cell phone number"));
-        assertThat(component(InputText.class, By.name("homenumber")).label(), is("Home phone number"));
-    }
-
-    @Test
-    public void can_find_inputText_by_name() {
-        component(InputText.class, By.name("inputTextName"));
-
-        try {
-            component(InputText.class, By.name("otherInputTextName"));
-            fail();
-        } catch (ComponentException e) {
-            assertThat(e.getMessage(), is("Cannot find component defined by name=otherInputTextName"));
-        }
-    }
-
-    @Test
-    public void can_find_inputText_by_title() {
-        component(InputText.class, By.title("inputTextTitle"));
-
-        try {
-            component(InputText.class, By.title("otherInputTextTitle"));
-            fail();
-        } catch (ComponentException e) {
-            assertThat(e.getMessage(), is("Cannot find component defined by title=otherInputTextTitle"));
-        }
+        assertThat(component(InputText.class, By.jQuery("$('[name=cellnumber]')")).label(), is("Cell phone number"));
+        assertThat(component(InputText.class, By.jQuery("$('[name=homenumber]')")).label(), is("Home phone number"));
     }
 
     @Test

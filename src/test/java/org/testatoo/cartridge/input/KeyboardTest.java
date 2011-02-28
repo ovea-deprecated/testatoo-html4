@@ -28,9 +28,7 @@ import org.testatoo.core.condition.TimerCondition;
 import org.testatoo.core.input.Keyboard;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.*;
 import static org.testatoo.core.ComponentFactory.component;
 import static org.testatoo.core.ComponentFactory.page;
 import static org.testatoo.core.Language.into;

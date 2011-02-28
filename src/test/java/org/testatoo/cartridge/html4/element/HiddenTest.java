@@ -19,7 +19,6 @@ package org.testatoo.cartridge.html4.element;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.testatoo.cartridge.WebTest;
-import org.testatoo.cartridge.html4.By;
 import org.testatoo.core.ComponentException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -98,30 +97,6 @@ public class HiddenTest extends WebTest {
         assertThat(hidden2.value(), is(""));
         assertThat(hidden2.alt(), is(""));
         assertThat(hidden2.tabindex(), is(0));
-    }
-
-    @Test
-    public void can_find_hidden_field_by_name() {
-        component(Hidden.class, By.name("hiddenName"));
-
-        try {
-            component(Hidden.class, By.name("otherName"));
-            fail();
-        } catch (ComponentException e) {
-            assertThat(e.getMessage(), is("Cannot find component defined by name=otherName"));
-        }
-    }
-
-    @Test
-    public void can_find_hidden_field_by_title() {
-        component(Hidden.class, By.title("hiddenTitle"));
-
-        try {
-            component(Hidden.class, By.title("otherTitle"));
-            fail();
-        } catch (ComponentException e) {
-            assertThat(e.getMessage(), is("Cannot find component defined by title=otherTitle"));
-        }
     }
 
     @Test

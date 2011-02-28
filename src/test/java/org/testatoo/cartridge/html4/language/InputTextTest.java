@@ -22,9 +22,7 @@ import org.testatoo.cartridge.WebTest;
 import org.testatoo.cartridge.html4.element.InputText;
 
 import static org.testatoo.cartridge.html4.Language.*;
-import static org.testatoo.cartridge.html4.matcher.Matchers.containsText;
-import static org.testatoo.cartridge.html4.matcher.Matchers.has;
-import static org.testatoo.cartridge.html4.matcher.Matchers.value;
+import static org.testatoo.cartridge.html4.matcher.Matchers.*;
 import static org.testatoo.core.ComponentFactory.component;
 
 public class InputTextTest extends WebTest {

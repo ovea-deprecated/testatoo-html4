@@ -23,71 +23,31 @@ import org.testatoo.cartridge.html4.By;
 import org.testatoo.cartridge.html4.EvaluatorException;
 import org.testatoo.cartridge.html4.HtmlEvaluator;
 import org.testatoo.cartridge.html4.component.ListBox;
-import org.testatoo.cartridge.html4.element.Area;
-import org.testatoo.cartridge.html4.element.Attribute;
-import org.testatoo.cartridge.html4.element.Caption;
-import org.testatoo.cartridge.html4.element.Col;
-import org.testatoo.cartridge.html4.element.Colgroup;
-import org.testatoo.cartridge.html4.element.Form;
-import org.testatoo.cartridge.html4.element.HtmlElementType;
+import org.testatoo.cartridge.html4.element.*;
 import org.testatoo.cartridge.html4.element.Map;
 import org.testatoo.cartridge.html4.element.Object;
-import org.testatoo.cartridge.html4.element.Option;
-import org.testatoo.cartridge.html4.element.OptionGroup;
-import org.testatoo.cartridge.html4.element.Param;
-import org.testatoo.cartridge.html4.element.Select;
-import org.testatoo.cartridge.html4.element.TBody;
-import org.testatoo.cartridge.html4.element.TFoot;
-import org.testatoo.cartridge.html4.element.THead;
-import org.testatoo.cartridge.html4.element.Table;
-import org.testatoo.cartridge.html4.element.Td;
-import org.testatoo.cartridge.html4.element.Th;
-import org.testatoo.cartridge.html4.element.Tr;
 import org.testatoo.core.AbstractEvaluator;
 import org.testatoo.core.ComponentType;
 import org.testatoo.core.ListSelection;
 import org.testatoo.core.Selection;
-import org.testatoo.core.component.AbstractTextField;
-import org.testatoo.core.component.AbstractWindow;
+import org.testatoo.core.component.*;
 import org.testatoo.core.component.AlertBox;
 import org.testatoo.core.component.Button;
-import org.testatoo.core.component.Component;
 import org.testatoo.core.component.DialogBox;
-import org.testatoo.core.component.Field;
-import org.testatoo.core.component.FileDialog;
 import org.testatoo.core.component.Link;
-import org.testatoo.core.component.ListModel;
-import org.testatoo.core.component.Page;
-import org.testatoo.core.component.Prompt;
-import org.testatoo.core.component.datagrid.Cell;
-import org.testatoo.core.component.datagrid.CellContainer;
-import org.testatoo.core.component.datagrid.Column;
-import org.testatoo.core.component.datagrid.DataGrid;
-import org.testatoo.core.component.datagrid.Row;
+import org.testatoo.core.component.datagrid.*;
 import org.testatoo.core.input.Click;
 import org.testatoo.core.input.Key;
-import org.testatoo.core.nature.Checkable;
-import org.testatoo.core.nature.Container;
-import org.testatoo.core.nature.IconSupport;
-import org.testatoo.core.nature.LabelSupport;
-import org.testatoo.core.nature.TextSupport;
-import org.testatoo.core.nature.TitleSupport;
-import org.testatoo.core.nature.ValueSupport;
+import org.testatoo.core.nature.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import static org.testatoo.core.ComponentType.AlertBox;
-import static org.testatoo.core.input.KeyModifier.ALT;
-import static org.testatoo.core.input.KeyModifier.CONTROL;
-import static org.testatoo.core.input.KeyModifier.SHIFT;
+import static org.testatoo.core.input.KeyModifier.*;
 
 /**
  * This class is the implementation of an evaluator for html4 elements with Selenium as UI Test engine.
@@ -168,7 +128,7 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
         }
         if (nodeName.equalsIgnoreCase("button")) {
             // the button tag is used
-            return attribute(elementId("jquery:#" + component.id() + " img"), Attribute.src);
+            return attribute(elementId("jquery:$('#" + component.id() + " img')"), Attribute.src);
         }
         return "";
     }
@@ -189,8 +149,8 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
      */
     @Override
     public Boolean isEnabled(Component component) {
-        return !Boolean.valueOf(evaluate("window.tQuery('#" + component.id() + "').is(':disabled');"))
-                && !Boolean.valueOf(evaluate("window.tQuery('#" + component.id() + "').attr('readonly') == true;"));
+        return !Boolean.valueOf(evaluate(jQueryExpression("result = $('#" + component.id() + "').is(':disabled');")))
+                && !Boolean.valueOf(evaluate(jQueryExpression("result = $('#" + component.id() + "').attr('readonly') == true;")));
     }
 
     /**
@@ -207,7 +167,7 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
      */
     @Override
     public Boolean isChecked(Checkable checkable) {
-        return Boolean.valueOf(evaluate("window.tQuery('#" + ((Component) checkable).id() + "').is(':checked');"));
+        return Boolean.valueOf(evaluate(jQueryExpression("result = $('#" + ((Component) checkable).id() + "').is(':checked')")));
     }
 
     /**
@@ -248,11 +208,11 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
     @Override
     public String label(LabelSupport labelSupport) {
         try {
-            Component label = new Component(this, By.jQuery("label[for=" + ((Component) labelSupport).id() + "]").id(this));
+            Component label = new Component(this, By.jQuery("$('label[for=" + ((Component) labelSupport).id() + "]')").id(this));
             return nodeTextContent(label);
         } catch (EvaluatorException e) {
             try {
-                Component label = new Component(this, By.xpath("//label/*[@id='" + ((Component) labelSupport).id() + "']/parent::*").id(this));
+                Component label = new Component(this, By.jQuery("$('#" + ((Component) labelSupport).id() + "').parent()").id(this));
                 return nodeTextContent(label);
             } catch (EvaluatorException ex) {
                 return "";
@@ -275,7 +235,7 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
      */
     @Override
     public void reset(AbstractTextField textField) {
-        evaluate("window.tQuery('#" + textField.id() + "').val('');");
+        evaluate(jQueryExpression("result = $('#" + textField.id() + "').val('')"));
     }
 
     /**
@@ -305,8 +265,8 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
             List<String> selectedValues = Arrays.asList(values);
             if (option.value().equals(value)) {
                 if (selectedValues.contains(option.value())) {
-                    evaluate("window.tQuery('#" + option.id() + "').attr('selected', '')");
-                    evaluate("window.tQuery('#" + select.id() + "').simulate('change');");
+                    evaluate(jQueryExpression("result = $('#" + option.id() + "').attr('selected', '')"));
+                    evaluate(jQueryExpression("result = $('#" + select.id() + "').simulate('change');"));
                 }
             }
         }
@@ -323,8 +283,8 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
         for (Option option : select.options()) {
             List<String> selectedValues = Arrays.asList(values);
             if (selectedValues.contains(option.value())) {
-                evaluate("window.tQuery('#" + option.id() + "').attr('selected', '')");
-                evaluate("window.tQuery('#" + select.id() + "').simulate('change')");
+                evaluate(jQueryExpression("result = $('#" + option.id() + "').attr('selected', '')"));
+                evaluate(jQueryExpression("result = $('#" + select.id() + "').simulate('change')"));
             }
         }
         waitForCondition();
@@ -338,7 +298,7 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
         Select select = findEmbeddedSelect(listModel);
         for (Option option : select.options()) {
             if (option.value().equals(value)) {
-                evaluate("window.tQuery('#" + option.id() + "').attr('selected', 'selected');");
+                evaluate(jQueryExpression("result = $('#" + option.id() + "').attr('selected', 'selected');"));
                 // use fix for IE
                 evaluate("if (window.tQuery.browser.msie) {window.tQuery('#" + select.id() + "').simulate('click');} " +
                         "else {window.tQuery('#" + select.id() + "').simulate('change');}");
@@ -436,13 +396,12 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
      */
     @Override
     public Selection<Column> columns(DataGrid datagrid) {
-        String xpath = "//table[@id='" + datagrid.id() + "']/thead/tr[last()]/th";
-        int numberOfColumns = selenium.getXpathCount(xpath).intValue();
+        String query = "$('#" + datagrid.id() + " thead tr:last th')";
+        int numberOfColumns = Integer.valueOf(evaluate(jQueryExpression("result = " + query + ".length")));
 
         List<Column> columns = new ArrayList<Column>();
-
-        for (int rowNum = 1; rowNum <= numberOfColumns; rowNum++) {
-            Column column = new Column(this, elementId("xpath:" + xpath + "[" + rowNum + "]"));
+        for (int rowNum = 0; rowNum < numberOfColumns; rowNum++) {
+            Column column = new Column(this, elementId("jquery:$(" + query + "[" + rowNum + "])"));
             columns.add(column);
         }
         return ListSelection.from(columns);
@@ -455,11 +414,11 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
     public Selection<Row> rows(DataGrid datagrid) {
         List<Row> rows = new ArrayList<Row>();
 
-        String xpath = "//table[@id='" + datagrid.id() + "']/tbody/tr";
-        int numberOfRows = selenium.getXpathCount(xpath).intValue();
+        String query = "$('#" + datagrid.id() + " tbody tr')";
+        int numberOfRows = Integer.valueOf(evaluate(jQueryExpression("result = " + query + ".length")));
 
-        for (int rowNum = 1; rowNum <= numberOfRows; rowNum++) {
-            Row row = new Row(this, elementId("xpath:" + xpath + "[" + rowNum + "]"));
+        for (int rowNum = 0; rowNum < numberOfRows; rowNum++) {
+            Row row = new Row(this, elementId("jquery:$(" + query + "[" + rowNum + "])"));
             rows.add(row);
         }
         return ListSelection.from(rows);
@@ -470,26 +429,25 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
         List<Cell> cells = new ArrayList<Cell>();
 
         if (cellContainer instanceof Row) {
-            String xpath = "//tr[@id='" + ((Component) cellContainer).id() + "']/td";
-            int numberOfCells = selenium.getXpathCount(xpath).intValue();
+            String query = "$('#" + ((Component) cellContainer).id() + " td')";
+            int numberOfCells = Integer.valueOf(evaluate(jQueryExpression("result = " + query + ".length")));
 
-            for (int cellNum = 1; cellNum <= numberOfCells; cellNum++) {
-                Cell cell = new Cell(this, elementId("xpath:" + xpath + "[" + cellNum + "]"));
+            for (int cellNum = 0; cellNum < numberOfCells; cellNum++) {
+                Cell cell = new Cell(this, elementId("jquery:$(" + query + "[" + cellNum + "])"));
                 cells.add(cell);
             }
         }
 
         if (cellContainer instanceof Column) {
             // Find column number
-            String xpath = "//th[@id='" + ((Component) cellContainer).id() + "']/parent::*/th";
-            int numberOfColumns = selenium.getXpathCount(xpath).intValue();
+            String query = "$('#" + ((Component) cellContainer).id() + "').parent().find('th')";
+            int numberOfColumns = Integer.valueOf(evaluate(jQueryExpression("result = " + query + ".length")));
 
             int selectedColumnNum = 0;
             boolean columnNumFind = false;
 
-            for (int colNum = 1; colNum <= numberOfColumns; colNum++) {
-                if (elementId("xpath:" + xpath + "[" + colNum + "]").equals(((Component) cellContainer).id())) {
-
+            for (int colNum = 0; colNum < numberOfColumns; colNum++) {
+                if (elementId("jquery:$(" + query + "[" + colNum + "])").equals(((Component) cellContainer).id())) {
                     selectedColumnNum = colNum;
                     columnNumFind = true;
                 }
@@ -499,11 +457,11 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
                 throw new EvaluatorException("Unable to find the Column");
             }
 
-            xpath = "//th[@id='" + ((Component) cellContainer).id() + "']/ancestor::table/tbody/tr";
-            int numberOfRows = selenium.getXpathCount(xpath).intValue();
+            query = "$('#" + ((Component) cellContainer).id() + "').parents('table').find('tbody tr')";
+            int numberOfRows = Integer.valueOf(evaluate(jQueryExpression("result = " + query + ".length")));
 
-            for (int rowNum = 1; rowNum <= numberOfRows; rowNum++) {
-                Cell cell = new Cell(this, elementId("xpath:" + xpath + "[" + rowNum + "]/td[" + selectedColumnNum + "]"));
+            for (int rowNum = 0; rowNum < numberOfRows; rowNum++) {
+                Cell cell = new Cell(this, elementId("jquery:$($(" + query + "[" + rowNum + "]).find('td')[" + selectedColumnNum + "])"));
                 cells.add(cell);
             }
         }
@@ -517,7 +475,7 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
     public ComponentType componentType(String id) {
         if (id.equals(org.testatoo.cartridge.html4.element.AlertBox.ID))
             return AlertBox;
-        return ComponentType.valueOf(evaluate("window.tQuery('#" + id + "').componentType()"));
+        return ComponentType.valueOf(evaluate(jQueryExpression("result = $('#" + id + "').componentType()")));
     }
 
     /**
@@ -528,9 +486,9 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
         try {
             setFocus(component);
             if (which == Click.right) {
-                evaluate("window.tQuery('#" + component.id() + "').simulate('rightclick');");
+                evaluate(jQueryExpression("$('#" + component.id() + "').simulate('rightclick');"));
             } else {
-                evaluate("window.tQuery('#" + component.id() + "').simulate('click');");
+                evaluate(jQueryExpression("$('#" + component.id() + "').simulate('click');"));
             }
             waitForCondition();
             // If component is link we need to open the expected target
@@ -549,7 +507,7 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
      */
     @Override
     public void doubleClick(Component component) {
-        evaluate("window.tQuery('#" + component.id() + "').simulate('dblclick')");
+        evaluate(jQueryExpression("$('#" + component.id() + "').simulate('dblclick')"));
         setFocus(component);
         waitForCondition();
     }
@@ -559,7 +517,7 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
      */
     @Override
     public void mouseOver(Component component) {
-        evaluate("window.tQuery('#" + component.id() + "').simulate('mouseover')");
+        evaluate(jQueryExpression("$('#" + component.id() + "').simulate('mouseover')"));
         waitForCondition();
     }
 
@@ -568,7 +526,7 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
      */
     @Override
     public void mouseOut(Component component) {
-        evaluate("window.tQuery('#" + component.id() + "').simulate('mouseout')");
+        evaluate(jQueryExpression("$('#" + component.id() + "').simulate('mouseout')"));
         waitForCondition();
     }
 
@@ -577,7 +535,7 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
      */
     @Override
     public void dragAndDrop(Component from, Component to) {
-        evaluate("window.tQuery('#" + from.id() + "').simulate('dragTo', {'target': window.tQuery('#" + to.id() + "')})");
+        evaluate(jQueryExpression("$('#" + from.id() + "').simulate('dragTo', {'target': $('#" + to.id() + "')})"));
         waitForCondition();
     }
 
@@ -597,16 +555,16 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
         String keyModifier = keyModifier();
         if (currentFocusedComponent != null) {
             for (byte charCode : text.getBytes()) {
-                if (Boolean.valueOf(evaluate("window.tQuery.browser.msie"))) {
-                    evaluate("window.tQuery('#" + currentFocusedComponent.id() + "')" +
-                            ".val(window.tQuery('#" + currentFocusedComponent.id() + "').val() + String.fromCharCode(" + charCode + "));");
+                if (Boolean.valueOf(evaluate(jQueryExpression("$.browser.msie")))) {
+                    evaluate(jQueryExpression("$('#" + currentFocusedComponent.id() + "')" +
+                            ".val(4('#" + currentFocusedComponent.id() + "').val() + String.fromCharCode(" + charCode + "));"));
                 }
-                evaluate("window.tQuery('#" + currentFocusedComponent.id() + "').simulate('type', {charCode: " + charCode + keyModifier + "});");
+                evaluate(jQueryExpression("$('#" + currentFocusedComponent.id() + "').simulate('type', {charCode: " + charCode + keyModifier + "});"));
             }
         } else {
             for (char charCode : text.toCharArray()) {
-                evaluate("if (window.tQuery.browser.mozilla) {window.tQuery(window.document).simulate('type', {keyCode: " + keyboardLayout.convert(charCode) + keyModifier + "})}" +
-                        "else {window.tQuery(window.document).simulate('type', {charCode: " + keyboardLayout.convert(charCode) + keyModifier + "})};");
+                evaluate(jQueryExpression("if ($.browser.mozilla) {$(window.document).simulate('type', {keyCode: " + keyboardLayout.convert(charCode) + keyModifier + "})}" +
+                        "else {$(window.document).simulate('type', {charCode: " + keyboardLayout.convert(charCode) + keyModifier + "})};"));
             }
         }
         waitForCondition();
@@ -660,7 +618,7 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
      */
     @Override
     public String attribute(String id, Attribute attribute) {
-        String attributeValue = evaluate("window.tQuery('#" + id + "').attributeValue('" + attribute + "');");
+        String attributeValue = evaluate(jQueryExpression("result = $('#" + id + "').attributeValue('" + attribute + "');"));
         if (attributeValue.equals("null")) {
             return "";
         }
@@ -672,7 +630,7 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
      */
     @Override
     public Boolean exist(String id, Attribute attribute) {
-        return !evaluate("window.tQuery('#" + id + "[" + attribute + "]')").isEmpty();
+        return !evaluate(jQueryExpression("result = $('#" + id + "[" + attribute + "]')")).isEmpty();
     }
 
     /**
@@ -690,7 +648,7 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
     public Selection<OptionGroup> optionGroups(Select select) {
         List<OptionGroup> optionGroups = new ArrayList<OptionGroup>();
         try {
-            for (String id : By.jQuery("#" + select.id() + " optgroup").ids(this)) {
+            for (String id : By.jQuery("$('#" + select.id() + " optgroup')").ids(this)) {
                 optionGroups.add(new OptionGroup(this, id));
             }
         } catch (EvaluatorException e) {
@@ -706,7 +664,7 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
     public Selection<Option> options(Select select) {
         List<Option> options = new ArrayList<Option>();
         try {
-            for (String id : By.jQuery("#" + select.id() + " option").ids(this)) {
+            for (String id : By.jQuery("$('#" + select.id() + " option')").ids(this)) {
                 options.add(new Option(this, id));
             }
         } catch (EvaluatorException e) {
@@ -721,7 +679,7 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
     @Override
     public Selection<Option> selectedOptions(Select select) {
         try {
-            String[] selectedIds = elementsId("jquery:#" + select.id() + " option:selected");
+            String[] selectedIds = elementsId("jquery:$('#" + select.id() + " option:selected')");
             List<Option> options = new ArrayList<Option>();
             for (String id : selectedIds) {
                 options.add(new Option(this, id));
@@ -739,7 +697,7 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
     public Selection<Option> options(OptionGroup optionGroup) {
         List<Option> options = new ArrayList<Option>();
         try {
-            for (String id : By.jQuery("#" + optionGroup.id() + " option").ids(this)) {
+            for (String id : By.jQuery("$('#" + optionGroup.id() + " option')").ids(this)) {
                 options.add(new Option(this, id));
             }
         } catch (EvaluatorException e) {
@@ -755,9 +713,7 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
     public Selection<Param> params(Object object) {
         List<Param> params = new ArrayList<Param>();
         try {
-            for (String id : By.xpath("//object[@id='" + object.id() + "']//param").ids(this)) {
-                // TODO maybe bug in jQuery !
-//            for (Component component : By.jQuery("#" + object.id() + " param").ids(this)) {
+            for (String id : By.jQuery("$('#" + object.id() + " param')").ids(this)) {
                 params.add(new Param(this, id));
             }
         } catch (EvaluatorException e) {
@@ -773,7 +729,7 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
     public Selection<Area> areas(Map map) {
         List<Area> areas = new ArrayList<Area>();
         try {
-            for (String id : By.jQuery("#" + map.id() + " area").ids(this)) {
+            for (String id : By.jQuery("$('#" + map.id() + " area')").ids(this)) {
                 areas.add(new Area(this, id));
             }
         } catch (EvaluatorException e) {
@@ -789,7 +745,7 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
     public Selection<Col> cols(Colgroup colgroup) {
         List<Col> cols = new ArrayList<Col>();
         try {
-            for (String id : By.jQuery("#" + colgroup.id() + " col").ids(this)) {
+            for (String id : By.jQuery("$('#" + colgroup.id() + " col')").ids(this)) {
                 cols.add(new Col(this, id));
             }
         } catch (EvaluatorException e) {
@@ -803,7 +759,7 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
      */
     @Override
     public Caption caption(Table table) {
-        return new Caption(this, By.jQuery("#" + table.id() + " caption").id(this));
+        return new Caption(this, By.jQuery("$('#" + table.id() + " caption')").id(this));
     }
 
     /**
@@ -819,7 +775,7 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
      */
     @Override
     public THead thead(Table table) {
-        return new THead(this, By.jQuery("#" + table.id() + " thead").id(this));
+        return new THead(this, By.jQuery("$('#" + table.id() + " thead')").id(this));
     }
 
     /**
@@ -827,7 +783,7 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
      */
     @Override
     public TBody tbody(Table table) {
-        return new TBody(this, By.jQuery("#" + table.id() + " tbody").id(this));
+        return new TBody(this, By.jQuery("$('#" + table.id() + " tbody')").id(this));
     }
 
     /**
@@ -835,7 +791,7 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
      */
     @Override
     public TFoot tfoot(Table table) {
-        return new TFoot(this, By.jQuery("#" + table.id() + " tfoot").id(this));
+        return new TFoot(this, By.jQuery("$('#" + table.id() + " tfoot')").id(this));
     }
 
     /**
@@ -845,7 +801,7 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
     public Selection<Tr> tr(Component component) {
         List<Tr> tableRows = new ArrayList<Tr>();
         try {
-            for (String id : By.jQuery("#" + component.id() + " tr").ids(this)) {
+            for (String id : By.jQuery("$('#" + component.id() + " tr')").ids(this)) {
                 tableRows.add(new Tr(this, id));
             }
         } catch (EvaluatorException e) {
@@ -861,7 +817,7 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
     public Selection<Td> td(Tr tr) {
         List<Td> td = new ArrayList<Td>();
         try {
-            for (String id : By.jQuery("#" + tr.id() + " td").ids(this)) {
+            for (String id : By.jQuery("$('#" + tr.id() + " td')").ids(this)) {
                 td.add(new Td(this, id));
             }
         } catch (EvaluatorException e) {
@@ -877,7 +833,7 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
     public Selection<Th> th(Tr tr) {
         List<Th> th = new ArrayList<Th>();
         try {
-            for (String id : By.jQuery("#" + tr.id() + " th").ids(this)) {
+            for (String id : By.jQuery("$('#" + tr.id() + " th')").ids(this)) {
                 th.add(new Th(this, id));
             }
         } catch (EvaluatorException e) {
@@ -893,7 +849,7 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
     public Selection<Col> cols(Table table) {
         List<Col> cols = new ArrayList<Col>();
         try {
-            for (String id : By.jQuery("#" + table.id() + " col").ids(this)) {
+            for (String id : By.jQuery("$('#" + table.id() + " col')").ids(this)) {
                 cols.add(new Col(this, id));
             }
         } catch (EvaluatorException e) {
@@ -909,7 +865,7 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
     public Selection<Colgroup> colgroups(Table table) {
         List<Colgroup> colgroups = new ArrayList<Colgroup>();
         try {
-            for (String id : By.jQuery("#" + table.id() + " colgroup").ids(this)) {
+            for (String id : By.jQuery("$('#" + table.id() + " colgroup')").ids(this)) {
                 colgroups.add(new Colgroup(this, id));
             }
         } catch (EvaluatorException e) {
@@ -931,7 +887,7 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
      */
     @Override
     public void submit(Form form) {
-        evaluate("window.tQuery('#" + form.id() + "')[0].submit();");
+        evaluate(jQueryExpression("$('#" + form.id() + "').submit()"));
         waitForCondition();
     }
 
@@ -959,30 +915,16 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
     public String elementId(String expression) {
         String id = null;
 
-        if (expression.startsWith("xpath:")) {
-            String xpath = expression.substring(6, expression.length());
-            if (!selenium.isElementPresent(xpath)) {
-                throw new EvaluatorException("Cannot find component defined by the xpath : " + xpath);
-            }
-            try {
-                id = selenium.getAttribute(xpath + "@id");
-            } catch (Exception e) {
-                // Ok exists but without identifier so create one
-                id = UUID.randomUUID().toString();
-                selenium.assignId(xpath, id);
-            }
-        }
-
         if (expression.startsWith("jquery:")) {
             if (!Boolean.valueOf(evaluate(jQueryExpression("result = " + expression.substring(7) + ".length > 0")))) {
                 throw new EvaluatorException("Cannot find component defined by the jquery expression : " + expression.substring(7));
             }
 
-            id = evaluate(jQueryExpression("result = " + expression.substring(7) + "').attr('id')"));
+            id = evaluate(jQueryExpression("result = " + expression.substring(7) + ".attr('id')"));
             if (id.isEmpty()) {
                 // Ok exists but without identifier so create one
                 id = UUID.randomUUID().toString();
-                evaluate(jQueryExpression("result = " + expression.substring(7) + "').attr('id', '" + id + "')"));
+                evaluate(jQueryExpression(expression.substring(7) + ".attr('id', '" + id + "')"));
             }
         }
         return id;
@@ -993,23 +935,6 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
      */
     @Override
     public String[] elementsId(String expression) {
-        if (expression.startsWith("xpath:")) {
-            String xpath = expression.substring(6, expression.length());
-            if (!selenium.isElementPresent(xpath)) {
-                throw new EvaluatorException("Cannot find component defined by the xpath : " + xpath);
-            }
-
-            String[] resultId = extractId(expression);
-            for (int i = 0; i < resultId.length; i++) {
-                String id = resultId[i];
-                if (id.equals("")) {
-                    id = UUID.randomUUID().toString();
-                    selenium.assignId(xpath + "[" + (i + 1) + "]", id);
-                    resultId[i] = id;
-                }
-            }
-            return resultId;
-        }
 
         if (expression.startsWith("jquery:")) {
             if (!Boolean.valueOf(evaluate(jQueryExpression("result = " + expression.substring(7) + ".length > 0")))) {
@@ -1021,7 +946,7 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
                 String id = resultId[i];
                 if (id.equals("")) {
                     id = UUID.randomUUID().toString();
-                    evaluate(jQueryExpression(expression.substring(7) + "[" + i + "]).attr('id', '" + id + "')"));
+                    evaluate(jQueryExpression("$(" + expression.substring(7) + "[" + i + "]).attr('id', '" + id + "')"));
                     resultId[i] = id;
                 }
             }
@@ -1036,7 +961,7 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
      */
     @Override
     public HtmlElementType htmlElementType(String id) {
-        return HtmlElementType.valueOfIgnoreCase(evaluate("window.tQuery('#" + id + "').htmlType()"));
+        return HtmlElementType.valueOfIgnoreCase(evaluate(jQueryExpression("result = $('#" + id + "').htmlType()")));
     }
 
     /**
@@ -1052,7 +977,7 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
      */
     @Override
     public String nodename(Component component) {
-        return evaluate("window.tQuery('#" + component.id() + "').attr('nodeName');");
+        return evaluate(jQueryExpression("result = $('#" + component.id() + "').attr('nodeName')"));
     }
 
     @Override
@@ -1067,24 +992,10 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
     // -------------- Private ----------------------
 
     private String[] extractId(String expression) {
-        if (expression.startsWith("xpath:")) {
-            String xpath = expression.substring(6, expression.length());
-            return parseCSV(evaluate(
-                    "var elements = eval_xpath(\"" + xpath + "\", window.document);" +
-                            "var result = [];\n" +
-                            "for (var i = 0; i < elements.length; i++) {\n" +
-                            "  id = elements[i].id;\n" +
-                            "  if (id == '') {id = 'undefined'}; \n" +
-                            "  result.push(id);\n" +
-                            "}\n" +
-                            "result;"));
-        }
-
         if (expression.startsWith("jquery:")) {
-//            evaluate(jQueryExpression("var ids=[]; $('#login-error-panel p').each(function(){ids.push(this.id ? id : 'undefined')}); result = ids;"))
             expression = expression.substring(7, expression.length());
             return parseCSV(evaluate(jQueryExpression("var ids=[]; " + expression +
-                    ".each(function(){ids.push(this.id ? id : 'undefined')}); result = ids;")));
+                    ".each(function(){ids.push($(this).attr('id') ? $(this).attr('id') : 'undefined')}); result = ids")));
         }
         return null;
     }
@@ -1092,15 +1003,15 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
     private void setFocus(Component component) {
         if (component instanceof Link || component instanceof Area || component instanceof Button
                 || component instanceof Object || component instanceof ListModel || component instanceof Field) {
-            evaluate("window.tQuery('#" + component.id() + "').focus()");
+            evaluate(jQueryExpression("$('#" + component.id() + "').focus()"));
             currentFocusedComponent = component;
         }
     }
 
     private void typeKey(int keyCode) {
         String keyModifier = keyModifier();
-        evaluate("if(window.tQuery.browser.webkit) {window.tQuery(window.document).simulate('type', {charCode: " + keyCode + keyModifier + "});}" +
-                "else {window.tQuery('body').simulate('type', {keyCode: " + keyCode + keyModifier + "});}");
+        evaluate(jQueryExpression("if($.browser.webkit) {$(window.document).simulate('type', {charCode: " + keyCode + keyModifier + "});}" +
+                "else {$('body').simulate('type', {keyCode: " + keyCode + keyModifier + "});}"));
     }
 
     private String keyModifier() {
@@ -1136,7 +1047,7 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
     }
 
     private Button getResetButton(Form form) {
-        return new Button(this, By.jQuery("#" + form.id() + " :reset").id(this));
+        return new Button(this, By.jQuery("$('#" + form.id() + " :reset')").id(this));
     }
 
     private void waitForCondition() {

@@ -20,12 +20,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.testatoo.cartridge.html4.By;
-import org.testatoo.cartridge.html4.element.Button;
-import org.testatoo.cartridge.html4.element.CheckBox;
-import org.testatoo.cartridge.html4.element.Form;
-import org.testatoo.cartridge.html4.element.InputText;
-import org.testatoo.cartridge.html4.element.Radio;
-import org.testatoo.cartridge.html4.element.Select;
+import org.testatoo.cartridge.html4.element.*;
 import org.testatoo.config.annotation.TestatooModules;
 import org.testatoo.config.junit.TestatooJunitRunner;
 
@@ -52,7 +47,7 @@ public class MultiSessionTest {
         enter("email@noname.com", into(into(component(InputText.class, "email"))));
 
         check(component(Radio.class, "male"));
-        check(component(CheckBox.class, By.name("yes")));
+        check(component(CheckBox.class, By.jQuery("$('[name=yes]')")));
 
         on(component(Select.class, "cities")).select("Casablanca");
 
@@ -63,7 +58,7 @@ public class MultiSessionTest {
         assertThat(component(InputText.class, "email").value(), is(""));
 
         assertThat(component(Radio.class, "male").isChecked(), is(false));
-        assertThat(component(CheckBox.class, By.name("yes")).isChecked(), is(false));
+        assertThat(component(CheckBox.class, By.jQuery("$('[name=yes]')")).isChecked(), is(false));
 
         assertThat(component(Select.class, "cities").selectedOptions().get(0).content(), is("New York"));
 
@@ -73,8 +68,8 @@ public class MultiSessionTest {
             @Override
             public void run() {
                 page().open("/");
-                type("testatoo", on(component(InputText.class, By.name("q"))));
-                clickOn(component(Button.class, By.name("btnG")));
+                type("testatoo", on(component(InputText.class, By.jQuery("$('[name=q]')"))));
+                clickOn(component(Button.class, By.jQuery("$('[name=btnG]')")));
             }
         });
 
@@ -83,7 +78,7 @@ public class MultiSessionTest {
         enter("email@noname.com", into(component(InputText.class, "email")));
 
         check(component(Radio.class, "male"));
-        check(component(CheckBox.class, By.name("yes")));
+        check(component(CheckBox.class, By.jQuery("$('[name=yes]')")));
 
         on(component(Select.class, "cities")).select("Casablanca");
 
@@ -94,7 +89,7 @@ public class MultiSessionTest {
         assertThat(component(InputText.class, "email").value(), is(""));
 
         assertThat(component(Radio.class, "male").isChecked(), is(false));
-        assertThat(component(CheckBox.class, By.name("yes")).isChecked(), is(false));
+        assertThat(component(CheckBox.class, By.jQuery("$('[name=yes]')")).isChecked(), is(false));
 
         assertThat(component(Select.class, "cities").selectedOptions().get(0).content(), is("New York"));
     }

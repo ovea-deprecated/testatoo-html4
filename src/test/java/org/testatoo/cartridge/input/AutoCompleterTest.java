@@ -50,7 +50,7 @@ public class AutoCompleterTest extends WebTest {
         page().open("AutoCompleter.html");
 
         try {
-            component(Div.class, By.title("March"));
+            component(Div.class, By.jQuery("$('[title=March]')"));
             fail();
         } catch (Exception e) {
 
@@ -65,8 +65,8 @@ public class AutoCompleterTest extends WebTest {
         Keyboard.type("M");
 
         waitingFor(OneSecond());
-        component(Div.class, By.title("March"));
-        component(Div.class, By.title("May"));
+        component(Div.class, By.jQuery("$('[title=March]')"));
+        component(Div.class, By.jQuery("$('[title=May]')"));
     }
 
     @Ignore

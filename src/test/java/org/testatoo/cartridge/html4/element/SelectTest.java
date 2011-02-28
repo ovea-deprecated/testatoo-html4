@@ -24,10 +24,7 @@ import org.testatoo.core.ComponentException;
 import org.testatoo.core.Selection;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.hasItems;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.fail;
 import static org.testatoo.core.ComponentFactory.component;
 import static org.testatoo.core.ComponentFactory.page;
@@ -298,33 +295,9 @@ public class SelectTest extends WebTest {
     }
 
     @Test
-    public void can_find_select_by_name() {
-        component(Select.class, By.name("elementName"));
-
-        try {
-            component(Select.class, By.name("otherElementName"));
-            fail();
-        } catch (ComponentException e) {
-            assertThat(e.getMessage(), is("Cannot find component defined by name=otherElementName"));
-        }
-    }
-
-    @Test
     public void test_label() {
         assertThat(component(Select.class, "cities").label(), is("Cities list"));
-        assertThat(component(Select.class, By.name("girlsList")).label(), containsString("girls list"));
-    }
-
-    @Test
-    public void can_find_select_by_title() {
-        component(Select.class, By.title("elementTitle"));
-
-        try {
-            component(Select.class, By.title("otherElementTitle"));
-            fail();
-        } catch (ComponentException e) {
-            assertThat(e.getMessage(), is("Cannot find component defined by title=otherElementTitle"));
-        }
+        assertThat(component(Select.class, By.jQuery("$('[name=girlsList]')")).label(), containsString("girls list"));
     }
 
     @Test

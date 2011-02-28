@@ -19,7 +19,6 @@ package org.testatoo.cartridge.html4.element;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.testatoo.cartridge.WebTest;
-import org.testatoo.cartridge.html4.By;
 import org.testatoo.core.ComponentException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -73,32 +72,6 @@ public class CheckBoxTest extends WebTest {
         assertThat(checkbox.alt(), is("short description"));
         assertThat(checkbox.tabindex(), is(5));
         assertThat(checkbox.accesskey(), is("C"));
-    }
-
-    @Test
-    public void can_find_checkbox_by_name() {
-        component(CheckBox.class, By.name("checkboxName"));
-
-        try {
-            component(CheckBox.class, By.name("otherCheckboxName"));
-            fail();
-        } catch (Exception e) {
-            assertThat(e.getMessage(), is("Cannot find component defined by name=otherCheckboxName"));
-        }
-        assertThat(component(CheckBox.class, By.name("checkboxName")).value(), is("firstChoice"));
-    }
-
-    @Test
-    public void can_find_checkbox_by_title() {
-        component(CheckBox.class, By.title("checkboxTitle"));
-
-        try {
-            component(CheckBox.class, By.title("otherCheckboxTitle"));
-            fail();
-        } catch (Exception e) {
-            assertThat(e.getMessage(), is("Cannot find component defined by title=otherCheckboxTitle"));
-        }
-        assertThat(component(CheckBox.class, By.title("checkboxTitle")).value(), is("firstChoice"));
     }
 
     @Test

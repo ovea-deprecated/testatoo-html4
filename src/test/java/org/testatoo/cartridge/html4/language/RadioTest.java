@@ -24,14 +24,9 @@ import org.testatoo.core.component.Radio;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
-import static org.testatoo.cartridge.html4.Language.and;
-import static org.testatoo.cartridge.html4.Language.assertThat;
-import static org.testatoo.cartridge.html4.Language.check;
-import static org.testatoo.cartridge.html4.Language.goTo;
+import static org.testatoo.cartridge.html4.Language.*;
 import static org.testatoo.core.ComponentFactory.component;
-import static org.testatoo.core.matcher.Matchers.checked;
-import static org.testatoo.core.matcher.Matchers.has;
-import static org.testatoo.core.matcher.Matchers.label;
+import static org.testatoo.core.matcher.Matchers.*;
 
 public class RadioTest extends WebTest {
 
@@ -42,7 +37,7 @@ public class RadioTest extends WebTest {
 
     @Test
     public void radio_usage_through_language() {
-        Radio radio = component(Radio.class, By.name("radioName"));
+        Radio radio = component(Radio.class, By.jQuery("$('[name=radioName]')"));
 
         assertThat(radio, is(not(checked())));
         and(has(label("Male")));

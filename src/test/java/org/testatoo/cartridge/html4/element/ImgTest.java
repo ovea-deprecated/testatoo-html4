@@ -99,30 +99,6 @@ public class ImgTest extends WebTest {
     }
 
     @Test
-    public void can_find_image_by_name() {
-        component(Img.class, By.name("imageName"));
-
-        try {
-            component(Img.class, By.name("otherImageName"));
-            fail();
-        } catch (ComponentException e) {
-            assertThat(e.getMessage(), is("Cannot find component defined by name=otherImageName"));
-        }
-    }
-
-    @Test
-    public void can_find_image_by_title() {
-        component(Img.class, By.title("imageTitle"));
-
-        try {
-            component(Img.class, By.title("otherImageTitle"));
-            fail();
-        } catch (ComponentException e) {
-            assertThat(e.getMessage(), is("Cannot find component defined by title=otherImageTitle"));
-        }
-    }
-
-    @Test
     public void test_image_toString() {
         assertThat(component(Img.class, By.id("image_1")).toString(), is("class org.testatoo.cartridge.html4.element.Img with state : enabled:true, visible:true, source:images/Montpellier.jpg"));
     }

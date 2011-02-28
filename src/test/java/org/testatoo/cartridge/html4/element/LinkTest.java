@@ -19,9 +19,10 @@ package org.testatoo.cartridge.html4.element;
 import org.junit.Before;
 import org.junit.Test;
 import org.testatoo.cartridge.WebTest;
-import org.testatoo.cartridge.html4.By;
 import org.testatoo.core.ComponentException;
 import org.testatoo.core.input.Mouse;
+
+import java.util.concurrent.TimeUnit;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
@@ -29,10 +30,9 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.fail;
 import static org.testatoo.core.ComponentFactory.component;
 import static org.testatoo.core.ComponentFactory.page;
+import static org.testatoo.core.Language.max;
 import static org.testatoo.core.Language.waitUntil;
-import static org.testatoo.core.matcher.Matchers.has;
-import static org.testatoo.core.matcher.Matchers.text;
-import static org.testatoo.core.matcher.Matchers.title;
+import static org.testatoo.core.matcher.Matchers.*;
 
 public class LinkTest extends WebTest {
 
@@ -101,30 +101,6 @@ public class LinkTest extends WebTest {
     }
 
     @Test
-    public void can_find_a_by_name() {
-        component(A.class, By.name("aName"));
-
-        try {
-            component(A.class, By.name("otheraName"));
-            fail();
-        } catch (ComponentException e) {
-            assertThat(e.getMessage(), is("Cannot find component defined by name=otheraName"));
-        }
-    }
-
-    @Test
-    public void can_find_a_by_title() {
-        component(A.class, By.title("aTitle"));
-
-        try {
-            component(A.class, By.title("otheraTitle"));
-            fail();
-        } catch (ComponentException e) {
-            assertThat(e.getMessage(), is("Cannot find component defined by title=otheraTitle"));
-        }
-    }
-
-    @Test
     public void click_on_A_change_page() {
         A a_link = component(A.class, "a_1");
         assertThat(page().title(), is("Link tests"));
@@ -151,7 +127,7 @@ public class LinkTest extends WebTest {
         page().open("Link.html");
         assertThat(component(P.class, "message"), has(text("")));
         Mouse.clickOn(component(A.class, "jsHookedLink"));
-        waitUntil(component(P.class, "message"), has(text("Success")));
+        waitUntil(component(P.class, "message"), has(text("Success")), max(10, TimeUnit.SECONDS));
     }
 
     @Test

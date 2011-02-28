@@ -94,7 +94,7 @@ public class TextAreaTest extends WebTest {
     public void test_enability() {
         TextArea textArea_1 = component(TextArea.class, "textArea_1");
         TextArea textArea_2 = component(TextArea.class, "textArea_2");
-        TextArea textArea_3 = component(TextArea.class, By.name("textArea3linesName"));
+        TextArea textArea_3 = component(TextArea.class, By.jQuery("$('[name=textArea3linesName]')"));
 
         assertThat(textArea_1.isDisabled(), is(false));
         assertThat(textArea_1.isEnabled(), is(true));
@@ -107,7 +107,7 @@ public class TextAreaTest extends WebTest {
     @Test
     public void test_label() {
         assertThat(component(TextArea.class, "textArea_2").label(), is("Text with two lines"));
-        assertThat(component(TextArea.class, By.name("textArea3linesName")).label(), containsString("Text with three lines"));
+        assertThat(component(TextArea.class, By.jQuery("$('[name=textArea3linesName]')")).label(), containsString("Text with three lines"));
     }
 
     @Test

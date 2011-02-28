@@ -33,9 +33,7 @@ import static org.hamcrest.Matchers.not;
 import static org.testatoo.core.ComponentFactory.component;
 import static org.testatoo.core.ComponentFactory.page;
 import static org.testatoo.core.input.Key.*;
-import static org.testatoo.core.input.KeyModifier.ALT;
-import static org.testatoo.core.input.KeyModifier.CONTROL;
-import static org.testatoo.core.input.KeyModifier.SHIFT;
+import static org.testatoo.core.input.KeyModifier.*;
 
 public class FullKeyboardTest extends WebTest {
 

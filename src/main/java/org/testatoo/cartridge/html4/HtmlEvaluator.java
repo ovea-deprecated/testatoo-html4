@@ -17,26 +17,8 @@
 package org.testatoo.cartridge.html4;
 
 import com.thoughtworks.selenium.Selenium;
-import org.testatoo.cartridge.html4.element.Area;
-import org.testatoo.cartridge.html4.element.Attribute;
-import org.testatoo.cartridge.html4.element.Caption;
-import org.testatoo.cartridge.html4.element.Col;
-import org.testatoo.cartridge.html4.element.Colgroup;
-import org.testatoo.cartridge.html4.element.Form;
-import org.testatoo.cartridge.html4.element.HtmlElementType;
-import org.testatoo.cartridge.html4.element.Map;
+import org.testatoo.cartridge.html4.element.*;
 import org.testatoo.cartridge.html4.element.Object;
-import org.testatoo.cartridge.html4.element.Option;
-import org.testatoo.cartridge.html4.element.OptionGroup;
-import org.testatoo.cartridge.html4.element.Param;
-import org.testatoo.cartridge.html4.element.Select;
-import org.testatoo.cartridge.html4.element.TBody;
-import org.testatoo.cartridge.html4.element.TFoot;
-import org.testatoo.cartridge.html4.element.THead;
-import org.testatoo.cartridge.html4.element.Table;
-import org.testatoo.cartridge.html4.element.Td;
-import org.testatoo.cartridge.html4.element.Th;
-import org.testatoo.cartridge.html4.element.Tr;
 import org.testatoo.core.Evaluator;
 import org.testatoo.core.Selection;
 import org.testatoo.core.component.Component;

@@ -141,4 +141,15 @@ public final class Hidden extends org.testatoo.core.component.Field implements C
     public String accesskey() {
         return attributeSupport.accesskey(this);
     }
+
+    /**
+     *
+     * Hidden field has no label
+     *
+     * @return empty string
+     */
+    @Override
+    public String label() {
+        return "";
+    }
 }

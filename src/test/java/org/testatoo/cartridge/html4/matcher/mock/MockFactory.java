@@ -17,19 +17,13 @@
 package org.testatoo.cartridge.html4.matcher.mock;
 
 import org.testatoo.cartridge.html4.HtmlEvaluator;
-import org.testatoo.cartridge.html4.element.Attribute;
-import org.testatoo.cartridge.html4.element.HtmlElementType;
-import org.testatoo.cartridge.html4.element.Option;
-import org.testatoo.cartridge.html4.element.OptionGroup;
-import org.testatoo.cartridge.html4.element.Select;
+import org.testatoo.cartridge.html4.element.*;
 import org.testatoo.core.ListSelection;
 import org.testatoo.core.Selection;
 import org.testatoo.core.component.Component;
 import org.testatoo.core.component.ListModel;
 
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class MockFactory {
 

@@ -24,9 +24,7 @@ import org.testatoo.cartridge.html4.element.CheckBox;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
-import static org.testatoo.cartridge.html4.Language.assertThat;
-import static org.testatoo.cartridge.html4.Language.check;
-import static org.testatoo.cartridge.html4.Language.goTo;
+import static org.testatoo.cartridge.html4.Language.*;
 import static org.testatoo.core.ComponentFactory.component;
 import static org.testatoo.core.matcher.Matchers.checked;
 
@@ -39,7 +37,7 @@ public class CheckBoxTest extends WebTest {
 
     @Test
     public void checkbox_usage_through_language() {
-        CheckBox checkBox = component(CheckBox.class, By.name("checkboxName"));
+        CheckBox checkBox = component(CheckBox.class, By.jQuery("$('[name=checkboxName]')"));
 
         assertThat(checkBox, is(not(checked())));
 

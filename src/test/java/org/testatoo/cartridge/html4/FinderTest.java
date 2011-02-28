@@ -19,21 +19,12 @@ package org.testatoo.cartridge.html4;
 import org.junit.Test;
 import org.testatoo.cartridge.WebTest;
 import org.testatoo.core.Selection;
-import org.testatoo.core.component.Button;
-import org.testatoo.core.component.CheckBox;
-import org.testatoo.core.component.Image;
-import org.testatoo.core.component.Link;
-import org.testatoo.core.component.ListBox;
-import org.testatoo.core.component.PasswordField;
-import org.testatoo.core.component.Radio;
-import org.testatoo.core.component.TextField;
+import org.testatoo.core.component.*;
 import org.testatoo.core.component.datagrid.DataGrid;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
-import static org.testatoo.core.ComponentFactory.components;
-import static org.testatoo.core.ComponentFactory.findAll;
-import static org.testatoo.core.ComponentFactory.page;
+import static org.testatoo.core.ComponentFactory.*;
 
 public class FinderTest extends WebTest {
 
@@ -43,7 +34,7 @@ public class FinderTest extends WebTest {
         Selection<Button> buttons = findAll(Button.class);
         assertThat(buttons.size(), is(7));
 
-        assertThat(components(Button.class, By.jQuery(":submit")).size(), is(2));
+        assertThat(components(Button.class, By.jQuery("$(':submit')")).size(), is(2));
     }
 
     @Test
@@ -52,7 +43,7 @@ public class FinderTest extends WebTest {
         Selection<TextField> textfields = findAll(TextField.class);
         assertThat(textfields.size(), is(10));
 
-        assertThat(components(TextField.class, By.jQuery(":text")).size(), is(10));
+        assertThat(components(TextField.class, By.jQuery("$(':text')")).size(), is(10));
     }
 
     @Test

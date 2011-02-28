@@ -20,14 +20,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.testatoo.cartridge.html4.By;
-import org.testatoo.cartridge.html4.element.Button;
-import org.testatoo.cartridge.html4.element.CheckBox;
-import org.testatoo.cartridge.html4.element.Direction;
-import org.testatoo.cartridge.html4.element.Form;
-import org.testatoo.cartridge.html4.element.InputText;
-import org.testatoo.cartridge.html4.element.Method;
-import org.testatoo.cartridge.html4.element.Radio;
-import org.testatoo.cartridge.html4.element.Select;
+import org.testatoo.cartridge.html4.element.*;
 import org.testatoo.config.annotation.ConcurrentEvaluation;
 import org.testatoo.config.annotation.TestatooModules;
 import org.testatoo.config.junit.TestatooJunitRunner;
@@ -129,7 +122,7 @@ public class ParallelMultiSessionTest {
         Radio radio = component(Radio.class, "male");
         assertThat(myForm.contains(radio), is(true));
 
-        CheckBox checkBox = component(CheckBox.class, By.name("yes"));
+        CheckBox checkBox = component(CheckBox.class, By.jQuery("$('[name=yes]')"));
         assertThat(myForm.contains(checkBox), is(true));
 
         Button button = component(Button.class, "submitImage");
@@ -143,7 +136,7 @@ public class ParallelMultiSessionTest {
         enter("email@noname.com", into(into(component(InputText.class, "email"))));
 
         check(component(Radio.class, "male"));
-        check(component(CheckBox.class, By.name("yes")));
+        check(component(CheckBox.class, By.jQuery("$('[name=yes]')")));
 
         on(component(Select.class, "cities")).select("Casablanca");
 
@@ -154,7 +147,7 @@ public class ParallelMultiSessionTest {
         assertThat(component(InputText.class, "email").value(), is(""));
 
         assertThat(component(Radio.class, "male").isChecked(), is(false));
-        assertThat(component(CheckBox.class, By.name("yes")).isChecked(), is(false));
+        assertThat(component(CheckBox.class, By.jQuery("$('[name=yes]')")).isChecked(), is(false));
 
         assertThat(component(Select.class, "cities").selectedOptions().get(0).content(), is("New York"));
 
@@ -163,7 +156,7 @@ public class ParallelMultiSessionTest {
         enter("email@noname.com", into(component(InputText.class, "email")));
 
         check(component(Radio.class, "male"));
-        check(component(CheckBox.class, By.name("yes")));
+        check(component(CheckBox.class, By.jQuery("$('[name=yes]')")));
 
         on(component(Select.class, "cities")).select("Casablanca");
 
@@ -174,7 +167,7 @@ public class ParallelMultiSessionTest {
         assertThat(component(InputText.class, "email").value(), is(""));
 
         assertThat(component(Radio.class, "male").isChecked(), is(false));
-        assertThat(component(CheckBox.class, By.name("yes")).isChecked(), is(false));
+        assertThat(component(CheckBox.class, By.jQuery("$('[name=yes]')")).isChecked(), is(false));
 
         assertThat(component(Select.class, "cities").selectedOptions().get(0).content(), is("New York"));
     }
@@ -204,25 +197,25 @@ public class ParallelMultiSessionTest {
 
     @Test
     public void can_find_form_by_name() {
-        component(Form.class, By.name("formName"));
+        component(Form.class, By.jQuery("$('[name=formName]')"));
 
         try {
-            component(Form.class, By.name("otherFormName"));
+            component(Form.class, By.jQuery("$('[name=otherFormName]')"));
             fail();
         } catch (ComponentException e) {
-            assertThat(e.getMessage(), is("Cannot find component defined by name=otherFormName"));
+            assertThat(e.getMessage(), is("Cannot find component defined by jQueryExpression=$('[name=otherFormName]')"));
         }
     }
 
     @Test
     public void can_find_form_by_title() {
-        component(Form.class, By.title("formTitle"));
+        component(Form.class, By.jQuery("$('[title=formTitle]')"));
 
         try {
-            component(Form.class, By.title("otherFormTitle"));
+            component(Form.class, By.jQuery("$('[title=otherFormTitle]')"));
             fail();
         } catch (ComponentException e) {
-            assertThat(e.getMessage(), is("Cannot find component defined by title=otherFormTitle"));
+            assertThat(e.getMessage(), is("Cannot find component defined by jQueryExpression=$('[title=otherFormTitle]')"));
         }
     }
 

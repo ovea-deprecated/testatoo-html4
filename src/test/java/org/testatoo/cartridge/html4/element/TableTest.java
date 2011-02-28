@@ -19,7 +19,6 @@ package org.testatoo.cartridge.html4.element;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.testatoo.cartridge.WebTest;
-import org.testatoo.cartridge.html4.By;
 import org.testatoo.core.ComponentException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -46,30 +45,6 @@ public class TableTest extends WebTest {
             fail();
         } catch (ComponentException e) {
             assertThat(e.getMessage(), is("Cannot find component defined by id=table_0"));
-        }
-    }
-
-    @Test
-    public void can_find_table_by_name() {
-        component(Table.class, By.name("tableName"));
-
-        try {
-            component(Table.class, By.name("myTableName"));
-            fail();
-        } catch (ComponentException e) {
-            assertThat(e.getMessage(), is("Cannot find component defined by name=myTableName"));
-        }
-    }
-
-    @Test
-    public void can_find_table_by_title() {
-        component(Table.class, By.title("tableTitle"));
-
-        try {
-            component(Table.class, By.title("myTableTitle"));
-            fail();
-        } catch (ComponentException e) {
-            assertThat(e.getMessage(), is("Cannot find component defined by title=myTableTitle"));
         }
     }
 

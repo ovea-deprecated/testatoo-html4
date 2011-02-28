@@ -21,20 +21,7 @@ import org.testatoo.cartridge.html4.By;
 import org.testatoo.cartridge.html4.HtmlEvaluator;
 import org.testatoo.cartridge.html4.element.InputText;
 import org.testatoo.cartridge.html4.element.Select;
-import org.testatoo.core.component.AlertBox;
-import org.testatoo.core.component.Button;
-import org.testatoo.core.component.CheckBox;
-import org.testatoo.core.component.Component;
-import org.testatoo.core.component.DropDown;
-import org.testatoo.core.component.Field;
-import org.testatoo.core.component.Image;
-import org.testatoo.core.component.Link;
-import org.testatoo.core.component.ListBox;
-import org.testatoo.core.component.Page;
-import org.testatoo.core.component.Panel;
-import org.testatoo.core.component.PasswordField;
-import org.testatoo.core.component.Radio;
-import org.testatoo.core.component.TextField;
+import org.testatoo.core.component.*;
 import org.testatoo.core.component.datagrid.DataGrid;
 
 import java.lang.reflect.InvocationTargetException;
@@ -44,7 +31,7 @@ import java.util.List;
 public final class ComponentFactory {
 
     public static Page page() {
-        return component(Page.class, By.xpath("//html"));
+        return component(Page.class, By.jQuery("$('html')"));
     }
 
     public static <T extends Component> T component(Class<T> componentType, String id) {
@@ -118,20 +105,20 @@ public final class ComponentFactory {
     public static <T extends Component> Selection<T> findAll(Class<T> componentType) {
         if (componentType == Button.class) {
             return ListSelection.compose(
-                    components(Button.class, By.jQuery("input[type=button]")),
-                    components(Button.class, By.jQuery("input[type=reset]")),
-                    components(Button.class, By.jQuery("input[type=submit]")),
-                    components(Button.class, By.jQuery("button")),
-                    components(Button.class, By.jQuery("input:image")))
+                    components(Button.class, By.jQuery("$('input[type=button]')")),
+                    components(Button.class, By.jQuery("$('input[type=reset]')")),
+                    components(Button.class, By.jQuery("$('input[type=submit]')")),
+                    components(Button.class, By.jQuery("$('button')")),
+                    components(Button.class, By.jQuery("$('input:image')")))
                     .transform(componentType);
         }
 
         if (componentType == TextField.class) {
-            return components(InputText.class, By.jQuery("input:text")).transform(componentType);
+             return components(InputText.class, By.jQuery("$('input:text')")).transform(componentType);
         }
 
         if (componentType == PasswordField.class) {
-            return components(PasswordField.class, By.jQuery("input:password")).transform(componentType);
+            return components(PasswordField.class, By.jQuery("$('input:password')")).transform(componentType);
         }
 
         if (componentType == Field.class) {
@@ -140,13 +127,13 @@ public final class ComponentFactory {
             Selection<TextField> texts = ListSelection.empty();
 
             try {
-                passwords = components(PasswordField.class, By.jQuery("input:password"));
+                passwords = components(PasswordField.class, By.jQuery("$('input:password')"));
             } catch (ComponentException e) {
                 // Not available in the page so continue
             }
 
             try {
-                texts = components(TextField.class, By.jQuery("input:text"));
+                texts = components(TextField.class, By.jQuery("$('input:text')"));
             } catch (ComponentException e) {
                 // Not available in the page so continue
             }
@@ -155,29 +142,29 @@ public final class ComponentFactory {
         }
 
         if (componentType == Image.class) {
-            return components(Image.class, By.jQuery("img")).transform(componentType);
+            return components(Image.class, By.jQuery("$('img')")).transform(componentType);
         }
 
         if (componentType == Link.class) {
-            return components(Link.class, By.jQuery("a")).transform(componentType);
+            return components(Link.class, By.jQuery("$('a')")).transform(componentType);
         }
 
         if (componentType == Radio.class) {
-            return components(Radio.class, By.jQuery("input:radio")).transform(componentType);
+            return components(Radio.class, By.jQuery("$('input:radio')")).transform(componentType);
         }
 
         if (componentType == CheckBox.class) {
-            return components(CheckBox.class, By.jQuery("input:checkbox")).transform(componentType);
+            return components(CheckBox.class, By.jQuery("$('input:checkbox')")).transform(componentType);
         }
 
         if (componentType == ListBox.class) {
             // TODO see with mathieu
-            return (Selection<T>) components(Select.class, By.jQuery("select"));
+            return (Selection<T>) components(Select.class, By.jQuery("$('select')"));
         }
 
         //TODO test
         if (componentType == Panel.class) {
-            return components(Panel.class, By.jQuery("div")).transform(componentType);
+            return components(Panel.class, By.jQuery("$('div9)")).transform(componentType);
         }
 
         // Image
@@ -186,7 +173,7 @@ public final class ComponentFactory {
         // Checkbox
 
         if (componentType == DataGrid.class) {
-            return components(DataGrid.class, By.jQuery("table")).transform(componentType);
+            return components(DataGrid.class, By.jQuery("$('table')")).transform(componentType);
         }
 
         return ListSelection.empty();

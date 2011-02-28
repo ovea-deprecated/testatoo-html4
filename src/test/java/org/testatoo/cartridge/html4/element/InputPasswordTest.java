@@ -19,7 +19,6 @@ package org.testatoo.cartridge.html4.element;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.testatoo.cartridge.WebTest;
-import org.testatoo.cartridge.html4.By;
 import org.testatoo.core.ComponentException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -116,30 +115,6 @@ public class InputPasswordTest extends WebTest {
     public void can_test_max_length() {
         assertThat(component(InputPassword.class, "input_1").maxLength(), is(10));
         assertThat(component(InputPassword.class, "password_1").maxLength(), is(20));
-    }
-
-    @Test
-    public void can_find_inputPassword_by_name() {
-        component(InputPassword.class, By.name("passwordName"));
-
-        try {
-            component(InputPassword.class, By.name("otherPasswordName"));
-            fail();
-        } catch (ComponentException e) {
-            assertThat(e.getMessage(), is("Cannot find component defined by name=otherPasswordName"));
-        }
-    }
-
-    @Test
-    public void can_find_inputPassword_by_title() {
-        component(InputPassword.class, By.title("passwordTitle"));
-
-        try {
-            component(InputPassword.class, By.title("otherInputPasswordTitle"));
-            fail();
-        } catch (ComponentException e) {
-            assertThat(e.getMessage(), is("Cannot find component defined by title=otherInputPasswordTitle"));
-        }
     }
 
     @Test
