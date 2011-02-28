@@ -89,7 +89,6 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
         return name;
     }
 
-
     /**
      * @see org.testatoo.core.Evaluator
      */
@@ -128,7 +127,12 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
         }
         if (nodeName.equalsIgnoreCase("button")) {
             // the button tag is used
-            return attribute(elementId("jquery:$('#" + component.id() + " img')"), Attribute.src);
+            try {
+                return attribute(elementId("jquery:$('#" + component.id() + " img')"), Attribute.src);
+            } catch (Exception e) {
+                // No icon available
+                return "";
+            }
         }
         return "";
     }
