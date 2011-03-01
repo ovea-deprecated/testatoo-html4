@@ -17,6 +17,7 @@
 package org.testatoo.cartridge.multisession;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.testatoo.cartridge.html4.By;
@@ -33,6 +34,7 @@ import static org.testatoo.core.EvaluatorHolder.withEvaluator;
 
 @RunWith(TestatooJunitRunner.class)
 @TestatooModules(MultiSessionModule.class)
+@Ignore
 public class MultiSessionTest {
 
     @Before

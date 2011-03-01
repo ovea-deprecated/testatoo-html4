@@ -54,9 +54,6 @@ public class MouseTest extends WebTest {
         Mouse.clickOn(textField);
 
         assertThat(textField.value(), is("Element 1 clicked"));
-
-        Mouse.clickOn(component(A.class, "link"));
-        assertThat(page().title(), is("Exit page"));
     }
 
     @Test
