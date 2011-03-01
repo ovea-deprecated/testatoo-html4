@@ -19,8 +19,6 @@ package org.testatoo.cartridge.input;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.testatoo.cartridge.WebTest;
-import org.testatoo.cartridge.html4.element.A;
-import org.testatoo.cartridge.html4.element.Link;
 import org.testatoo.core.component.Image;
 import org.testatoo.core.component.Panel;
 import org.testatoo.core.component.TextField;
