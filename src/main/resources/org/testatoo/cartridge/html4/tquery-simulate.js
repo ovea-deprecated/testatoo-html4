@@ -1,4 +1,4 @@
-/*
+/*!
  * jQuery JavaScript Library v1.3.2
  * http://jquery.com/
  *
@@ -9,183 +9,233 @@
  * Date: 2009-02-19 17:34:21 -0500 (Thu, 19 Feb 2009)
  * Revision: 6246
  */
-(function(a) {
-    a.fn.extend({simulate:function(c, b) {
-        return this.each(function() {
-            new a.simulate(this, c, b)
-        })
-    }});
-    a.simulate = function(d, c, b) {
-        this.target = d;
-        this.options = b;
-        if (/^type/.test(c)) {
-            this.simulateType(d, b);
-            return
+ ;
+(function(tQuery)
+{
+    tQuery.fn.extend({
+        simulate: function(type, options) {
+            return this.each(function() {
+                new tQuery.simulate(this, type, options);
+            });
         }
-        if (/^click/.test(c)) {
-            this.simulateClick(d, b);
-            return
+    });
+
+    tQuery.simulate = function(el, type, options) {
+        this.target = el;
+        this.options = options;
+
+        if (/^type/.test(type)) {
+            this.simulateType(el, options);
+            return;
+        } if (/^click/.test(type)) {
+            this.simulateClick(el, options);
+            return;
+        } if (/^dblclick/.test(type)) {
+            this.simulateDblClick(el, options);
+            return;
+        } if (/^rightclick/.test(type)) {
+            this.simulateRightClick(el, options);
+            return;
+        } if (/^mouse(over|out|up|down)/.test(type)) {
+            this.simulateMouseEvent(el,type, options);
+            return;
+        } if (/^change/.test(type)) {
+            this.simulateChange(el, options);
+            return;
         }
-        if (/^dblclick/.test(c)) {
-            this.simulateDblClick(d, b);
-            return
-        }
-        if (/^rightclick/.test(c)) {
-            this.simulateRightClick(d, b);
-            return
-        }
-        if (/^mouse(over|out|up|down)/.test(c)) {
-            this.simulateMouseEvent(d, c, b);
-            return
-        }
-        if (/^change/.test(c)) {
-            this.simulateChange(d, b);
-            return
-        }
-        if (/^dragTo/.test(c)) {
-            this.dragTo(b)
+        if (/^dragTo/.test(type)) {
+            this.dragTo(options);
         }
     };
-    a.extend(a.simulate.prototype, {simulateClick:function(c, b) {
-        this.dispatchEvent(c, "mousedown", this.mouseEvent("mousedown", b));
-        this.dispatchEvent(c, "mouseup", this.mouseEvent("mouseup", b));
-        this.dispatchEvent(c, "click", this.mouseEvent("click", b));
-        if (a.browser.msie) {
-            if (a(c).attr("type") == "checkbox") {
-                a(c).attr("checked", !a(c).attr("checked"))
-            }
-            if (a(c).attr("type") == "radio") {
-                a(c).attr("checked", true)
-            }
-            if (a(c).attr("type") == "submit" || a(c).attr("type") == "image") {
-                a(c).closest("form")[0].submit()
-            }
-            if (a(c).attr("type") == "reset") {
-                a(c).closest("form")[0].reset()
-            }
-        }
-    },simulateDblClick:function(c, b) {
-        if (a.browser.msie) {
-            this.dispatchEvent(c, "mousedown", this.mouseEvent("mousedown", b));
-            this.dispatchEvent(c, "mouseup", this.mouseEvent("mouseup", b));
-            this.dispatchEvent(c, "click", this.mouseEvent("click", b));
-            this.dispatchEvent(c, "mouseup", this.mouseEvent("mouseup", b));
-            this.dispatchEvent(c, "dblclick", this.mouseEvent("dblclick", b))
-        } else {
-            this.dispatchEvent(c, "mousedown", this.mouseEvent("mousedown", b));
-            this.dispatchEvent(c, "mouseup", this.mouseEvent("mouseup", b));
-            this.dispatchEvent(c, "click", this.mouseEvent("click", b));
-            this.dispatchEvent(c, "mousedown", this.mouseEvent("mousedown", b));
-            this.dispatchEvent(c, "mouseup", this.mouseEvent("mouseup", b));
-            this.dispatchEvent(c, "click", this.mouseEvent("click", b));
-            this.dispatchEvent(c, "dblclick", this.mouseEvent("dblclick", b))
-        }
-    },simulateRightClick:function(c, b) {
-        this.dispatchEvent(c, "mousedown", this.mouseEvent("mousedown", b));
-        this.dispatchEvent(c, "mouseup", this.mouseEvent("mouseup", b));
-        this.dispatchEvent(c, "contextmenu", this.mouseEvent("contextmenu", b))
-    },simulateMouseEvent:function(d, c, b) {
-        this.dispatchEvent(d, c, this.mouseEvent(c, b))
-    },mouseEvent:function(f, d) {
-        var c;
-        var g = a.extend({bubbles:true,cancelable:(f != "mousemove"),view:window,detail:0,screenX:0,screenY:0,clientX:0,clientY:0,ctrlKey:false,altKey:false,shiftKey:false,metaKey:false,button:0,relatedTarget:undefined}, d);
-        var b = a(g.relatedTarget)[0];
-        if (a.isFunction(document.createEvent)) {
-            c = document.createEvent("MouseEvents");
-            c.initMouseEvent(f, g.bubbles, g.cancelable, g.view, g.detail, g.screenX, g.screenY, g.clientX, g.clientY, g.ctrlKey, g.altKey, g.shiftKey, g.metaKey, g.button, g.relatedTarget || document.body.parentNode)
-        } else {
-            if (document.createEventObject) {
-                c = document.createEventObject();
-                a.extend(c, g);
-                c.button = {0:1,1:4,2:2}[c.button] || c.button
-            }
-        }
-        return c
-    },simulateType:function(c, b) {
-        this.dispatchEvent(c, "keydown", this.keyboardEvent("keydown", b));
-        this.dispatchEvent(c, "keypress", this.keyboardEvent("keypress", b));
-        if (a.browser.webkit) {
-            this.dispatchEvent(c, "textInput", this.keyboardEvent("textInput", b))
-        }
-        this.dispatchEvent(c, "keyup", this.keyboardEvent("keyup", b))
-    },keyboardEvent:function(d, c) {
-        var b;
-        var g = a.extend({bubbles:true,cancelable:true,view:window,ctrlKey:false,altKey:false,shiftKey:false,metaKey:false,keyCode:0,charCode:0}, c);
-        if (/^textInput/.test(d)) {
-            b = document.createEvent("TextEvent");
-            b.initTextEvent(d, true, true, null, String.fromCharCode(c.charCode));
-            return b
-        }
-        if (a.isFunction(document.createEvent)) {
-            try {
-                b = document.createEvent("KeyEvents");
-                b.initKeyEvent(d, g.bubbles, g.cancelable, g.view, g.ctrlKey, g.altKey, g.shiftKey, g.metaKey, g.keyCode, g.charCode)
-            } catch(f) {
-                try {
-                    b = document.createEvent("Events")
-                } catch(f) {
-                    b = document.createEvent("UIEvents")
+
+    tQuery.extend(tQuery.simulate.prototype, {
+        simulateClick: function(el, options) {
+            this.dispatchEvent(el, 'mousedown', this.mouseEvent('mousedown', options));
+            this.dispatchEvent(el, 'mouseup', this.mouseEvent('mouseup', options));
+            this.dispatchEvent(el, 'click', this.mouseEvent('click', options));
+
+            // Issue reported on http://yuilibrary.com/projects/yui2/ticket/2528826
+            if (tQuery.browser.msie) {
+                if (tQuery(el).attr('type') == 'checkbox') {
+                    tQuery(el).attr('checked', !tQuery(el).attr('checked'));
                 }
-                b.initEvent(d, g.bubbles, g.cancelable);
-                a.extend(b, {view:g.view,ctrlKey:g.ctrlKey,altKey:g.altKey,shiftKey:g.shiftKey,metaKey:g.metaKey,keyCode:g.keyCode,charCode:g.charCode})
+                if(tQuery(el).attr('type') == 'radio') {
+                    tQuery(el).attr('checked', true);
+                }
+                if(tQuery(el).attr('type') == 'submit' || tQuery(el).attr('type') == 'image') {
+                    tQuery(el).closest('form')[0].submit();
+                }
+                if(tQuery(el).attr('type') == 'reset') {
+                    tQuery(el).closest('form')[0].reset();
+                }
             }
-        } else {
-            if (document.createEventObject) {
-                b = document.createEventObject();
-                a.extend(b, g)
+        },
+
+        simulateDblClick: function(el, options) {
+            if (tQuery.browser.msie) {
+                this.dispatchEvent(el, 'mousedown', this.mouseEvent('mousedown', options));
+                this.dispatchEvent(el, 'mouseup', this.mouseEvent('mouseup', options));
+                this.dispatchEvent(el, 'click', this.mouseEvent('click', options));
+                this.dispatchEvent(el, 'mouseup', this.mouseEvent('mouseup', options));
+                this.dispatchEvent(el, 'dblclick', this.mouseEvent('dblclick', options));
+            } else {
+                this.dispatchEvent(el, 'mousedown', this.mouseEvent('mousedown', options));
+                this.dispatchEvent(el, 'mouseup', this.mouseEvent('mouseup', options));
+                this.dispatchEvent(el, 'click', this.mouseEvent('click', options));
+                this.dispatchEvent(el, 'mousedown', this.mouseEvent('mousedown', options));
+                this.dispatchEvent(el, 'mouseup', this.mouseEvent('mouseup', options));
+                this.dispatchEvent(el, 'click', this.mouseEvent('click', options));
+                this.dispatchEvent(el, 'dblclick', this.mouseEvent('dblclick', options));
             }
-        }
-        if (a.browser.msie || a.browser.opera) {
-            b.keyCode = (g.charCode > 0) ? g.charCode : g.keyCode;
-            b.charCode = undefined
-        }
-        return b
-    },simulateChange:function(d, c) {
-        var b;
-        if (a.isFunction(document.createEvent)) {
-            b = document.createEvent("HTMLEvents");
-            b.initEvent("change", true, true)
-        } else {
-            b = document.createEventObject()
-        }
-        this.dispatchEvent(d, "change", b)
-    },dispatchEvent:function(d, c, b) {
-        if (d.dispatchEvent) {
-            d.dispatchEvent(b)
-        } else {
-            if (d.fireEvent) {
-                d.fireEvent("on" + c, b)
+        },
+
+        simulateRightClick: function(el, options) {
+            this.dispatchEvent(el, 'mousedown', this.mouseEvent('mousedown', options));
+            this.dispatchEvent(el, 'mouseup', this.mouseEvent('mouseup', options));
+            this.dispatchEvent(el, 'contextmenu', this.mouseEvent('contextmenu', options));
+        },
+
+        simulateMouseEvent: function(el, type, options) {
+            this.dispatchEvent(el, type, this.mouseEvent(type, options));
+        },
+
+        mouseEvent: function(type, options) {
+            var evt;
+            var e = tQuery.extend({
+                bubbles: true, cancelable: (type != "mousemove"), view: window, detail: 0,
+                screenX: 0, screenY: 0, clientX: 0, clientY: 0,
+                ctrlKey: false, altKey: false, shiftKey: false, metaKey: false,
+                button: 0, relatedTarget: undefined
+            }, options);
+
+            var relatedTarget = tQuery(e.relatedTarget)[0];
+
+            if (tQuery.isFunction(document.createEvent)) {
+                evt = document.createEvent("MouseEvents");
+                evt.initMouseEvent(type, e.bubbles, e.cancelable, e.view, e.detail,
+                        e.screenX, e.screenY, e.clientX, e.clientY,
+                        e.ctrlKey, e.altKey, e.shiftKey, e.metaKey,
+                        e.button, e.relatedTarget || document.body.parentNode);
+            } else if (document.createEventObject) {
+                evt = document.createEventObject();
+                tQuery.extend(evt, e);
+                evt.button = { 0:1, 1:4, 2:2 }[evt.button] || evt.button;
             }
-        }
-        return b
-    },dragTo:function(k) {
-        var c = this.findCenter(this.target);
-        var b = this.findCenter(k.target);
-        var h = Math.floor(c.x);
-        var f = Math.floor(c.y);
-        var g = Math.floor(b.x);
-        var e = Math.floor(b.y);
-        var j = (g - h) / 10;
-        var i = (e - f) / 10;
-        j = (j == 0) ? 1 : j;
-        i = (i == 0) ? 1 : i;
-        var d = {clientX:h,clientY:f};
-        this.simulateMouseEvent(this.target, "mousedown", d);
-        while ((Math.abs(g - h) > Math.abs(j)) || (Math.abs(e - f) > Math.abs(i))) {
-            if (Math.abs(g - h) > Math.abs(j)) {
-                h += j
+            return evt;
+        },
+
+        simulateType: function(el, options) {
+            this.dispatchEvent(el, 'keydown', this.keyboardEvent('keydown', options));
+            this.dispatchEvent(el, 'keypress', this.keyboardEvent('keypress', options));
+            if (tQuery.browser.webkit) {
+                this.dispatchEvent(el, 'textInput', this.keyboardEvent('textInput', options));
             }
-            if (Math.abs(e - f) > Math.abs(i)) {
-                f += i
+            this.dispatchEvent(el, 'keyup', this.keyboardEvent('keyup', options));
+        },
+
+        keyboardEvent: function(type, options) {
+    		var evt;
+	    	var e = tQuery.extend({bubbles: true, cancelable: true, view: window,
+		    	ctrlKey: false, altKey: false, shiftKey: false, metaKey: false,
+			    keyCode: 0, charCode: 0
+		    }, options);
+
+            if(/^textInput/.test(type)) {
+                evt = document.createEvent('TextEvent');
+                evt.initTextEvent(type, true, true, null, String.fromCharCode(options['charCode']));
+                return evt;
             }
-            d = {clientX:h,clientY:f};
-            this.simulateMouseEvent(this.target, "mousemove", h, f)
+
+		    if (tQuery.isFunction(document.createEvent)) {
+			    try {
+				    evt = document.createEvent("KeyEvents");
+				    evt.initKeyEvent(type, e.bubbles, e.cancelable, e.view,
+					    e.ctrlKey, e.altKey, e.shiftKey, e.metaKey,
+					    e.keyCode, e.charCode);
+			    } catch(err) {
+                    try {
+				        evt = document.createEvent("Events");
+                    } catch(err) {
+                        evt = document.createEvent("UIEvents");
+                    }
+				    evt.initEvent(type, e.bubbles, e.cancelable);
+				    tQuery.extend(evt, {view: e.view,
+					    ctrlKey: e.ctrlKey, altKey: e.altKey, shiftKey: e.shiftKey, metaKey: e.metaKey,
+					    keyCode: e.keyCode, charCode: e.charCode
+				    });
+			    }
+		    } else if (document.createEventObject) {
+			    evt = document.createEventObject();
+			    tQuery.extend(evt, e);
+		    }
+		    if (tQuery.browser.msie || tQuery.browser.opera) {
+			    evt.keyCode = (e.charCode > 0) ? e.charCode : e.keyCode;
+			    evt.charCode = undefined;
+		    }
+		    return evt;
+	    },
+
+        simulateChange: function(el, options) {
+            var evt;
+            if (tQuery.isFunction(document.createEvent)) {
+                evt = document.createEvent("HTMLEvents");
+                evt.initEvent('change', true, true );
+            } else {
+                evt = document.createEventObject();
+            }
+            this.dispatchEvent(el, 'change', evt);
+        },
+
+        dispatchEvent: function(el, type, evt) {
+            if (el.dispatchEvent) {
+                el.dispatchEvent(evt);
+            } else if (el.fireEvent) {
+                el.fireEvent('on' + type, evt);
+            }
+            return evt;
+        },
+
+        dragTo: function(options) {
+            var fromCenter = this.findCenter(this.target);
+            var toCenter = this.findCenter(options['target']);
+
+            var x = Math.floor(fromCenter.x);
+            var y = Math.floor(fromCenter.y);
+
+            var xDest = Math.floor(toCenter.x);
+            var yDest = Math.floor(toCenter.y);
+
+            var stepX = (xDest - x) / 10;
+         	var stepY = (yDest - y) / 10;
+            stepX = (stepX == 0) ? 1 : stepX;
+            stepY = (stepY == 0) ? 1 : stepY;
+
+            var coord = { clientX: x, clientY: y };
+            this.simulateMouseEvent(this.target, "mousedown", coord);
+
+            while ((Math.abs(xDest - x) > Math.abs(stepX)) || (Math.abs(yDest - y) > Math.abs(stepY)) ) {
+   			    if (Math.abs(xDest - x) > Math.abs(stepX)) {
+   				    x += stepX;
+   			    }
+   			    if (Math.abs(yDest - y) > Math.abs(stepY)) {
+   				    y += stepY;
+   			    }
+                coord = { clientX: x, clientY: y };
+  		        this.simulateMouseEvent(this.target, "mousemove", x, y);
+   		    }
+
+            this.simulateMouseEvent(this.target, "mousemove", coord);
+            this.simulateMouseEvent(this.target, "mouseup", coord);
+            this.simulateMouseEvent(options['target'], "mouseup", coord);
+        },
+
+        findCenter: function(el) {
+            var el = tQuery(el), o = el.offset();
+            return {
+                x: o.left + el.outerWidth() / 2,
+                y: o.top + el.outerHeight() / 2
+            };
         }
-        this.simulateMouseEvent(this.target, "mousemove", d);
-        this.simulateMouseEvent(this.target, "mouseup", d);
-        this.simulateMouseEvent(k.target, "mouseup", d)
-    },findCenter:function(b) {
-        var b = a(b),c = b.offset();
-        return{x:c.left + b.outerWidth() / 2,y:c.top + b.outerHeight() / 2}
-    }})
+    });
+
 })(tQuery);

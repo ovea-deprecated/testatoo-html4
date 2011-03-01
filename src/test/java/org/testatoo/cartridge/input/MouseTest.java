@@ -19,6 +19,8 @@ package org.testatoo.cartridge.input;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.testatoo.cartridge.WebTest;
+import org.testatoo.cartridge.html4.element.A;
+import org.testatoo.cartridge.html4.element.Link;
 import org.testatoo.core.component.Image;
 import org.testatoo.core.component.Panel;
 import org.testatoo.core.component.TextField;
@@ -52,6 +54,9 @@ public class MouseTest extends WebTest {
         Mouse.clickOn(textField);
 
         assertThat(textField.value(), is("Element 1 clicked"));
+
+        Mouse.clickOn(component(A.class, "link"));
+        assertThat(page().title(), is("Exit page"));
     }
 
     @Test

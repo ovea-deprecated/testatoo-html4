@@ -490,18 +490,19 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
         try {
             setFocus(component);
             if (which == Click.right) {
-                evaluate(jQueryExpression("$('#" + component.id() + "').simulate('rightclick');"));
+                evaluate(jQueryExpression("$('#" + component.id() + "').simulate('rightclick')"));
             } else {
-                evaluate(jQueryExpression("$('#" + component.id() + "').simulate('click');"));
+                // If component is link we need to open the expected target
+                // Not sure but some Browser seems have a security check to not open page on js event
+                if (component instanceof Link && !((Link) component).reference().equals("#")) {
+                    selenium.click(component.id());
+                } else {
+                    evaluate(jQueryExpression("$('#" + component.id() + "').simulate('click')"));
+                }
             }
             waitForCondition();
-            // If component is link we need to open the expected target
-            // But some framework like Wicket use js and set ref to # (in this case we let the framework make the job)
-            if (component instanceof Link && !((Link) component).reference().equals("#")) {
-                open(((Link) component).reference());
-            }
         } catch (Exception e) {
-            // Continue .. if the click change page
+            // Continue... if the click change page
             waitForCondition();
         }
     }
