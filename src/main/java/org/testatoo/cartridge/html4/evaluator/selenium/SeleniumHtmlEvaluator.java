@@ -562,7 +562,7 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
             for (byte charCode : text.getBytes()) {
                 if (Boolean.valueOf(evaluate(jQueryExpression("$.browser.msie")))) {
                     evaluate(jQueryExpression("$('#" + currentFocusedComponent.id() + "')" +
-                            ".val(4('#" + currentFocusedComponent.id() + "').val() + String.fromCharCode(" + charCode + "));"));
+                            ".val($('#" + currentFocusedComponent.id() + "').val() + String.fromCharCode(" + charCode + "));"));
                 }
                 evaluate(jQueryExpression("$('#" + currentFocusedComponent.id() + "').simulate('type', {charCode: " + charCode + keyModifier + "});"));
             }
