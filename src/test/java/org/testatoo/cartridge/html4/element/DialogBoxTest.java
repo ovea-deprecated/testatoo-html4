@@ -17,7 +17,7 @@
 package org.testatoo.cartridge.html4.element;
 
 import org.junit.Ignore;
-import org.testatoo.cartridge.WebTest;
+import org.testatoo.WebTest;
 
 // TODO to implement
 @Ignore

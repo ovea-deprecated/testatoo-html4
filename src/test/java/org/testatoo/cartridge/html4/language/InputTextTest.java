@@ -18,7 +18,7 @@ package org.testatoo.cartridge.html4.language;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.testatoo.cartridge.WebTest;
+import org.testatoo.WebTest;
 import org.testatoo.cartridge.html4.element.InputText;
 
 import static org.testatoo.cartridge.html4.Language.*;

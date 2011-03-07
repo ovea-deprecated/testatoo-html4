@@ -17,7 +17,7 @@
 package org.testatoo.cartridge.html4;
 
 import org.junit.Test;
-import org.testatoo.cartridge.WebTest;
+import org.testatoo.WebTest;
 import org.testatoo.core.Selection;
 import org.testatoo.core.component.*;
 import org.testatoo.core.component.datagrid.DataGrid;

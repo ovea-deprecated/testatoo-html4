@@ -18,7 +18,7 @@ package specs.keyboard;
 
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
-import org.testatoo.cartridge.MainModule;
+import org.testatoo.MainModule;
 import org.testatoo.cartridge.html4.HtmlEvaluator;
 import org.testatoo.cartridge.html4.element.InputText;
 import org.testatoo.config.annotation.TestatooModules;

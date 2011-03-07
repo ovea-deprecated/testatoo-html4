@@ -19,7 +19,7 @@ package org.testatoo.cartridge.html4.element;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.testatoo.cartridge.WebTest;
+import org.testatoo.WebTest;
 import org.testatoo.core.ComponentException;
 
 import static org.hamcrest.Matchers.is;
@@ -84,7 +84,7 @@ public class AlertBoxTest extends WebTest {
         AlertBox alertbox = component(AlertBox.class, "");
         alertbox.close();
         try {
-             component(AlertBox.class, "");
+            component(AlertBox.class, "");
             fail();
         } catch (ComponentException e) {
             assertThat(e.getMessage(), is("Cannot find component defined by id=" + AlertBox.ID));
