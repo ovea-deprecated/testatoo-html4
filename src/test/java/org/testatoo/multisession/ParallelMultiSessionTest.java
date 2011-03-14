@@ -17,7 +17,6 @@
 package org.testatoo.multisession;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.testatoo.cartridge.html4.By;
@@ -39,7 +38,6 @@ import static org.testatoo.core.ComponentFactory.page;
 @RunWith(TestatooJunitRunner.class)
 @TestatooModules(ParallelMultiSessionModule.class)
 @ConcurrentEvaluation
-@Ignore
 public class ParallelMultiSessionTest {
 
     @Before
