@@ -62,6 +62,8 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
 
     private java.util.Map<String, String> alertBoxMessage = new HashMap<String, String>();
 
+    private static final String PAGE_ID = "_PAGE_ID_";
+
     /**
      * Class constructor specifying the used selenium engine
      *
@@ -89,11 +91,20 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
         return name;
     }
 
+    @Override
+    public String pageId() {
+        return PAGE_ID;
+    }
+
     /**
      * @see org.testatoo.core.Evaluator
      */
     @Override
     public Boolean existComponent(String id) {
+        if (id.equals(PAGE_ID)) {
+            return true;
+        }
+
         if (id.startsWith(org.testatoo.cartridge.html4.element.AlertBox.ID)) {
             alertBoxMessage.clear();
             return selenium.isAlertPresent();
@@ -612,9 +623,21 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
         if (selenium.isAlertPresent()) {
             selenium.getAlert();
         }
+
+        selenium.open(url);
         currentFocusedComponent = null;
         release();
-        selenium.open(url);
+
+        boolean scriptsNotLoaded = true;
+        while (scriptsNotLoaded) {
+            try {
+                selenium.getEval("window.tQuery().isTQueryAvailable()");
+            } catch (Exception e) {
+                selenium.runScript(loadUserExtensions());
+            }
+            scriptsNotLoaded = false;
+        }
+
         waitForCondition();
     }
 
@@ -995,7 +1018,6 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
     }
 
     // -------------- Private ----------------------
-
     private String[] extractId(String expression) {
         if (expression.startsWith("jquery:")) {
             expression = expression.substring(7, expression.length());
@@ -1084,13 +1106,6 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
     }
 
     private String evaluate(String expression) {
-
-        try {
-            selenium.getEval("window.tQuery().isTQueryAvailable()");
-        } catch (Exception e) {
-            selenium.runScript(loadUserExtensions());
-        }
-
         return selenium.getEval(expression);
     }
 

@@ -34,7 +34,6 @@ import static org.testatoo.core.EvaluatorHolder.withEvaluator;
 
 @RunWith(TestatooJunitRunner.class)
 @TestatooModules(MultiSessionModule.class)
-@Ignore
 public class MultiSessionTest {
 
     @Before

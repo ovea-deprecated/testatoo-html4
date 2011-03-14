@@ -37,7 +37,6 @@ import static org.testatoo.core.EvaluatorHolder.withEvaluator;
 
 @RunWith(TestatooJunitRunner.class)
 @TestatooModules(SyncedParallelMultiSessionModule.class)
-@Ignore
 public class SyncedParallelMultiSessionTest {
 
     @Before

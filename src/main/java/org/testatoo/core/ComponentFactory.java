@@ -31,7 +31,7 @@ import java.util.List;
 public final class ComponentFactory {
 
     public static Page page() {
-        return component(Page.class, By.jQuery("$('html')"));
+        return new Page(evaluator(), evaluator().pageId());
     }
 
     public static <T extends Component> T component(Class<T> componentType, String id) {

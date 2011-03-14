@@ -294,4 +294,7 @@ public interface HtmlEvaluator extends Evaluator<Selenium> {
      * @return the nodename of the component
      */
     String nodename(Component component);
+
+
+    String pageId();
 }

@@ -39,7 +39,6 @@ import static org.testatoo.core.ComponentFactory.page;
 @RunWith(TestatooJunitRunner.class)
 @TestatooModules(ParallelMultiSessionModule.class)
 @ConcurrentEvaluation
-@Ignore
 public class ParallelMultiSessionTest {
 
     @Before
