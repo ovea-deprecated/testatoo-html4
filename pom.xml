@@ -81,7 +81,7 @@
         <dependency>
             <groupId>org.testatoo</groupId>
             <artifactId>testatoo-core</artifactId>
-            <version>1.0-rc1</version>
+            <version>1.0-rc2-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.testatoo.openqa</groupId>
