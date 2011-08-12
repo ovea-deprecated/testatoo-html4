@@ -941,19 +941,23 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
      */
     @Override
     public String elementId(String expression) {
-        String id = null;
+        if (!expression.startsWith("jquery:")) {
+            expression = "jquery:$('#" + expression + "')";
+        }
 
-        if (expression.startsWith("jquery:")) {
-            if (!Boolean.valueOf(evaluate(jQueryExpression("result = " + expression.substring(7) + ".length > 0")))) {
-                throw new EvaluatorException("Cannot find component defined by the jquery expression : " + expression.substring(7));
-            }
+        if (!Boolean.valueOf(evaluate(jQueryExpression("result = " + expression.substring(7) + ".length > 0")))) {
+            throw new EvaluatorException("Cannot find component defined by the jquery expression : " + expression.substring(7));
+        }
 
-            id = evaluate(jQueryExpression("result = " + expression.substring(7) + ".attr('id')"));
-            if (id.isEmpty()) {
-                // Ok exists but without identifier so create one
-                id = UUID.randomUUID().toString();
-                evaluate(jQueryExpression(expression.substring(7) + ".attr('id', '" + id + "')"));
-            }
+        if (!Boolean.valueOf(evaluate(jQueryExpression("result = " + expression.substring(7) + ".length == 1")))) {
+            throw new EvaluatorException("Find more than one component defined by the jquery expression : " + expression.substring(7));
+        }
+
+        String id = evaluate(jQueryExpression("result = " + expression.substring(7) + ".attr('id')"));
+        if (id.isEmpty()) {
+            // Ok exists but without identifier so create one
+            id = UUID.randomUUID().toString();
+            evaluate(jQueryExpression(expression.substring(7) + ".attr('id', '" + id + "')"));
         }
         return id;
     }

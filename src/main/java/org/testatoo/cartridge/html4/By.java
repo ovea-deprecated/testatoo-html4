@@ -16,8 +16,12 @@
 
 package org.testatoo.cartridge.html4;
 
-import java.util.Arrays;
-import java.util.List;
+
+import org.testatoo.core.Duration;
+
+import java.util.*;
+
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 public abstract class By {
 
@@ -28,12 +32,22 @@ public abstract class By {
         return new By() {
             @Override
             public String id(HtmlEvaluator evaluator) {
-                return id;
+                return id(evaluator, new Duration(1000, MILLISECONDS), new Duration(500, MILLISECONDS));
+            }
+
+            @Override
+            public String id(HtmlEvaluator evaluator, Duration duration, Duration frequency) {
+                return waitUntilId(evaluator, id, duration, frequency);
             }
 
             @Override
             public List<String> ids(HtmlEvaluator evaluator) {
-                return Arrays.asList(id);
+                return ids(evaluator, new Duration(1000, MILLISECONDS), new Duration(500, MILLISECONDS));
+            }
+
+            @Override
+            public List<String> ids(HtmlEvaluator evaluator, Duration duration, Duration frequency) {
+                return Arrays.asList(waitUntilIds(evaluator, id, duration, frequency));
             }
 
             @Override
@@ -51,12 +65,22 @@ public abstract class By {
 
             @Override
             public String id(HtmlEvaluator evaluator) {
-                return evaluator.elementId("jquery:" + jQueryExpression);
+                return id(evaluator, new Duration(1000, MILLISECONDS), new Duration(500, MILLISECONDS));
+            }
+
+            @Override
+            public String id(HtmlEvaluator evaluator, Duration duration, Duration frequency) {
+                return waitUntilId(evaluator, "jquery:" + jQueryExpression, duration, frequency);
             }
 
             @Override
             public List<String> ids(HtmlEvaluator evaluator) {
-                return Arrays.asList(evaluator.elementsId("jquery:" + jQueryExpression));
+                return ids(evaluator, new Duration(1000, MILLISECONDS), new Duration(500, MILLISECONDS));
+            }
+
+            @Override
+            public List<String> ids(HtmlEvaluator evaluator, Duration duration, Duration frequency) {
+                return Arrays.asList(waitUntilIds(evaluator, "jquery:" + jQueryExpression, duration, frequency));
             }
 
             @Override
@@ -68,7 +92,55 @@ public abstract class By {
 
     public abstract String id(HtmlEvaluator evaluator);
 
+    public abstract String id(HtmlEvaluator evaluator, Duration duration, Duration frequency);
+
     public abstract List<String> ids(HtmlEvaluator evaluator);
 
+    public abstract List<String> ids(HtmlEvaluator evaluator, Duration duration, Duration frequency);
+
     public abstract String toString();
+
+    public static String waitUntilId(HtmlEvaluator evaluator, String expression, Duration duration, Duration frequency) {
+        Throwable ex = null;
+        try {
+            final long step = frequency.unit.toMillis(frequency.duration);
+
+            for (long timeout = duration.unit.toMillis(duration.duration); timeout > 0; timeout -= step, Thread.sleep(step)) {
+                try {
+                    return evaluator.elementId(expression);
+                } catch (Throwable e) {
+                    ex = e;
+                }
+            }
+        } catch (InterruptedException e) {
+            ex = e;
+        }
+
+        if (ex instanceof EvaluatorException) {
+            throw (EvaluatorException) ex;
+        }
+        throw new RuntimeException("Unable to reach the condition in " + duration.duration + " " + duration.unit, ex);
+    }
+
+    public static String[] waitUntilIds(HtmlEvaluator evaluator, String expression, Duration duration, Duration frequency) {
+        Throwable ex = null;
+        try {
+            final long step = frequency.unit.toMillis(frequency.duration);
+
+            for (long timeout = duration.unit.toMillis(duration.duration); timeout > 0; timeout -= step, Thread.sleep(step)) {
+                try {
+                    return evaluator.elementsId(expression);
+                } catch (Throwable e) {
+                    ex = e;
+                }
+            }
+        } catch (InterruptedException e) {
+            ex = e;
+        }
+        //TODO maybe to delete
+        if (ex instanceof EvaluatorException) {
+            throw (EvaluatorException) ex;
+        }
+        throw new RuntimeException("Unable to reach the condition in " + duration.duration + " " + duration.unit, ex);
+    }
 }

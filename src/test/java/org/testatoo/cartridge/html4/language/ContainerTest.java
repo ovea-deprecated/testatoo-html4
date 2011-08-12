@@ -28,6 +28,7 @@ import static org.hamcrest.Matchers.is;
 import static org.testatoo.cartridge.html4.Language.assertThat;
 import static org.testatoo.cartridge.html4.Language.goTo;
 import static org.testatoo.core.ComponentFactory.component;
+import static org.testatoo.core.ComponentFactory.components;
 
 public class ContainerTest extends WebTest {
 
@@ -41,9 +42,9 @@ public class ContainerTest extends WebTest {
         // For form
         goTo("Form.html");
 
-        Radio genderRadio = component(Radio.class, By.jQuery("$('[name=gender]')"));
+        Radio maleRadio = component(Radio.class, By.id("male"));
 
-        assertThat(component(Form.class, "myForm").contains(genderRadio), is(true));
-        assertThat(component(Form.class, "myForm2").contains(genderRadio), is(false));
+        assertThat(component(Form.class, "myForm").contains(maleRadio), is(true));
+        assertThat(component(Form.class, "myForm2").contains(maleRadio), is(false));
     }
 }

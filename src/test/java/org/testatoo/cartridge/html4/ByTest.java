@@ -36,12 +36,17 @@ public class ByTest {
 
     @Test
     public void can_find_component_by_id_always_return_the_is_passed() {
+        when(evaluator.elementId(id)).thenReturn(id);
+
         By by = By.id(id);
         assertEquals(id, by.id(evaluator));
     }
 
     @Test
     public void can_find_components_by_id() {
+        String[] ids = {id};
+        when(evaluator.elementsId(id)).thenReturn(ids);
+
         By by = By.id(id);
 
         List<String> cmpIds = by.ids(evaluator);

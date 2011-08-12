@@ -161,10 +161,10 @@ public interface HtmlEvaluator extends Evaluator<Selenium> {
     /**
      * To get the id of the html element corresponding to a given path
      *
-     * @param path the path for the html element
+     * @param expression the path for the html element
      * @return the id of the html element
      */
-    String elementId(String path);
+    String elementId(String expression);
 
     /**
      * To get the ids of the html elements corresponding to a given path
