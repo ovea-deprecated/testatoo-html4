@@ -137,7 +137,7 @@ public abstract class By {
         } catch (InterruptedException e) {
             ex = e;
         }
-        //TODO maybe to delete
+
         if (ex instanceof EvaluatorException) {
             throw (EvaluatorException) ex;
         }
