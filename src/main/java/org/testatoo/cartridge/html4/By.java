@@ -32,7 +32,7 @@ public abstract class By {
         return new By() {
             @Override
             public String id(HtmlEvaluator evaluator) {
-                return id(evaluator, new Duration(1000, MILLISECONDS), new Duration(500, MILLISECONDS));
+                return id(evaluator, new Duration(2000, MILLISECONDS), new Duration(500, MILLISECONDS));
             }
 
             @Override
@@ -42,7 +42,7 @@ public abstract class By {
 
             @Override
             public List<String> ids(HtmlEvaluator evaluator) {
-                return ids(evaluator, new Duration(1000, MILLISECONDS), new Duration(500, MILLISECONDS));
+                return ids(evaluator, new Duration(2000, MILLISECONDS), new Duration(500, MILLISECONDS));
             }
 
             @Override
@@ -65,7 +65,7 @@ public abstract class By {
 
             @Override
             public String id(HtmlEvaluator evaluator) {
-                return id(evaluator, new Duration(1000, MILLISECONDS), new Duration(500, MILLISECONDS));
+                return id(evaluator, new Duration(2000, MILLISECONDS), new Duration(500, MILLISECONDS));
             }
 
             @Override
@@ -75,7 +75,7 @@ public abstract class By {
 
             @Override
             public List<String> ids(HtmlEvaluator evaluator) {
-                return ids(evaluator, new Duration(1000, MILLISECONDS), new Duration(500, MILLISECONDS));
+                return ids(evaluator, new Duration(2000, MILLISECONDS), new Duration(500, MILLISECONDS));
             }
 
             @Override
@@ -100,7 +100,7 @@ public abstract class By {
 
     public abstract String toString();
 
-    public static String waitUntilId(HtmlEvaluator evaluator, String expression, Duration duration, Duration frequency) {
+    private static String waitUntilId(HtmlEvaluator evaluator, String expression, Duration duration, Duration frequency) {
         Throwable ex = null;
         try {
             final long step = frequency.unit.toMillis(frequency.duration);
@@ -122,7 +122,7 @@ public abstract class By {
         throw new RuntimeException("Unable to reach the condition in " + duration.duration + " " + duration.unit, ex);
     }
 
-    public static String[] waitUntilIds(HtmlEvaluator evaluator, String expression, Duration duration, Duration frequency) {
+    private static String[] waitUntilIds(HtmlEvaluator evaluator, String expression, Duration duration, Duration frequency) {
         Throwable ex = null;
         try {
             final long step = frequency.unit.toMillis(frequency.duration);
