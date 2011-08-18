@@ -84,9 +84,49 @@
             <version>1.0-rc2-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>org.testatoo.openqa</groupId>
-            <artifactId>selenium-java-client-driver</artifactId>
-            <version>1.0.2_20090715</version>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-api</artifactId>
+            <version>2.4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-remote-driver</artifactId>
+            <version>2.4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>2.4.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.seleniumhq.selenium</groupId>
+                    <artifactId>selenium-android-driver</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.seleniumhq.selenium</groupId>
+                    <artifactId>selenium-chrome-driver</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.seleniumhq.selenium</groupId>
+                    <artifactId>selenium-firefox-driver</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.seleniumhq.selenium</groupId>
+                    <artifactId>selenium-htmlunit-driver</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.seleniumhq.selenium</groupId>
+                    <artifactId>selenium-ie-driver</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.seleniumhq.selenium</groupId>
+                    <artifactId>selenium-iphone-driver</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.seleniumhq.selenium</groupId>
+                    <artifactId>selenium-support</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- testing -->
@@ -105,25 +145,25 @@
         <dependency>
             <groupId>org.testatoo</groupId>
             <artifactId>testatoo-config</artifactId>
-            <version>1.0-rc1</version>
+            <version>1.0-rc2-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.testatoo</groupId>
             <artifactId>testatoo-selenium</artifactId>
-            <version>1.0-rc1</version>
+            <version>1.0-rc2-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.testatoo.container</groupId>
             <artifactId>testatoo-container-jetty</artifactId>
-            <version>1.0-rc1</version>
+            <version>1.0-rc5</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.testatoo.container</groupId>
             <artifactId>testatoo-container-tomcat</artifactId>
-            <version>1.0-rc1</version>
+            <version>1.0-rc5</version>
             <scope>test</scope>
         </dependency>
         <dependency>
