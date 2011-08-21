@@ -275,7 +275,8 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
     @Override
     public void unselect(String value, ListModel listModel) {
         Select select = findEmbeddedSelect(listModel);
-        String[] values = parseCSV(evaluate("window.tQuery.map(window.tQuery('#" + select.id() + " :selected'), function(e) { return window.tQuery(e).val(); });"));
+        selenium.runScript("window.testatoo_tmp = window.tQuery.map(window.tQuery('#" + select.id() + " :selected'), function(e) { return window.tQuery(e).val(); });");
+        String[] values = parseCSV(evaluate("window.testatoo_tmp"));
         for (Option option : select.options()) {
             List<String> selectedValues = Arrays.asList(values);
             if (option.value().equals(value)) {
@@ -294,7 +295,8 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
     @Override
     public void unselectAll(ListModel listModel) {
         Select select = findEmbeddedSelect(listModel);
-        String[] values = parseCSV(evaluate("window.tQuery.map(window.tQuery('#" + select.id() + " :selected'), function(e) { return window.tQuery(e).val(); });"));
+        selenium.runScript("window.testatoo_tmp = window.tQuery.map(window.tQuery('#" + select.id() + " :selected'), function(e) { return window.tQuery(e).val(); });");
+        String[] values = parseCSV(evaluate("window.testatoo_tmp"));
         for (Option option : select.options()) {
             List<String> selectedValues = Arrays.asList(values);
             if (selectedValues.contains(option.value())) {
@@ -1025,8 +1027,8 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
     private String[] extractId(String expression) {
         if (expression.startsWith("jquery:")) {
             expression = expression.substring(7, expression.length());
-            return parseCSV(evaluate(jQueryExpression("var ids=[]; " + expression +
-                    ".each(function(){ids.push($(this).attr('id') ? $(this).attr('id') : 'undefined')}); result = ids")));
+            selenium.runScript(jQueryExpression("window.testatoo_tmp=[]; " + expression + ".each(function(){window.testatoo_tmp.push($(this).attr('id') ? $(this).attr('id') : 'undefined')});"));
+            return parseCSV(evaluate("window.testatoo_tmp"));
         }
         return null;
     }
