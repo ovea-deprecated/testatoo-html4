@@ -20,18 +20,15 @@ import org.junit.Before;
 import org.junit.Test;
 import org.testatoo.WebTest;
 import org.testatoo.core.ComponentException;
-import org.testatoo.core.input.Mouse;
 
 import java.util.concurrent.TimeUnit;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.fail;
-import static org.testatoo.core.ComponentFactory.component;
-import static org.testatoo.core.ComponentFactory.page;
-import static org.testatoo.core.Language.max;
-import static org.testatoo.core.Language.waitUntil;
+import static org.testatoo.core.ComponentFactory.*;
+import static org.testatoo.core.Language.*;
+import static org.testatoo.core.input.Mouse.clickOn;
 import static org.testatoo.core.matcher.Matchers.*;
 
 public class LinkTest extends WebTest {
@@ -101,32 +98,31 @@ public class LinkTest extends WebTest {
     }
 
     @Test
-    public void click_on_A_change_page() {
+    public void click_on_A_change_page() throws Exception {
         A a_link = component(A.class, "a_1");
         assertThat(page().title(), is("Link tests"));
-        Mouse.clickOn(a_link);
-        assertThat(page().title(), is("Exit page"));
+        clickOn(a_link);
+        waitUntil(page(), has(title("Exit page")));
     }
 
     @Test
     public void can_click_on_link() throws Exception {
-
         // 1 - Link without js
         page().open("Link.html");
         assertThat(page(), has(title("Link tests")));
-        Mouse.clickOn(component(A.class, "a_1"));
-        assertThat(page(), has(title("Exit page")));
+        clickOn(component(A.class, "a_1"));
+        waitUntil(page(), has(title("Exit page")));
 
         // 2 - Link with js
         page().open("Link.html");
         assertThat(page(), has(title("Link tests")));
-        Mouse.clickOn(component(A.class, "jsLink"));
-        assertThat(page(), has(title("Exit page")));
+        clickOn(component(A.class, "jsLink"));
+        waitUntil(page(), has(title("Exit page")));
 
         // 3 - Link with hooked js
         page().open("Link.html");
         assertThat(component(P.class, "message"), has(text("")));
-        Mouse.clickOn(component(A.class, "jsHookedLink"));
+        clickOn(component(A.class, "jsHookedLink"));
         waitUntil(component(P.class, "message"), has(text("Success")), max(10, TimeUnit.SECONDS));
     }
 

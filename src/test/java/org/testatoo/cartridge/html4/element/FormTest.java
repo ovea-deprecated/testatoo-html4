@@ -24,12 +24,11 @@ import org.testatoo.core.ComponentException;
 import org.testatoo.core.input.Mouse;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.fail;
-import static org.testatoo.core.ComponentFactory.component;
-import static org.testatoo.core.ComponentFactory.page;
+import static org.testatoo.core.ComponentFactory.*;
 import static org.testatoo.core.Language.*;
+import static org.testatoo.core.matcher.Matchers.*;
 
 public class FormTest extends WebTest {
 
@@ -166,13 +165,13 @@ public class FormTest extends WebTest {
     }
 
     @Test
-    public void can_submit_a_form() {
+    public void can_submit_a_form() throws Exception {
         assertThat(page().title(), is("Form tests"));
 
         Button submitButton = component(Button.class, "submitImage");
         clickOn(submitButton);
 
-        assertThat(page().title(), is("Exit page"));
+        waitUntil(page(), has(title("Exit page")));
 
         page().open("Form.html");
         assertThat(page().title(), is("Form tests"));
