@@ -28,15 +28,6 @@ import static org.testatoo.container.TestatooContainer.JETTY;
 
 final class ParallelMultiSessionModule extends AbstractTestatooModule {
 
-    static {
-        try {
-            LogManager.getLogManager().reset();
-            LogManager.getLogManager().readConfiguration(Thread.currentThread().getContextClassLoader().getResourceAsStream("logging.properties"));
-        } catch (IOException e) {
-            throw new RuntimeException(e.getMessage(), e);
-        }
-    }
-
     @Override
     protected void configure() {
         containers().register(createContainer()

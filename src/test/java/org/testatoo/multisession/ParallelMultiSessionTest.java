@@ -130,49 +130,6 @@ public class ParallelMultiSessionTest {
     }
 
     @Test
-    public void can_reset_a_form() {
-        type("Joe", on(component(InputText.class, "firstname")));
-        type("Blow", into(component(InputText.class, "lastname")));
-        enter("email@noname.com", into(into(component(InputText.class, "email"))));
-
-        check(component(Radio.class, "male"));
-        check(component(CheckBox.class, By.jQuery("$('[name=yes]')")));
-
-        on(component(Select.class, "cities")).select("Casablanca");
-
-        component(Form.class, "myForm").reset();
-
-        assertThat(component(InputText.class, "firstname").value(), is(""));
-        assertThat(component(InputText.class, "lastname").value(), is(""));
-        assertThat(component(InputText.class, "email").value(), is(""));
-
-        assertThat(component(Radio.class, "male").isChecked(), is(false));
-        assertThat(component(CheckBox.class, By.jQuery("$('[name=yes]')")).isChecked(), is(false));
-
-        assertThat(component(Select.class, "cities").selectedOptions().get(0).content(), is("New York"));
-
-        type("Joe", on(component(InputText.class, "firstname")));
-        type("Blow", into(component(InputText.class, "lastname")));
-        enter("email@noname.com", into(component(InputText.class, "email")));
-
-        check(component(Radio.class, "male"));
-        check(component(CheckBox.class, By.jQuery("$('[name=yes]')")));
-
-        on(component(Select.class, "cities")).select("Casablanca");
-
-        on(component(Form.class, "myForm")).reset();
-
-        assertThat(component(InputText.class, "firstname").value(), is(""));
-        assertThat(component(InputText.class, "lastname").value(), is(""));
-        assertThat(component(InputText.class, "email").value(), is(""));
-
-        assertThat(component(Radio.class, "male").isChecked(), is(false));
-        assertThat(component(CheckBox.class, By.jQuery("$('[name=yes]')")).isChecked(), is(false));
-
-        assertThat(component(Select.class, "cities").selectedOptions().get(0).content(), is("New York"));
-    }
-
-    @Test
     public void can_submit_a_form() {
         assertThat(page().title(), is("Form tests"));
 
@@ -193,30 +150,6 @@ public class ParallelMultiSessionTest {
         component(Form.class, "myForm").submit();
 
         assertThat(page().title(), is("Exit page"));
-    }
-
-    @Test
-    public void can_find_form_by_name() {
-        component(Form.class, By.jQuery("$('[name=formName]')"));
-
-        try {
-            component(Form.class, By.jQuery("$('[name=otherFormName]')"));
-            fail();
-        } catch (ComponentException e) {
-            assertThat(e.getMessage(), is("Cannot find component defined by jQueryExpression=$('[name=otherFormName]')"));
-        }
-    }
-
-    @Test
-    public void can_find_form_by_title() {
-        component(Form.class, By.jQuery("$('[title=formTitle]')"));
-
-        try {
-            component(Form.class, By.jQuery("$('[title=otherFormTitle]')"));
-            fail();
-        } catch (ComponentException e) {
-            assertThat(e.getMessage(), is("Cannot find component defined by jQueryExpression=$('[title=otherFormTitle]')"));
-        }
     }
 
     @Test
