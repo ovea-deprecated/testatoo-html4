@@ -105,14 +105,15 @@ public abstract class By {
         try {
             final long step = frequency.unit.toMillis(frequency.duration);
 
-            for (long timeout = duration.unit.toMillis(duration.duration); timeout > 0; timeout -= step, Thread.sleep(step)) {
+            for (long timeout = duration.unit.toMillis(duration.duration); timeout > 0 && !Thread.currentThread().isInterrupted(); timeout -= step, Thread.sleep(step)) {
                 try {
                     return evaluator.elementId(expression);
-                } catch (Throwable e) {
+                } catch (RuntimeException e) {
                     ex = e;
                 }
             }
         } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
             ex = e;
         }
 
@@ -127,14 +128,15 @@ public abstract class By {
         try {
             final long step = frequency.unit.toMillis(frequency.duration);
 
-            for (long timeout = duration.unit.toMillis(duration.duration); timeout > 0; timeout -= step, Thread.sleep(step)) {
+            for (long timeout = duration.unit.toMillis(duration.duration); timeout > 0 && !Thread.currentThread().isInterrupted(); timeout -= step, Thread.sleep(step)) {
                 try {
                     return evaluator.elementsId(expression);
-                } catch (Throwable e) {
+                } catch (RuntimeException e) {
                     ex = e;
                 }
             }
         } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
             ex = e;
         }
 
