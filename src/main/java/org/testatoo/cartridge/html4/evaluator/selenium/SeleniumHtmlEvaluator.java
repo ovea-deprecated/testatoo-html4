@@ -627,17 +627,7 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
         selenium.open(url);
         currentFocusedComponent = null;
         release();
-
-        boolean scriptsNotLoaded = true;
-        while (scriptsNotLoaded) {
-            try {
-                selenium.getEval("window.tQuery().isTQueryAvailable()");
-            } catch (Exception e) {
-                selenium.runScript(loadUserExtensions());
-            }
-            scriptsNotLoaded = false;
-        }
-
+        loadUserExtensions();
         waitForCondition();
     }
 
@@ -1109,16 +1099,21 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
     }
 
     private String evaljQuery(String expression) {
+        loadUserExtensions();
         selenium.runScript("(function($, jQuery){window.testatoo_tmp=" + expression + "})(window.tQuery, window.tQuery);");
         return selenium.getEval("window.testatoo_tmp");
     }
 
-    private String loadUserExtensions() {
-        String script = "";
-        script += addScript("tquery-1.5.js");
-        script += addScript("tquery-simulate.js");
-        script += addScript("tquery-util.js");
-        return script;
+    private void loadUserExtensions() {
+        try {
+            selenium.getEval("window.tQuery().isTQueryAvailable()");
+        } catch (Exception e) {
+            String script = "";
+            script += addScript("tquery-1.5.js");
+            script += addScript("tquery-simulate.js");
+            script += addScript("tquery-util.js");
+            selenium.runScript(script);
+        }
     }
 
     private String addScript(String name) {
