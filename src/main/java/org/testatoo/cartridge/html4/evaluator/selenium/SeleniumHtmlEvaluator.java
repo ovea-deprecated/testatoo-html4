@@ -1099,14 +1099,9 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
     }
 
     private String evaljQuery(String expression) {
-        try {
-            selenium.runScript("(function($, jQuery){window.testatoo_tmp=" + expression + "})(window.tQuery, window.tQuery);");
-            return selenium.getEval("window.testatoo_tmp");
-        } catch (Exception e) {
-            loadUserExtensions();
-            selenium.runScript("(function($, jQuery){window.testatoo_tmp=" + expression + "})(window.tQuery, window.tQuery);");
-            return selenium.getEval("window.testatoo_tmp");
-        }
+        loadUserExtensions();
+        selenium.runScript("(function($, jQuery){window.testatoo_tmp=" + expression + "})(window.tQuery, window.tQuery);");
+        return selenium.getEval("window.testatoo_tmp");
     }
 
     private void loadUserExtensions() {
