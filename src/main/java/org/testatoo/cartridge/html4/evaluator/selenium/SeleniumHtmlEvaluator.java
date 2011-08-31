@@ -164,8 +164,8 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
      */
     @Override
     public Boolean isEnabled(Component component) {
-        return !Boolean.valueOf(evaluate(jQueryExpression("result = $('#" + component.id() + "').is(':disabled');")))
-                && !Boolean.valueOf(evaluate(jQueryExpression("result = $('#" + component.id() + "').attr('readonly') == true;")));
+        return !Boolean.valueOf(evaljQuery("$('#" + component.id() + "').is(':disabled');"))
+                && !Boolean.valueOf(evaljQuery("$('#" + component.id() + "').attr('readonly') == true;"));
     }
 
     /**
@@ -182,7 +182,7 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
      */
     @Override
     public Boolean isChecked(Checkable checkable) {
-        return Boolean.valueOf(evaluate(jQueryExpression("result = $('#" + ((Component) checkable).id() + "').is(':checked')")));
+        return Boolean.valueOf(evaljQuery("$('#" + ((Component) checkable).id() + "').is(':checked')"));
     }
 
     /**
@@ -250,7 +250,7 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
      */
     @Override
     public void reset(AbstractTextField textField) {
-        evaluate(jQueryExpression("result = $('#" + textField.id() + "').val('')"));
+        evaljQuery("$('#" + textField.id() + "').val('')");
     }
 
     /**
@@ -275,14 +275,13 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
     @Override
     public void unselect(String value, ListModel listModel) {
         Select select = findEmbeddedSelect(listModel);
-        selenium.runScript("window.testatoo_tmp = window.tQuery.map(window.tQuery('#" + select.id() + " :selected'), function(e) { return window.tQuery(e).val(); });");
-        String[] values = parseCSV(evaluate("window.testatoo_tmp"));
+        String[] values = parseCSV(evaljQuery("window.tQuery.map(window.tQuery('#" + select.id() + " :selected'), function(e) { return window.tQuery(e).val(); });"));
         for (Option option : select.options()) {
             List<String> selectedValues = Arrays.asList(values);
             if (option.value().equals(value)) {
                 if (selectedValues.contains(option.value())) {
-                    evaluate(jQueryExpression("result = $('#" + option.id() + "').attr('selected', '')"));
-                    evaluate(jQueryExpression("result = $('#" + select.id() + "').simulate('change');"));
+                    evaljQuery("$('#" + option.id() + "').attr('selected', '')");
+                    evaljQuery("$('#" + select.id() + "').simulate('change');");
                 }
             }
         }
@@ -295,13 +294,12 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
     @Override
     public void unselectAll(ListModel listModel) {
         Select select = findEmbeddedSelect(listModel);
-        selenium.runScript("window.testatoo_tmp = window.tQuery.map(window.tQuery('#" + select.id() + " :selected'), function(e) { return window.tQuery(e).val(); });");
-        String[] values = parseCSV(evaluate("window.testatoo_tmp"));
+        String[] values = parseCSV(evaljQuery("window.tQuery.map(window.tQuery('#" + select.id() + " :selected'), function(e) { return window.tQuery(e).val(); });"));
         for (Option option : select.options()) {
             List<String> selectedValues = Arrays.asList(values);
             if (selectedValues.contains(option.value())) {
-                evaluate(jQueryExpression("result = $('#" + option.id() + "').attr('selected', '')"));
-                evaluate(jQueryExpression("result = $('#" + select.id() + "').simulate('change')"));
+                evaljQuery("$('#" + option.id() + "').attr('selected', '')");
+                evaljQuery("$('#" + select.id() + "').simulate('change')");
             }
         }
         waitForCondition();
@@ -315,9 +313,9 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
         Select select = findEmbeddedSelect(listModel);
         for (Option option : select.options()) {
             if (option.value().equals(value)) {
-                evaluate(jQueryExpression("result = $('#" + option.id() + "').attr('selected', 'selected');"));
+                evaljQuery("$('#" + option.id() + "').attr('selected', 'selected');");
                 // use fix for IE
-                evaluate("if (window.tQuery.browser.msie) {window.tQuery('#" + select.id() + "').simulate('click');} " +
+                evaljQuery("null; if (window.tQuery.browser.msie) {window.tQuery('#" + select.id() + "').simulate('click');} " +
                         "else {window.tQuery('#" + select.id() + "').simulate('change');}");
             }
         }
@@ -414,7 +412,7 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
     @Override
     public Selection<Column> columns(DataGrid datagrid) {
         String query = "$('#" + datagrid.id() + " thead tr:last th')";
-        int numberOfColumns = Integer.valueOf(evaluate(jQueryExpression("result = " + query + ".length")));
+        int numberOfColumns = Integer.valueOf(evaljQuery(query + ".length"));
 
         List<Column> columns = new ArrayList<Column>();
         for (int rowNum = 0; rowNum < numberOfColumns; rowNum++) {
@@ -432,7 +430,7 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
         List<Row> rows = new ArrayList<Row>();
 
         String query = "$('#" + datagrid.id() + " tbody tr')";
-        int numberOfRows = Integer.valueOf(evaluate(jQueryExpression("result = " + query + ".length")));
+        int numberOfRows = Integer.valueOf(evaljQuery(query + ".length"));
 
         for (int rowNum = 0; rowNum < numberOfRows; rowNum++) {
             Row row = new Row(this, elementId("jquery:$(" + query + "[" + rowNum + "])"));
@@ -447,7 +445,7 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
 
         if (cellContainer instanceof Row) {
             String query = "$('#" + ((Component) cellContainer).id() + " td')";
-            int numberOfCells = Integer.valueOf(evaluate(jQueryExpression("result = " + query + ".length")));
+            int numberOfCells = Integer.valueOf(evaljQuery(query + ".length"));
 
             for (int cellNum = 0; cellNum < numberOfCells; cellNum++) {
                 Cell cell = new Cell(this, elementId("jquery:$(" + query + "[" + cellNum + "])"));
@@ -458,7 +456,7 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
         if (cellContainer instanceof Column) {
             // Find column number
             String query = "$('#" + ((Component) cellContainer).id() + "').parent().find('th')";
-            int numberOfColumns = Integer.valueOf(evaluate(jQueryExpression("result = " + query + ".length")));
+            int numberOfColumns = Integer.valueOf(evaljQuery(query + ".length"));
 
             int selectedColumnNum = 0;
             boolean columnNumFind = false;
@@ -475,7 +473,7 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
             }
 
             query = "$('#" + ((Component) cellContainer).id() + "').parents('table').find('tbody tr')";
-            int numberOfRows = Integer.valueOf(evaluate(jQueryExpression("result = " + query + ".length")));
+            int numberOfRows = Integer.valueOf(evaljQuery(query + ".length"));
 
             for (int rowNum = 0; rowNum < numberOfRows; rowNum++) {
                 Cell cell = new Cell(this, elementId("jquery:$($(" + query + "[" + rowNum + "]).find('td')[" + selectedColumnNum + "])"));
@@ -492,7 +490,7 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
     public ComponentType componentType(String id) {
         if (id.equals(org.testatoo.cartridge.html4.element.AlertBox.ID))
             return AlertBox;
-        return ComponentType.valueOf(evaluate(jQueryExpression("result = $('#" + id + "').componentType()")));
+        return ComponentType.valueOf(evaljQuery("$('#" + id + "').componentType()"));
     }
 
     /**
@@ -503,14 +501,14 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
         try {
             setFocus(component);
             if (which == Click.right) {
-                evaluate(jQueryExpression("$('#" + component.id() + "').simulate('rightclick')"));
+                evaljQuery("$('#" + component.id() + "').simulate('rightclick')");
             } else {
                 // If component is link we need to open the expected target
                 // Not sure but some Browser seems have a security check to not open page on js event
                 if (component instanceof Link && !((Link) component).reference().equals("#")) {
                     selenium.click(component.id());
                 } else {
-                    evaluate(jQueryExpression("$('#" + component.id() + "').simulate('click')"));
+                    evaljQuery("$('#" + component.id() + "').simulate('click')");
                 }
             }
             waitForCondition();
@@ -525,7 +523,7 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
      */
     @Override
     public void doubleClick(Component component) {
-        evaluate(jQueryExpression("$('#" + component.id() + "').simulate('dblclick')"));
+        evaljQuery("$('#" + component.id() + "').simulate('dblclick')");
         setFocus(component);
         waitForCondition();
     }
@@ -535,7 +533,7 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
      */
     @Override
     public void mouseOver(Component component) {
-        evaluate(jQueryExpression("$('#" + component.id() + "').simulate('mouseover')"));
+        evaljQuery("$('#" + component.id() + "').simulate('mouseover')");
         waitForCondition();
     }
 
@@ -544,7 +542,7 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
      */
     @Override
     public void mouseOut(Component component) {
-        evaluate(jQueryExpression("$('#" + component.id() + "').simulate('mouseout')"));
+        evaljQuery("$('#" + component.id() + "').simulate('mouseout')");
         waitForCondition();
     }
 
@@ -553,7 +551,7 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
      */
     @Override
     public void dragAndDrop(Component from, Component to) {
-        evaluate(jQueryExpression("$('#" + from.id() + "').simulate('dragTo', {'target': $('#" + to.id() + "')})"));
+        evaljQuery("$('#" + from.id() + "').simulate('dragTo', {'target': $('#" + to.id() + "')})");
         waitForCondition();
     }
 
@@ -573,16 +571,16 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
         String keyModifier = keyModifier();
         if (currentFocusedComponent != null) {
             for (byte charCode : text.getBytes()) {
-                if (Boolean.valueOf(evaluate(jQueryExpression("$.browser.msie")))) {
-                    evaluate(jQueryExpression("$('#" + currentFocusedComponent.id() + "')" +
-                            ".val($('#" + currentFocusedComponent.id() + "').val() + String.fromCharCode(" + charCode + "));"));
+                if (Boolean.valueOf(evaljQuery("$.browser.msie"))) {
+                    evaljQuery("$('#" + currentFocusedComponent.id() + "')" +
+                            ".val($('#" + currentFocusedComponent.id() + "').val() + String.fromCharCode(" + charCode + "));");
                 }
-                evaluate(jQueryExpression("$('#" + currentFocusedComponent.id() + "').simulate('type', {charCode: " + charCode + keyModifier + "});"));
+                evaljQuery("$('#" + currentFocusedComponent.id() + "').simulate('type', {charCode: " + charCode + keyModifier + "});");
             }
         } else {
             for (char charCode : text.toCharArray()) {
-                evaluate(jQueryExpression("if ($.browser.mozilla) {$(window.document).simulate('type', {keyCode: " + keyboardLayout.convert(charCode) + keyModifier + "})}" +
-                        "else {$(window.document).simulate('type', {charCode: " + keyboardLayout.convert(charCode) + keyModifier + "})};"));
+                evaljQuery("if ($.browser.mozilla) {$(window.document).simulate('type', {keyCode: " + keyboardLayout.convert(charCode) + keyModifier + "})}" +
+                        "else {$(window.document).simulate('type', {charCode: " + keyboardLayout.convert(charCode) + keyModifier + "})};");
             }
         }
         waitForCondition();
@@ -648,7 +646,7 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
      */
     @Override
     public String attribute(String id, Attribute attribute) {
-        String attributeValue = evaluate(jQueryExpression("result = $('#" + id + "').attributeValue('" + attribute + "');"));
+        String attributeValue = evaljQuery("$('#" + id + "').attributeValue('" + attribute + "');");
         if (attributeValue.equals("null")) {
             return "";
         }
@@ -660,7 +658,7 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
      */
     @Override
     public Boolean exist(String id, Attribute attribute) {
-        return !evaluate(jQueryExpression("result = $('#" + id + "[" + attribute + "]')")).isEmpty();
+        return !evaljQuery("$('#" + id + "[" + attribute + "]')").isEmpty();
     }
 
     /**
@@ -917,7 +915,7 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
      */
     @Override
     public void submit(Form form) {
-        evaluate(jQueryExpression("$('#" + form.id() + "').submit()"));
+        evaljQuery("$('#" + form.id() + "').submit()");
         waitForCondition();
     }
 
@@ -947,19 +945,19 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
             expression = "jquery:$('#" + expression + "')";
         }
 
-        if (!Boolean.valueOf(evaluate(jQueryExpression("result = " + expression.substring(7) + ".length > 0")))) {
+        if (!Boolean.valueOf(evaljQuery(expression.substring(7) + ".length > 0"))) {
             throw new EvaluatorException("Cannot find component defined by the jquery expression : " + expression.substring(7));
         }
 
-        if (!Boolean.valueOf(evaluate(jQueryExpression("result = " + expression.substring(7) + ".length == 1")))) {
+        if (!Boolean.valueOf(evaljQuery(expression.substring(7) + ".length == 1"))) {
             throw new EvaluatorException("Find more than one component defined by the jquery expression : " + expression.substring(7));
         }
 
-        String id = evaluate(jQueryExpression("result = " + expression.substring(7) + ".attr('id')"));
+        String id = evaljQuery(expression.substring(7) + ".attr('id')");
         if (id.isEmpty()) {
             // Ok exists but without identifier so create one
             id = UUID.randomUUID().toString();
-            evaluate(jQueryExpression(expression.substring(7) + ".attr('id', '" + id + "')"));
+            evaljQuery(expression.substring(7) + ".attr('id', '" + id + "')");
         }
         return id;
     }
@@ -971,7 +969,7 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
     public String[] elementsId(String expression) {
 
         if (expression.startsWith("jquery:")) {
-            if (!Boolean.valueOf(evaluate(jQueryExpression("result = " + expression.substring(7) + ".length > 0")))) {
+            if (!Boolean.valueOf(evaljQuery(expression.substring(7) + ".length > 0"))) {
                 throw new EvaluatorException("Cannot find component defined by the jquery expression : " + expression.substring(7));
             }
 
@@ -980,7 +978,7 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
                 String id = resultId[i];
                 if (id.equals("")) {
                     id = UUID.randomUUID().toString();
-                    evaluate(jQueryExpression("$(" + expression.substring(7) + "[" + i + "]).attr('id', '" + id + "')"));
+                    evaljQuery("$(" + expression.substring(7) + "[" + i + "]).attr('id', '" + id + "')");
                     resultId[i] = id;
                 }
             }
@@ -995,7 +993,7 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
      */
     @Override
     public HtmlElementType htmlElementType(String id) {
-        return HtmlElementType.valueOfIgnoreCase(evaluate(jQueryExpression("result = $('#" + id + "').htmlType()")));
+        return HtmlElementType.valueOfIgnoreCase(evaljQuery("$('#" + id + "').htmlType()"));
     }
 
     /**
@@ -1011,7 +1009,7 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
      */
     @Override
     public String nodename(Component component) {
-        return evaluate(jQueryExpression("result = $('#" + component.id() + "').attr('nodeName')"));
+        return evaljQuery("$('#" + component.id() + "').attr('nodeName')");
     }
 
     @Override
@@ -1027,8 +1025,7 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
     private String[] extractId(String expression) {
         if (expression.startsWith("jquery:")) {
             expression = expression.substring(7, expression.length());
-            selenium.runScript(jQueryExpression("window.testatoo_tmp=[]; " + expression + ".each(function(){window.testatoo_tmp.push($(this).attr('id') ? $(this).attr('id') : 'undefined')});"));
-            return parseCSV(evaluate("window.testatoo_tmp"));
+            return parseCSV(evaljQuery("[]; " + expression + ".each(function(){window.testatoo_tmp.push($(this).attr('id') ? $(this).attr('id') : 'undefined')});"));
         }
         return null;
     }
@@ -1036,15 +1033,15 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
     private void setFocus(Component component) {
         if (component instanceof Link || component instanceof Area || component instanceof Button
                 || component instanceof Object || component instanceof ListModel || component instanceof Field) {
-            evaluate(jQueryExpression("$('#" + component.id() + "').focus()"));
+            evaljQuery("$('#" + component.id() + "').focus()");
             currentFocusedComponent = component;
         }
     }
 
     private void typeKey(int keyCode) {
         String keyModifier = keyModifier();
-        evaluate(jQueryExpression("if($.browser.webkit) {$(window.document).simulate('type', {charCode: " + keyCode + keyModifier + "});}" +
-                "else {$('body').simulate('type', {keyCode: " + keyCode + keyModifier + "});}"));
+        evaljQuery("if($.browser.webkit) {$(window.document).simulate('type', {charCode: " + keyCode + keyModifier + "});}" +
+                "else {$('body').simulate('type', {keyCode: " + keyCode + keyModifier + "});}");
     }
 
     private String keyModifier() {
@@ -1111,8 +1108,9 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
         throw new EvaluatorException("Unable to identify the type of ListModel");
     }
 
-    private String evaluate(String expression) {
-        return selenium.getEval(expression);
+    private String evaljQuery(String expression) {
+        selenium.runScript("(function($, jQuery){window.testatoo_tmp=" + expression + "})(window.tQuery, window.tQuery);");
+        return selenium.getEval("window.testatoo_tmp");
     }
 
     private String loadUserExtensions() {
@@ -1136,10 +1134,6 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
         } catch (IOException e) {
             throw new IllegalStateException("Internal error occured when trying to load custom scripts : " + e.getMessage(), e);
         }
-    }
-
-    private String jQueryExpression(String expression) {
-        return "(function($){var result; " + expression + " ;return result;})(window.tQuery);";
     }
 
 }
