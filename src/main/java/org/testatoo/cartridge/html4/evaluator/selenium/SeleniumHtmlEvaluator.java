@@ -627,7 +627,6 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
         selenium.open(url);
         currentFocusedComponent = null;
         release();
-        loadUserExtensions();
         waitForCondition();
     }
 
@@ -1099,9 +1098,14 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
     }
 
     private String evaljQuery(String expression) {
-        loadUserExtensions();
-        selenium.runScript("(function($, jQuery){window.testatoo_tmp=" + expression + "})(window.tQuery, window.tQuery);");
-        return selenium.getEval("window.testatoo_tmp");
+        selenium.runScript("if(window.tQuery){(function($, jQuery){window.testatoo_tmp=" + expression + ";})(window.tQuery, window.tQuery);}else{window.testatoo_tmp='__TQUERY_MISSING__';}");
+        String s = selenium.getEval("window.testatoo_tmp");
+        if ("__TQUERY_MISSING__".equals(s)) {
+            loadUserExtensions();
+            selenium.runScript("if(window.tQuery){(function($, jQuery){window.testatoo_tmp=" + expression + ";})(window.tQuery, window.tQuery);}else{window.testatoo_tmp='__TQUERY_MISSING__';}");
+            s = selenium.getEval("window.testatoo_tmp");
+        }
+        return s;
     }
 
     private void loadUserExtensions() {
