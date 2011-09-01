@@ -17,7 +17,6 @@
 package org.testatoo.cartridge.html4.evaluator.selenium;
 
 import com.thoughtworks.selenium.Selenium;
-import com.thoughtworks.selenium.Wait;
 import org.testatoo.cartridge.html4.Bootstraper;
 import org.testatoo.cartridge.html4.By;
 import org.testatoo.cartridge.html4.EvaluatorException;
@@ -285,7 +284,6 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
                 }
             }
         }
-        waitForCondition();
     }
 
     /**
@@ -302,7 +300,6 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
                 evaljQuery("$('#" + select.id() + "').simulate('change')");
             }
         }
-        waitForCondition();
     }
 
     /**
@@ -319,7 +316,6 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
                         "else {window.tQuery('#" + select.id() + "').simulate('change');}");
             }
         }
-        waitForCondition();
     }
 
     /**
@@ -511,10 +507,8 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
                     evaljQuery("$('#" + component.id() + "').simulate('click')");
                 }
             }
-            waitForCondition();
         } catch (Exception e) {
             // Continue... if the click change page
-            waitForCondition();
         }
     }
 
@@ -525,7 +519,6 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
     public void doubleClick(Component component) {
         evaljQuery("$('#" + component.id() + "').simulate('dblclick')");
         setFocus(component);
-        waitForCondition();
     }
 
     /**
@@ -534,7 +527,6 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
     @Override
     public void mouseOver(Component component) {
         evaljQuery("$('#" + component.id() + "').simulate('mouseover')");
-        waitForCondition();
     }
 
     /**
@@ -543,7 +535,6 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
     @Override
     public void mouseOut(Component component) {
         evaljQuery("$('#" + component.id() + "').simulate('mouseout')");
-        waitForCondition();
     }
 
     /**
@@ -552,7 +543,6 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
     @Override
     public void dragAndDrop(Component from, Component to) {
         evaljQuery("$('#" + from.id() + "').simulate('dragTo', {'target': $('#" + to.id() + "')})");
-        waitForCondition();
     }
 
     /**
@@ -583,7 +573,6 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
                         "else {$(window.document).simulate('type', {charCode: " + keyboardLayout.convert(charCode) + keyModifier + "})};");
             }
         }
-        waitForCondition();
     }
 
     /**
@@ -628,7 +617,6 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
         currentFocusedComponent = null;
         release();
         loadUserExtensions();
-        waitForCondition();
     }
 
     /**
@@ -906,7 +894,6 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
     @Override
     public void submit(Form form) {
         evaljQuery("$('#" + form.id() + "').submit()");
-        waitForCondition();
     }
 
     /**
@@ -915,7 +902,6 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
     @Override
     public void reset(Form form) {
         click(getResetButton(form), Click.left);
-        waitForCondition();
     }
 
     /**
@@ -1068,14 +1054,6 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
 
     private Button getResetButton(Form form) {
         return new Button(this, By.jQuery("$('#" + form.id() + " :reset')").id(this));
-    }
-
-    private void waitForCondition() {
-        new Wait() {
-            public boolean until() {
-                return getWaitingCondition().isReach();
-            }
-        }.wait("One of the waiting conditions has fail", 60000);
     }
 
     private Select findEmbeddedSelect(ListModel listModel) {
