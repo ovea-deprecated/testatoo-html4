@@ -32,9 +32,7 @@ public final class Bootstraper implements CartridgeBootstraper {
         Selenium session = (Selenium) params.get(Selenium.class.getName());
         if (name != null && session != null) {
             ConditionChain conditionChain = ConditionChain.create();
-            SeleniumHtmlEvaluator evaluator = new SeleniumHtmlEvaluator(name, session);
-            evaluator.setWaitingCondition(conditionChain);
-            return evaluator;
+            return new SeleniumHtmlEvaluator(name, session);
         }
         return null;
     }

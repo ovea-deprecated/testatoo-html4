@@ -38,13 +38,6 @@ import static org.testatoo.core.input.KeyModifier.SHIFT;
 
 public class KeyboardTest extends WebTest {
 
-    @BeforeClass
-    public static void beforeClass() {
-        HtmlEvaluator htmlEvaluator = (HtmlEvaluator) EvaluatorHolder.get();
-        ConditionChain conditionChain = (ConditionChain) htmlEvaluator.getWaitingCondition();
-        conditionChain.addCondition(new TimerCondition(200));
-    }
-
     @Test
     public void can_type_data() {
         page().open("InputText.html");

@@ -25,7 +25,7 @@ import org.testatoo.cartridge.html4.component.ListBox;
 import org.testatoo.cartridge.html4.element.*;
 import org.testatoo.cartridge.html4.element.Map;
 import org.testatoo.cartridge.html4.element.Object;
-import org.testatoo.core.AbstractEvaluator;
+import org.testatoo.core.EvaluatorAdapter;
 import org.testatoo.core.ComponentType;
 import org.testatoo.core.ListSelection;
 import org.testatoo.core.Selection;
@@ -53,7 +53,7 @@ import static org.testatoo.core.input.KeyModifier.*;
  *
  * @author dev@testatoo.org
  */
-public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> implements HtmlEvaluator {
+public final class SeleniumHtmlEvaluator extends EvaluatorAdapter<Selenium> implements HtmlEvaluator {
 
     private final Selenium selenium;
     private final String name;
