@@ -1101,23 +1101,11 @@ public final class SeleniumHtmlEvaluator extends AbstractEvaluator<Selenium> imp
         selenium.runScript("if(window.tQuery){(function($, jQuery){window.testatoo_tmp=" + expression + ";})(window.tQuery, window.tQuery);}else{window.testatoo_tmp='__TQUERY_MISSING__';}");
         String s = selenium.getEval("window.testatoo_tmp");
         if ("__TQUERY_MISSING__".equals(s)) {
-            loadUserExtensions();
+            selenium.runScript(addScript("tquery-1.5.js") + addScript("tquery-simulate.js") + addScript("tquery-util.js"));
             selenium.runScript("if(window.tQuery){(function($, jQuery){window.testatoo_tmp=" + expression + ";})(window.tQuery, window.tQuery);}else{window.testatoo_tmp='__TQUERY_MISSING__';}");
             s = selenium.getEval("window.testatoo_tmp");
         }
         return s;
-    }
-
-    private void loadUserExtensions() {
-        try {
-            selenium.getEval("window.tQuery().isTQueryAvailable()");
-        } catch (Exception e) {
-            String script = "";
-            script += addScript("tquery-1.5.js");
-            script += addScript("tquery-simulate.js");
-            script += addScript("tquery-util.js");
-            selenium.runScript(script);
-        }
     }
 
     private String addScript(String name) {
