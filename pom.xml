@@ -81,7 +81,7 @@
         <dependency>
             <groupId>org.testatoo</groupId>
             <artifactId>testatoo-core</artifactId>
-            <version>1.0-rc2</version>
+            <version>1.0-rc3-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
