@@ -25,7 +25,7 @@ import org.testatoo.cartridge.html4.component.ListBox;
 import org.testatoo.cartridge.html4.element.*;
 import org.testatoo.cartridge.html4.element.Map;
 import org.testatoo.cartridge.html4.element.Object;
-import org.testatoo.core.EvaluatorAdapter;
+import org.testatoo.core.EvaluatorSkeleton;
 import org.testatoo.core.ComponentType;
 import org.testatoo.core.ListSelection;
 import org.testatoo.core.Selection;
@@ -37,6 +37,7 @@ import org.testatoo.core.component.Link;
 import org.testatoo.core.component.datagrid.*;
 import org.testatoo.core.input.Click;
 import org.testatoo.core.input.Key;
+import org.testatoo.core.input.KeyboardLayout;
 import org.testatoo.core.nature.*;
 
 import java.io.BufferedReader;
@@ -53,7 +54,7 @@ import static org.testatoo.core.input.KeyModifier.*;
  *
  * @author dev@testatoo.org
  */
-public final class SeleniumHtmlEvaluator extends EvaluatorAdapter<Selenium> implements HtmlEvaluator {
+public final class SeleniumHtmlEvaluator extends EvaluatorSkeleton<Selenium> implements HtmlEvaluator {
 
     private final Selenium selenium;
     private final String name;
@@ -969,6 +970,11 @@ public final class SeleniumHtmlEvaluator extends EvaluatorAdapter<Selenium> impl
         sb.append("{location='").append(selenium.getLocation()).append('\'');
         sb.append('}');
         return sb.toString();
+    }
+
+    @Override
+    public String evaluate(String expression) {
+        return evaljQuery(expression);
     }
 
     // -------------- Private ----------------------
