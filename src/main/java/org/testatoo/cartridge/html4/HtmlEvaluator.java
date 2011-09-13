@@ -24,6 +24,7 @@ import org.testatoo.core.Selection;
 import org.testatoo.core.component.Component;
 import org.testatoo.core.component.Field;
 
+import java.util.List;
 
 /**
  * This interface gives the methods that an html Evaluator must have, whatever UI Test engine used
@@ -157,14 +158,6 @@ public interface HtmlEvaluator extends Evaluator<Selenium> {
      * @return true if the field is read-only
      */
     Boolean isReadOnly(Field field);
-
-    /**
-     * To get the id of the html element corresponding to a given path
-     *
-     * @param expression the path for the html element
-     * @return the id of the html element
-     */
-    String elementId(String expression);
 
     /**
      * To get the ids of the html elements corresponding to a given path

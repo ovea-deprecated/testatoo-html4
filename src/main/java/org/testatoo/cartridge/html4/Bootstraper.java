@@ -19,7 +19,6 @@ package org.testatoo.cartridge.html4;
 import com.thoughtworks.selenium.Selenium;
 import org.testatoo.cartridge.html4.evaluator.selenium.SeleniumHtmlEvaluator;
 import org.testatoo.core.CartridgeBootstraper;
-import org.testatoo.core.ConditionChain;
 import org.testatoo.core.Evaluator;
 
 import java.util.Map;
@@ -31,7 +30,6 @@ public final class Bootstraper implements CartridgeBootstraper {
         String name = (String) params.get("name");
         Selenium session = (Selenium) params.get(Selenium.class.getName());
         if (name != null && session != null) {
-            ConditionChain conditionChain = ConditionChain.create();
             return new SeleniumHtmlEvaluator(name, session);
         }
         return null;

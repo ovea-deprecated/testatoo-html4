@@ -17,6 +17,7 @@
 package org.testatoo.cartridge.html4;
 
 
+import org.testatoo.core.ComponentException;
 import org.testatoo.core.Duration;
 
 import java.util.*;
@@ -107,7 +108,12 @@ public abstract class By {
 
             for (long timeout = duration.unit.toMillis(duration.duration); timeout > 0 && !Thread.currentThread().isInterrupted(); timeout -= step, Thread.sleep(step)) {
                 try {
-                    return evaluator.elementId(expression);
+
+                    String[] ids = evaluator.elementsId(expression);
+                    if (ids.length != 1) {
+                        throw new ComponentException("Find more than one component defined by the jquery expression : " + expression.substring(7));
+                    }
+                    return ids[0];
                 } catch (RuntimeException e) {
                     ex = e;
                 }

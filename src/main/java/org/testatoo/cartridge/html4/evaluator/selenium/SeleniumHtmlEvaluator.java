@@ -66,6 +66,7 @@ public final class SeleniumHtmlEvaluator extends EvaluatorAdapter<Selenium> impl
     /**
      * Class constructor specifying the used selenium engine
      *
+     * @param name     of the evaluator
      * @param selenium the selenium engine
      */
     public SeleniumHtmlEvaluator(String name, Selenium selenium) {
@@ -138,7 +139,7 @@ public final class SeleniumHtmlEvaluator extends EvaluatorAdapter<Selenium> impl
         if (nodeName.equalsIgnoreCase("button")) {
             // the button tag is used
             try {
-                return attribute(elementId("jquery:$('#" + component.id() + " img')"), Attribute.src);
+                return attribute(elementsId("jquery:$('#" + component.id() + " img')")[0], Attribute.src);
             } catch (Exception e) {
                 // No icon available
                 return "";
@@ -163,7 +164,7 @@ public final class SeleniumHtmlEvaluator extends EvaluatorAdapter<Selenium> impl
      */
     @Override
     public Boolean isEnabled(Component component) {
-        return !Boolean.valueOf(evaljQuery("$('#" + component.id() + "').is(':disabled');"))
+        return selenium.isAlertPresent() || !Boolean.valueOf(evaljQuery("$('#" + component.id() + "').is(':disabled');"))
                 && !Boolean.valueOf(evaljQuery("$('#" + component.id() + "').attr('readonly') == true;"));
     }
 
@@ -412,7 +413,7 @@ public final class SeleniumHtmlEvaluator extends EvaluatorAdapter<Selenium> impl
 
         List<Column> columns = new ArrayList<Column>();
         for (int rowNum = 0; rowNum < numberOfColumns; rowNum++) {
-            Column column = new Column(this, elementId("jquery:$(" + query + "[" + rowNum + "])"));
+            Column column = new Column(this, elementsId("jquery:$(" + query + "[" + rowNum + "])")[0]);
             columns.add(column);
         }
         return ListSelection.from(columns);
@@ -429,7 +430,7 @@ public final class SeleniumHtmlEvaluator extends EvaluatorAdapter<Selenium> impl
         int numberOfRows = Integer.valueOf(evaljQuery(query + ".length"));
 
         for (int rowNum = 0; rowNum < numberOfRows; rowNum++) {
-            Row row = new Row(this, elementId("jquery:$(" + query + "[" + rowNum + "])"));
+            Row row = new Row(this, elementsId("jquery:$(" + query + "[" + rowNum + "])")[0]);
             rows.add(row);
         }
         return ListSelection.from(rows);
@@ -444,7 +445,7 @@ public final class SeleniumHtmlEvaluator extends EvaluatorAdapter<Selenium> impl
             int numberOfCells = Integer.valueOf(evaljQuery(query + ".length"));
 
             for (int cellNum = 0; cellNum < numberOfCells; cellNum++) {
-                Cell cell = new Cell(this, elementId("jquery:$(" + query + "[" + cellNum + "])"));
+                Cell cell = new Cell(this, elementsId("jquery:$(" + query + "[" + cellNum + "])")[0]);
                 cells.add(cell);
             }
         }
@@ -458,7 +459,7 @@ public final class SeleniumHtmlEvaluator extends EvaluatorAdapter<Selenium> impl
             boolean columnNumFind = false;
 
             for (int colNum = 0; colNum < numberOfColumns; colNum++) {
-                if (elementId("jquery:$(" + query + "[" + colNum + "])").equals(((Component) cellContainer).id())) {
+                if (elementsId("jquery:$(" + query + "[" + colNum + "])")[0].equals(((Component) cellContainer).id())) {
                     selectedColumnNum = colNum;
                     columnNumFind = true;
                 }
@@ -472,7 +473,7 @@ public final class SeleniumHtmlEvaluator extends EvaluatorAdapter<Selenium> impl
             int numberOfRows = Integer.valueOf(evaljQuery(query + ".length"));
 
             for (int rowNum = 0; rowNum < numberOfRows; rowNum++) {
-                Cell cell = new Cell(this, elementId("jquery:$($(" + query + "[" + rowNum + "]).find('td')[" + selectedColumnNum + "])"));
+                Cell cell = new Cell(this, elementsId("jquery:$($(" + query + "[" + rowNum + "]).find('td')[" + selectedColumnNum + "])")[0]);
                 cells.add(cell);
             }
         }
@@ -915,7 +916,8 @@ public final class SeleniumHtmlEvaluator extends EvaluatorAdapter<Selenium> impl
      * @see org.testatoo.cartridge.html4.HtmlEvaluator
      */
     @Override
-    public String elementId(String expression) {
+    public String[] elementsId(String expression) {
+
         if (!expression.startsWith("jquery:")) {
             expression = "jquery:$('#" + expression + "')";
         }
@@ -924,43 +926,16 @@ public final class SeleniumHtmlEvaluator extends EvaluatorAdapter<Selenium> impl
             throw new EvaluatorException("Cannot find component defined by the jquery expression : " + expression.substring(7));
         }
 
-        if (!Boolean.valueOf(evaljQuery(expression.substring(7) + ".length == 1"))) {
-            throw new EvaluatorException("Find more than one component defined by the jquery expression : " + expression.substring(7));
-        }
-
-        String id = evaljQuery(expression.substring(7) + ".attr('id')");
-        if (id.isEmpty()) {
-            // Ok exists but without identifier so create one
-            id = UUID.randomUUID().toString();
-            evaljQuery(expression.substring(7) + ".attr('id', '" + id + "')");
-        }
-        return id;
-    }
-
-    /**
-     * @see org.testatoo.cartridge.html4.HtmlEvaluator
-     */
-    @Override
-    public String[] elementsId(String expression) {
-
-        if (expression.startsWith("jquery:")) {
-            if (!Boolean.valueOf(evaljQuery(expression.substring(7) + ".length > 0"))) {
-                throw new EvaluatorException("Cannot find component defined by the jquery expression : " + expression.substring(7));
+        String[] resultId = extractId(expression);
+        for (int i = 0; i < resultId.length; i++) {
+            String id = resultId[i];
+            if (id.equals("")) {
+                id = UUID.randomUUID().toString();
+                evaljQuery("$(" + expression.substring(7) + "[" + i + "]).attr('id', '" + id + "')");
+                resultId[i] = id;
             }
-
-            String[] resultId = extractId(expression);
-            for (int i = 0; i < resultId.length; i++) {
-                String id = resultId[i];
-                if (id.equals("")) {
-                    id = UUID.randomUUID().toString();
-                    evaljQuery("$(" + expression.substring(7) + "[" + i + "]).attr('id', '" + id + "')");
-                    resultId[i] = id;
-                }
-            }
-            return resultId;
         }
-
-        throw new IllegalArgumentException("The expression format is not supported");
+        return resultId;
     }
 
     /**

@@ -19,19 +19,13 @@ package org.testatoo.input;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.testatoo.WebTest;
-import org.testatoo.cartridge.html4.HtmlEvaluator;
 import org.testatoo.cartridge.html4.element.Div;
-import org.testatoo.core.ConditionChain;
-import org.testatoo.core.EvaluatorHolder;
-import org.testatoo.core.condition.TimerCondition;
 import org.testatoo.core.input.KeyModifier;
 import org.testatoo.core.input.Keyboard;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.not;
-import static org.testatoo.core.ComponentFactory.component;
-import static org.testatoo.core.ComponentFactory.page;
+import static org.hamcrest.Matchers.*;
+import static org.testatoo.core.ComponentFactory.*;
 import static org.testatoo.core.input.Key.*;
 import static org.testatoo.core.input.KeyModifier.*;
 
@@ -39,10 +33,6 @@ public class FullKeyboardTest extends WebTest {
 
     @BeforeClass
     public static void setUp() {
-        HtmlEvaluator htmlEvaluator = (HtmlEvaluator) EvaluatorHolder.get();
-        ConditionChain conditionChain = (ConditionChain) htmlEvaluator.getWaitingCondition();
-        conditionChain.addCondition(new TimerCondition(200));
-
         page().open("AllKeysTest.html");
     }
 

@@ -36,7 +36,7 @@ public class ByTest {
 
     @Test
     public void can_find_component_by_id_always_return_the_is_passed() {
-        when(evaluator.elementId(id)).thenReturn(id);
+        when(evaluator.elementsId(id)).thenReturn(new String[] {id});
 
         By by = By.id(id);
         assertEquals(id, by.id(evaluator));
@@ -59,11 +59,11 @@ public class ByTest {
     @Test
     public void can_find_component_by_jquery() {
 
-        when(evaluator.elementId("jquery:$('div#content .photo')")).thenReturn(id);
+        when(evaluator.elementsId("jquery:$('div#content .photo')")).thenReturn(new String[] {id});
 
         By by = By.jQuery("$('div#content .photo')");
         by.id(evaluator);
-        verify(evaluator, times(1)).elementId("jquery:$('div#content .photo')");
+        verify(evaluator, times(1)).elementsId("jquery:$('div#content .photo')");
     }
 
     @Test

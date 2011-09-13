@@ -16,16 +16,11 @@
 
 package specs.keyboard;
 
-import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.testatoo.MainModule;
-import org.testatoo.cartridge.html4.HtmlEvaluator;
 import org.testatoo.cartridge.html4.element.InputText;
 import org.testatoo.config.annotation.TestatooModules;
 import org.testatoo.config.junit.TestatooWithConcordionJunitRunner;
-import org.testatoo.core.ConditionChain;
-import org.testatoo.core.EvaluatorHolder;
-import org.testatoo.core.condition.TimerCondition;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -37,13 +32,6 @@ import static org.testatoo.core.Language.type;
 @RunWith(TestatooWithConcordionJunitRunner.class)
 @TestatooModules(MainModule.class)
 public class ConcordionKeyboardTest {
-
-    @BeforeClass
-    public static void beforeClass() {
-        HtmlEvaluator htmlEvaluator = (HtmlEvaluator) EvaluatorHolder.get();
-        ConditionChain conditionChain = (ConditionChain) htmlEvaluator.getWaitingCondition();
-        conditionChain.addCondition(new TimerCondition(200));
-    }
 
     public String typeAndCheck(String input, String value) {
         page().open("InputText.html");

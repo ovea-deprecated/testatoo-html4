@@ -16,15 +16,10 @@
 
 package org.testatoo.input;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.testatoo.WebTest;
-import org.testatoo.cartridge.html4.HtmlEvaluator;
 import org.testatoo.cartridge.html4.element.Div;
 import org.testatoo.cartridge.html4.element.InputText;
-import org.testatoo.core.ConditionChain;
-import org.testatoo.core.EvaluatorHolder;
-import org.testatoo.core.condition.TimerCondition;
 import org.testatoo.core.input.Keyboard;
 
 import static org.hamcrest.MatcherAssert.assertThat;

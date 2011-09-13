@@ -16,34 +16,18 @@
 
 package org.testatoo.input;
 
-import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.testatoo.WebTest;
 import org.testatoo.cartridge.html4.By;
-import org.testatoo.cartridge.html4.HtmlEvaluator;
 import org.testatoo.cartridge.html4.element.Div;
 import org.testatoo.cartridge.html4.element.InputText;
-import org.testatoo.core.Condition;
-import org.testatoo.core.ConditionChain;
-import org.testatoo.core.EvaluatorHolder;
-import org.testatoo.core.condition.TimerCondition;
 import org.testatoo.core.input.Keyboard;
 
 import static org.junit.Assert.fail;
-import static org.testatoo.core.ComponentFactory.component;
-import static org.testatoo.core.ComponentFactory.page;
-import static org.testatoo.core.Language.clickOn;
-import static org.testatoo.core.Language.waitingFor;
+import static org.testatoo.core.ComponentFactory.*;
+import static org.testatoo.core.Language.*;
 
 public class AutoCompleterTest extends WebTest {
-
-    @BeforeClass
-    public static void beforeClass() {
-        HtmlEvaluator htmlEvaluator = (HtmlEvaluator) EvaluatorHolder.get();
-        ConditionChain conditionChain = (ConditionChain) htmlEvaluator.getWaitingCondition();
-        conditionChain.addCondition(new TimerCondition(200));
-    }
 
     @Test
     public void can_test_ajax_autocompleter() {
@@ -64,23 +48,23 @@ public class AutoCompleterTest extends WebTest {
         clickOn(component(InputText.class, "months"));
         Keyboard.type("M");
 
-        waitingFor(OneSecond());
+//        waitingFor(OneSecond());
         component(Div.class, By.jQuery("$('[title=March]')"));
         component(Div.class, By.jQuery("$('[title=May]')"));
     }
 
-    @Ignore
-    private Condition OneSecond() {
-        return new Condition() {
-            @Override
-            public boolean isReach() {
-                try {
-                    Thread.sleep(1000);
-                } catch (Exception e) {
-                    // Nop
-                }
-                return true;
-            }
-        };
-    }
+//    @Ignore
+//    private Condition OneSecond() {
+//        return new Condition() {
+//            @Override
+//            public boolean isReach() {
+//                try {
+//                    Thread.sleep(1000);
+//                } catch (Exception e) {
+//                    // Nop
+//                }
+//                return true;
+//            }
+//        };
+//    }
 }
