@@ -22,14 +22,10 @@ import org.testatoo.cartridge.html4.element.Div;
 import org.testatoo.cartridge.html4.element.InputText;
 import org.testatoo.core.input.Keyboard;
 
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.testatoo.core.ComponentFactory.component;
-import static org.testatoo.core.ComponentFactory.page;
-import static org.testatoo.core.Language.into;
-import static org.testatoo.core.Language.type;
-import static org.testatoo.core.input.KeyModifier.CONTROL;
-import static org.testatoo.core.input.KeyModifier.SHIFT;
+import static org.testatoo.core.ComponentFactory.*;
+import static org.testatoo.core.Language.*;
+import static org.testatoo.core.input.KeyModifier.*;
 
 public class KeyboardTest extends WebTest {
 

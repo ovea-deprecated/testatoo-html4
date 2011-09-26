@@ -23,7 +23,6 @@ import org.testatoo.cartridge.html4.By;
 import org.testatoo.core.ComponentException;
 import org.testatoo.core.input.Mouse;
 
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.fail;
 import static org.testatoo.core.ComponentFactory.*;

@@ -21,9 +21,6 @@ import org.testatoo.config.Scope;
 import org.testatoo.config.cartridge.TestatooCartridge;
 import org.testatoo.core.Evaluator;
 
-import java.io.IOException;
-import java.util.logging.LogManager;
-
 import static org.testatoo.container.TestatooContainer.JETTY;
 
 final class ParallelMultiSessionModule extends AbstractTestatooModule {

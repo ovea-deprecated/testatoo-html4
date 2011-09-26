@@ -22,8 +22,7 @@ import org.testatoo.WebTest;
 import org.testatoo.cartridge.html4.By;
 import org.testatoo.core.component.Radio;
 
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.*;
 import static org.testatoo.cartridge.html4.Language.*;
 import static org.testatoo.core.ComponentFactory.component;
 import static org.testatoo.core.matcher.Matchers.*;

@@ -23,7 +23,6 @@ import org.testatoo.core.ComponentException;
 
 import java.util.concurrent.TimeUnit;
 
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.fail;
 import static org.testatoo.core.ComponentFactory.*;

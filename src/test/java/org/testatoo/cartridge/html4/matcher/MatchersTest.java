@@ -18,12 +18,11 @@ package org.testatoo.cartridge.html4.matcher;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
+import static org.testatoo.cartridge.html4.Language.assertThat;
 import static org.testatoo.cartridge.html4.Language.*;
 import static org.testatoo.cartridge.html4.matcher.Matchers.has;
-import static org.testatoo.cartridge.html4.matcher.mock.MockFactory.selectWith2OptionGroups;
-import static org.testatoo.cartridge.html4.matcher.mock.MockFactory.selectWith3Options;
+import static org.testatoo.cartridge.html4.matcher.mock.MockFactory.*;
 
 public class MatchersTest {
 

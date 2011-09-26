@@ -22,7 +22,6 @@ import org.testatoo.cartridge.html4.element.InputText;
 import org.testatoo.config.annotation.TestatooModules;
 import org.testatoo.config.junit.TestatooWithConcordionJunitRunner;
 
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.testatoo.core.ComponentFactory.*;
 import static org.testatoo.core.Language.*;
@@ -38,5 +37,4 @@ public class ConcordionKeyboardTest {
         type(value, into(input_language));
         return input_language.value();
     }
-
 }

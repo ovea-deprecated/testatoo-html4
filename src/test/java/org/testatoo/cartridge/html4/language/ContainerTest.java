@@ -25,10 +25,8 @@ import org.testatoo.core.component.Page;
 import org.testatoo.core.component.Radio;
 
 import static org.hamcrest.Matchers.is;
-import static org.testatoo.cartridge.html4.Language.assertThat;
-import static org.testatoo.cartridge.html4.Language.goTo;
+import static org.testatoo.cartridge.html4.Language.*;
 import static org.testatoo.core.ComponentFactory.component;
-import static org.testatoo.core.ComponentFactory.components;
 
 public class ContainerTest extends WebTest {
 

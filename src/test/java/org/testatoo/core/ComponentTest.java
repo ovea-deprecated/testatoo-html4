@@ -22,10 +22,9 @@ import org.testatoo.WebTest;
 import org.testatoo.core.component.Button;
 import org.testatoo.core.component.Component;
 
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.testatoo.core.ComponentFactory.component;
-import static org.testatoo.core.ComponentFactory.page;
+import static org.testatoo.core.ComponentFactory.*;
+import static org.testatoo.core.Language.assertThat;
 
 public class ComponentTest extends WebTest {
 

@@ -22,12 +22,10 @@ import org.testatoo.WebTest;
 import org.testatoo.core.component.AlertBox;
 import org.testatoo.core.component.Button;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.fail;
-import static org.testatoo.core.ComponentFactory.component;
-import static org.testatoo.core.ComponentFactory.page;
+import static org.testatoo.core.ComponentFactory.*;
+import static org.testatoo.core.Language.assertThat;
 import static org.testatoo.core.input.Mouse.clickOn;
 
 public class AlertBoxTest extends WebTest {

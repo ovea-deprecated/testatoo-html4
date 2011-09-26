@@ -23,9 +23,9 @@ import org.testatoo.cartridge.html4.element.Div;
 import org.testatoo.core.input.KeyModifier;
 import org.testatoo.core.input.Keyboard;
 
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.testatoo.core.ComponentFactory.*;
+import static org.testatoo.core.Language.assertThat;
 import static org.testatoo.core.input.Key.*;
 import static org.testatoo.core.input.KeyModifier.*;
 

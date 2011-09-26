@@ -27,12 +27,11 @@ import org.testatoo.config.junit.TestatooJunitRunner;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.testatoo.cartridge.html4.Language.*;
-import static org.testatoo.core.ComponentFactory.component;
-import static org.testatoo.core.ComponentFactory.page;
+import static org.testatoo.core.ComponentFactory.*;
 import static org.testatoo.core.EvaluatorHolder.withEvaluator;
+import static org.testatoo.core.Language.assertThat;
 
 @RunWith(TestatooJunitRunner.class)
 @TestatooModules(SyncedParallelMultiSessionModule.class)

@@ -23,11 +23,10 @@ import org.testatoo.cartridge.html4.By;
 import org.testatoo.core.ComponentException;
 import org.testatoo.core.Selection;
 
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.fail;
-import static org.testatoo.core.ComponentFactory.component;
-import static org.testatoo.core.ComponentFactory.page;
+import static org.testatoo.core.ComponentFactory.*;
+import static org.testatoo.core.Language.assertThat;
 
 public class SelectTest extends WebTest {
 

@@ -25,7 +25,7 @@ import org.testatoo.core.input.Keyboard;
 
 import static org.junit.Assert.fail;
 import static org.testatoo.core.ComponentFactory.*;
-import static org.testatoo.core.Language.*;
+import static org.testatoo.core.Language.clickOn;
 
 public class AutoCompleterTest extends WebTest {
 

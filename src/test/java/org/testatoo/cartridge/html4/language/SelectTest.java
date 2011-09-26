@@ -24,8 +24,7 @@ import org.testatoo.cartridge.html4.element.Select;
 import static org.hamcrest.Matchers.not;
 import static org.testatoo.cartridge.html4.Language.*;
 import static org.testatoo.cartridge.html4.matcher.Matchers.*;
-import static org.testatoo.core.ComponentFactory.component;
-import static org.testatoo.core.ComponentFactory.page;
+import static org.testatoo.core.ComponentFactory.*;
 
 public class SelectTest extends WebTest {
 
