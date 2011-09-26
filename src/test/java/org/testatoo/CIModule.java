@@ -28,8 +28,8 @@ final class CIModule extends AbstractTestatooModule {
 
         seleniumSessions().register(createSeleniumSession()
                 .website("http://" + System.getProperty("host") + ":" + System.getProperty("port"))
-                .browser("*firefox")
-//                .browser("*googlechrome")
+//                .browser("*firefox")
+                .browser("*googlechrome")
                 .serverHost("10.10.10.30") // linux
 //                .serverHost("10.10.10.31") // windows
                 .serverPort(4444).build())
