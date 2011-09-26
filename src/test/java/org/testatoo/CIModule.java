@@ -24,40 +24,17 @@ final class CIModule extends AbstractTestatooModule {
 
     @Override
     protected void configure() {
-        seleniumServers().register(createSeleniumServer()
-                .port(4444)
-                .build())
-                .scope(Scope.TEST_SUITE);
+        System.setProperty("host", "10.10.10.30");
 
-        seleniumSessions()
-                .register(createSeleniumSession()
-                        .website("http://127.0.0.1:7896/")
-//                        .browser("*iexploreproxy")
-//                        .browser("*firefox")
-                        .browser("*safari")
-//                        .browser("*opera")
-//                        .browser("*custom /usr/lib/chromium-browser/chromium-browser")
-//                        .browser("*googlechrome")
-                        .serverHost("127.0.0.1")
-                        .serverPort(4444)
-                        .build())
+        seleniumSessions().register(createSeleniumSession()
+                .website("http://" + System.getProperty("host") + ":" + System.getProperty("port"))
+                .browser("*firefox")
+//                .browser("*googlechrome")
+                .serverHost("10.10.10.30") // linux
+//                .serverHost("10.10.10.31") // windows
+                .serverPort(4444).build())
                 .scope(Scope.TEST_SUITE)
                 .withTimeout(20000)
                 .inCartridge(TestatooCartridge.HTML4);
     }
-
-
-//    @Override
-//    protected void configure() {
-//        seleniumSessions()
-//                .register(createSeleniumSession()
-//                        .website("http://127.0.0.1:7896")
-//                        .browser("Safari on OS X")
-//                        .serverHost("127.0.0.1")
-//                        .serverPort(4444)
-//                        .build())
-//                .scope(Scope.TEST_SUITE)
-//                .withTimeout(20000)
-//                .inCartridge(TestatooCartridge.HTML4);
-//    }
 }
