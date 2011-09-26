@@ -25,8 +25,8 @@ import org.testatoo.cartridge.html4.component.ListBox;
 import org.testatoo.cartridge.html4.element.*;
 import org.testatoo.cartridge.html4.element.Map;
 import org.testatoo.cartridge.html4.element.Object;
-import org.testatoo.core.EvaluatorSkeleton;
 import org.testatoo.core.ComponentType;
+import org.testatoo.core.EvaluatorSkeleton;
 import org.testatoo.core.ListSelection;
 import org.testatoo.core.Selection;
 import org.testatoo.core.component.*;
@@ -37,7 +37,6 @@ import org.testatoo.core.component.Link;
 import org.testatoo.core.component.datagrid.*;
 import org.testatoo.core.input.Click;
 import org.testatoo.core.input.Key;
-import org.testatoo.core.input.KeyboardLayout;
 import org.testatoo.core.nature.*;
 
 import java.io.BufferedReader;
@@ -571,8 +570,7 @@ public final class SeleniumHtmlEvaluator extends EvaluatorSkeleton<Selenium> imp
             }
         } else {
             for (char charCode : text.toCharArray()) {
-                evaljQuery("if ($.browser.mozilla) {$(window.document).simulate('type', {keyCode: " + keyboardLayout.convert(charCode) + keyModifier + "})}" +
-                        "else {$(window.document).simulate('type', {charCode: " + keyboardLayout.convert(charCode) + keyModifier + "})};");
+                evaljQuery("($.browser.mozilla) ? $(window.document).simulate('type', {keyCode: " + keyboardLayout.convert(charCode) + keyModifier + "}) : $(window.document).simulate('type', {charCode: " + keyboardLayout.convert(charCode) + keyModifier + "})");
             }
         }
     }
@@ -996,8 +994,7 @@ public final class SeleniumHtmlEvaluator extends EvaluatorSkeleton<Selenium> imp
 
     private void typeKey(int keyCode) {
         String keyModifier = keyModifier();
-        evaljQuery("if($.browser.webkit) {$(window.document).simulate('type', {charCode: " + keyCode + keyModifier + "});}" +
-                "else {$('body').simulate('type', {keyCode: " + keyCode + keyModifier + "});}");
+        evaljQuery("($.browser.webkit) ? $(window.document).simulate('type', {charCode: " + keyCode + keyModifier + "}) : $('body').simulate('type', {keyCode: " + keyCode + keyModifier + "})");
     }
 
     private String keyModifier() {

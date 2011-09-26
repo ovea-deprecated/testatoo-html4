@@ -72,4 +72,14 @@ public final class DropDown extends org.testatoo.core.component.DropDown {
             return "";
         return select.selectedValues().get(0);
     }
+
+    /**
+     * To get a Selection content the selected value in the list
+     *
+     * @return the
+     */
+    @Override
+    protected Selection<String> listSelectedValues() {
+        return select.selectedValues();
+    }
 }
