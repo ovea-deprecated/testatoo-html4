@@ -17,20 +17,18 @@
 package specs.keyboard;
 
 import org.junit.runner.RunWith;
-import org.testatoo.MainModule;
+import org.testatoo.Module;
 import org.testatoo.cartridge.html4.element.InputText;
 import org.testatoo.config.annotation.TestatooModules;
 import org.testatoo.config.junit.TestatooWithConcordionJunitRunner;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.testatoo.core.ComponentFactory.component;
-import static org.testatoo.core.ComponentFactory.page;
-import static org.testatoo.core.Language.into;
-import static org.testatoo.core.Language.type;
+import static org.testatoo.core.ComponentFactory.*;
+import static org.testatoo.core.Language.*;
 
 @RunWith(TestatooWithConcordionJunitRunner.class)
-@TestatooModules(MainModule.class)
+@TestatooModules(Module.class)
 public class ConcordionKeyboardTest {
 
     public String typeAndCheck(String input, String value) {

@@ -17,18 +17,21 @@
 package org.testatoo;
 
 import org.testatoo.config.AbstractTestatooModule;
-import org.testatoo.config.Scope;
 
+import static org.testatoo.config.Scope.TEST_SUITE;
 import static org.testatoo.container.TestatooContainer.JETTY;
 
-final class CommonModule extends AbstractTestatooModule {
+/**
+ * @author David Avenante
+ */
+public class ContainerModule extends AbstractTestatooModule {
     @Override
     protected void configure() {
         containers().register(createContainer()
                 .implementedBy(JETTY)
                 .webappRoot("src/test/webapp")
-                .port(7896)
+                .port(Integer.parseInt(System.getProperty("port")))
                 .build())
-                .scope(Scope.TEST_SUITE);
+                .scope(TEST_SUITE);
     }
 }

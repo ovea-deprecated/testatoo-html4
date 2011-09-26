@@ -21,26 +21,29 @@ import org.testatoo.config.Scope;
 import org.testatoo.config.cartridge.TestatooCartridge;
 
 final class LocalModule extends AbstractTestatooModule {
+    static int seleniumPort = -1;
+
     @Override
     protected void configure() {
+
+        System.setProperty("host", "localhost");
+
+        if (seleniumPort == -1) {
+            seleniumPort = findFreePort();
+        }
+
         seleniumServers().register(createSeleniumServer()
-                .port(4444)
+                .port(seleniumPort)
                 .useSingleWindow(true)
                 .build())
                 .scope(Scope.TEST_SUITE);
 
-        seleniumSessions()
-                .register(createSeleniumSession()
-                        .website("http://127.0.0.1:7896/")
-//                        .browser("*iexploreproxy")
-                        .browser("*firefox")
-//                        .browser("*safari")
-//                        .browser("*opera")
-//                        .browser("*custom /usr/lib/chromium-browser/chromium-browser")
-//                        .browser("*googlechrome")
-                        .serverHost("127.0.0.1")
-                        .serverPort(4444)
-                        .build())
+        seleniumSessions().register(createSeleniumSession()
+                .website("http://" + System.getProperty("host") + ":" + System.getProperty("port"))
+                .browser("*firefox")
+//            .browser("*googlechrome")
+                .serverHost("localhost")
+                .serverPort(seleniumPort).build())
                 .scope(Scope.TEST_SUITE)
                 .withTimeout(20000)
                 .inCartridge(TestatooCartridge.HTML4);

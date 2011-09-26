@@ -21,18 +21,21 @@ import org.testatoo.config.lifecycle.TestListenerAdapter;
 
 import java.lang.reflect.Method;
 
-public final class MainModule extends AbstractTestatooModule {
+/**
+ * @author David Avenante
+ */
+public class Module extends AbstractTestatooModule {
 
     @Override
     protected void configure() {
-        install(new CommonModule());
-        if (System.getProperty("CI") != null)
-            install(new CIModule());
-        else
-            install(new LocalModule());
+        if (System.getProperty("port") == null) {
+            System.setProperty("port", "" + findFreePort());
+        }
 
+        install(System.getProperty("CI") == null ? new LocalModule() : new CIModule());
+        install(new ContainerModule());
 
-        // TODO; NEW FEATURES TO DOCUMENT
+         // TODO; NEW FEATURES TO DOCUMENT
         // 1. Ability to add listeners on test execution
         lifecycle().onTest(new TestListenerAdapter() {
             @Override
@@ -45,6 +48,5 @@ public final class MainModule extends AbstractTestatooModule {
         // Exemple of currently supported annotation:
         // TODO: See SeleniumTest for usage
         useAnnotations();
-
     }
 }

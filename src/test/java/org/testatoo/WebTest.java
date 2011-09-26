@@ -21,7 +21,7 @@ import org.testatoo.config.annotation.TestatooModules;
 import org.testatoo.config.junit.TestatooJunitRunner;
 
 @RunWith(TestatooJunitRunner.class)
-@TestatooModules(MainModule.class)
+@TestatooModules(Module.class)
 public abstract class WebTest {
 
 }
