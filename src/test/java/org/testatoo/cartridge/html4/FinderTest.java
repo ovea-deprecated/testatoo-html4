@@ -18,15 +18,25 @@ package org.testatoo.cartridge.html4;
 
 import org.junit.Test;
 import org.testatoo.WebTest;
+import org.testatoo.core.EvaluatorHolder;
 import org.testatoo.core.Selection;
 import org.testatoo.core.component.*;
 import org.testatoo.core.component.datagrid.DataGrid;
 
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
 import static org.testatoo.core.ComponentFactory.*;
+import static org.testatoo.core.Language.assertThat;
+import static org.testatoo.core.matcher.Matchers.exist;
 
 public class FinderTest extends WebTest {
+
+    @Test
+    public void can_find_element_by_id_with_points() {
+        page().open("ElementIdWithPoints.html");
+
+        assertThat(component(Button.class, By.id("my.button.id")), exist());
+        assertThat(new Panel(EvaluatorHolder.get(), "my.panel.id"), exist());
+    }
 
     @Test
     public void can_find_all_buttons() {

@@ -918,7 +918,7 @@ public final class SeleniumHtmlEvaluator extends EvaluatorSkeleton<Selenium> imp
     public String[] elementsId(String expression) {
 
         if (!expression.startsWith("jquery:")) {
-            expression = "jquery:$('#" + expression + "')";
+            expression = "jquery:$('#" + expression.replace(".", "\\\\.") + "')";
         }
 
         if (!Boolean.valueOf(evaljQuery(expression.substring(7) + ".length > 0"))) {
