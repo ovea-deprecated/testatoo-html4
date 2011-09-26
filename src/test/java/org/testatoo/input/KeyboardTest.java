@@ -32,11 +32,11 @@ public class KeyboardTest extends WebTest {
     @Test
     public void can_type_data() {
         page().open("InputText.html");
-        InputText input_language = component(InputText.class, "input_language");
-        assertThat(input_language.value(), is("french"));
+        InputText inputLanguage = component(InputText.class, "input_language");
+        assertThat(inputLanguage.value(), is("french"));
 
-        type(" AS language", into(input_language));
-        assertThat(input_language.value(), containsString("AS language"));
+        type(" AS language", into(inputLanguage));
+        assertThat(inputLanguage.value(), is("french AS language"));
     }
 
     @Test

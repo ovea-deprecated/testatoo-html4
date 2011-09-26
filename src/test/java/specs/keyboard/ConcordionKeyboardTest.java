@@ -32,9 +32,9 @@ public class ConcordionKeyboardTest {
 
     public String typeAndCheck(String input, String value) {
         page().open("InputText.html");
-        InputText input_language = component(InputText.class, input);
-        assertThat(input_language.value(), is("french"));
-        type(value, into(input_language));
-        return input_language.value();
+        InputText inputLanguage = component(InputText.class, input);
+        assertThat(inputLanguage.value(), is("french"));
+        type(value, into(inputLanguage));
+        return inputLanguage.value();
     }
 }

@@ -566,7 +566,8 @@ public final class SeleniumHtmlEvaluator extends EvaluatorSkeleton<Selenium> imp
                     evaljQuery("$('#" + currentFocusedComponent.id() + "')" +
                             ".val($('#" + currentFocusedComponent.id() + "').val() + String.fromCharCode(" + charCode + "));");
                 }
-                evaljQuery("$('#" + currentFocusedComponent.id() + "').simulate('type', {charCode: " + charCode + keyModifier + "});");
+                evaljQuery("$('#" + currentFocusedComponent.id() + "')" +
+                            ".val($('#" + currentFocusedComponent.id() + "').val() + String.fromCharCode(" + charCode + "));");
             }
         } else {
             for (char charCode : text.toCharArray()) {
