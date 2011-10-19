@@ -173,11 +173,11 @@ public class SelectTest extends WebTest {
         assertThat(planetsSelect.selectedOptions().size(), is(2));
         Selection<Option> planetsSelectedOptions = planetsSelect.selectedOptions();
 
-        assertThat(planetsSelectedOptions.get(0).label(), is(""));
+        assertThat(planetsSelectedOptions.get(0).label(), is("Earth"));
         assertThat(planetsSelectedOptions.get(0).value(), is("3"));
         assertThat(planetsSelectedOptions.get(0).content(), is("Earth"));
 
-        assertThat(planetsSelectedOptions.get(1).label(), is(""));
+        assertThat(planetsSelectedOptions.get(1).label(), is("Jupiter"));
         assertThat(planetsSelectedOptions.get(1).value(), is("5"));
         assertThat(planetsSelectedOptions.get(1).content(), is("Jupiter"));
     }

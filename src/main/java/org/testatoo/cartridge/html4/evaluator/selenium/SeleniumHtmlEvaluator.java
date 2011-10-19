@@ -624,7 +624,7 @@ public final class SeleniumHtmlEvaluator extends EvaluatorSkeleton<Selenium> imp
      */
     @Override
     public String attribute(String id, Attribute attribute) {
-        String attributeValue = evaljQuery("$('#" + id + "').attributeValue('" + attribute + "');");
+        String attributeValue = evaljQuery("$('#" + id + "').attr('" + attribute + "');");
         if (attributeValue.equals("null")) {
             return "";
         }
