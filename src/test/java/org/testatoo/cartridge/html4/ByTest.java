@@ -58,10 +58,18 @@ public class ByTest {
 
     @Test
     public void can_find_component_by_jquery() {
-
         when(evaluator.elementsId("jquery:$('div#content .photo')")).thenReturn(new String[] {id});
 
         By by = By.jQuery("$('div#content .photo')");
+        by.id(evaluator);
+        verify(evaluator, times(1)).elementsId("jquery:$('div#content .photo')");
+    }
+
+    @Test
+    public void can_find_component_by_jquery_selector() {
+        when(evaluator.elementsId("jquery:$('div#content .photo')")).thenReturn(new String[] {id});
+
+        By by = By.jQuery("div#content .photo");
         by.id(evaluator);
         verify(evaluator, times(1)).elementsId("jquery:$('div#content .photo')");
     }
@@ -74,6 +82,15 @@ public class ByTest {
         By by = By.jQuery("$('#tableId tr')");
         by.ids(evaluator);
         verify(evaluator, times(1)).elementsId("jquery:$('#tableId tr')");
+    }
 
+    @Test
+    public void can_find_components_by_jquery_selector() {
+        String[] result = {"myId_1", "myId_2", "myId_3"};
+        when(evaluator.elementsId("jquery:$('#tableId tr')")).thenReturn(result);
+
+        By by = By.jQuery("#tableId tr");
+        by.ids(evaluator);
+        verify(evaluator, times(1)).elementsId("jquery:$('#tableId tr')");
     }
 }

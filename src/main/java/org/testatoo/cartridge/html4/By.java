@@ -16,11 +16,11 @@
 
 package org.testatoo.cartridge.html4;
 
-
 import org.testatoo.core.ComponentException;
 import org.testatoo.core.Duration;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
@@ -71,7 +71,7 @@ public abstract class By {
 
             @Override
             public String id(HtmlEvaluator evaluator, Duration duration, Duration frequency) {
-                return waitUntilId(evaluator, "jquery:" + jQueryExpression, duration, frequency);
+                return waitUntilId(evaluator, "jquery:" + jQueryExpression(), duration, frequency);
             }
 
             @Override
@@ -81,12 +81,20 @@ public abstract class By {
 
             @Override
             public List<String> ids(HtmlEvaluator evaluator, Duration duration, Duration frequency) {
-                return Arrays.asList(waitUntilIds(evaluator, "jquery:" + jQueryExpression, duration, frequency));
+                return Arrays.asList(waitUntilIds(evaluator, "jquery:" + jQueryExpression(), duration, frequency));
             }
 
             @Override
             public String toString() {
-                return "by jQueryExpression=" + jQueryExpression;
+                return "by jQueryExpression=" + jQueryExpression();
+            }
+
+            private String jQueryExpression() {
+                if (!jQueryExpression.startsWith("$")) {
+                    return "$('" + jQueryExpression + "')";
+                } else {
+                    return jQueryExpression;
+                }
             }
         };
     }
