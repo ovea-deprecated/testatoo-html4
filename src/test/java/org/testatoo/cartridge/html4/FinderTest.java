@@ -39,6 +39,13 @@ public class FinderTest extends WebTest {
     }
 
     @Test
+    public void can_find_one_component_with_jQuery_expression() {
+        page().open("Button.html");
+
+        assertThat(component(Button.class, "$(':submit:first')"), exist());
+    }
+
+    @Test
     public void can_find_all_buttons() {
         page().open("Button.html");
         Selection<Button> buttons = findAll(Button.class);
