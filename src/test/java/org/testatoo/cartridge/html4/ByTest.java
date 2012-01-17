@@ -23,6 +23,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
+import static org.testatoo.cartridge.html4.By.$;
 
 public class ByTest {
 
@@ -71,6 +72,14 @@ public class ByTest {
 
         By by = By.jQuery("div#content .photo");
         by.id(evaluator);
+        verify(evaluator, times(1)).elementsId("jquery:$('div#content .photo')");
+    }
+
+    @Test
+    public void can_find_component_by_$_selector() {
+        when(evaluator.elementsId("jquery:$('div#content .photo')")).thenReturn(new String[] {id});
+
+        $("div#content .photo").id(evaluator);
         verify(evaluator, times(1)).elementsId("jquery:$('div#content .photo')");
     }
 

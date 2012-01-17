@@ -22,7 +22,8 @@ import org.testatoo.core.Duration;
 import java.util.Arrays;
 import java.util.List;
 
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.*;
+import static org.testatoo.core.Language.max;
 
 public abstract class By {
 
@@ -58,7 +59,19 @@ public abstract class By {
         };
     }
 
+    public static By $(final String jQueryExpression) {
+        return jQuery(jQueryExpression);
+    }
+
+    public static By $(final String jQueryExpression, Duration duration) {
+        return jQuery(jQueryExpression, duration);
+    }
+
     public static By jQuery(final String jQueryExpression) {
+        return jQuery(jQueryExpression, max(2, SECONDS));
+    }
+
+    public static By jQuery(final String jQueryExpression, final Duration duration) {
         if (jQueryExpression == null)
             throw new IllegalArgumentException("Cannot find component when jQueryExpression is null.");
 
@@ -66,7 +79,7 @@ public abstract class By {
 
             @Override
             public String id(HtmlEvaluator evaluator) {
-                return id(evaluator, new Duration(2000, MILLISECONDS), new Duration(500, MILLISECONDS));
+                return id(evaluator, duration, max(500, MILLISECONDS));
             }
 
             @Override
@@ -76,7 +89,7 @@ public abstract class By {
 
             @Override
             public List<String> ids(HtmlEvaluator evaluator) {
-                return ids(evaluator, new Duration(2000, MILLISECONDS), new Duration(500, MILLISECONDS));
+                return ids(evaluator, duration, max(500, MILLISECONDS));
             }
 
             @Override
