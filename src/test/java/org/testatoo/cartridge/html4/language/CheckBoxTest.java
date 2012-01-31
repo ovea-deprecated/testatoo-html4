@@ -25,7 +25,7 @@ import org.testatoo.cartridge.html4.element.CheckBox;
 import static org.hamcrest.Matchers.*;
 import static org.testatoo.cartridge.html4.Language.*;
 import static org.testatoo.core.ComponentFactory.component;
-import static org.testatoo.core.matcher.Matchers.checked;
+import static org.testatoo.core.matcher.Matchers.*;
 
 public class CheckBoxTest extends WebTest {
 
