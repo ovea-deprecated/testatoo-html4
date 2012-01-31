@@ -23,8 +23,10 @@ import org.testatoo.core.ComponentException;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.fail;
+import static org.testatoo.cartridge.html4.By.$;
 import static org.testatoo.core.ComponentFactory.*;
 import static org.testatoo.core.Language.assertThat;
+import static org.testatoo.core.matcher.Matchers.*;
 
 public class HiddenTest extends WebTest {
 
@@ -35,20 +37,20 @@ public class HiddenTest extends WebTest {
 
     @Test
     public void can_find_hidden_field_by_id() {
-        component(Hidden.class, "hidden_1");
+        component(Hidden.class, $("#hidden_1"));
 
         try {
-            component(Hidden.class, "hidden_2");
+            component(Hidden.class, $("#hidden_2"));
             fail();
         } catch (ComponentException e) {
-            assertThat(e.getMessage(), is("Cannot find component defined by id=hidden_2"));
+            assertThat(e.getMessage(), is("Cannot find component defined by jQueryExpression=$('#hidden_2')"));
         }
     }
 
     @Test
     public void exception_thrown_if_component_not_a_html_hidden() {
         try {
-            component(Hidden.class, "hiddenError");
+            component(Hidden.class, $("#hiddenError"));
             fail();
         } catch (ComponentException e) {
             assertThat(e.getMessage(), is("The component with id=hiddenError is not a Hidden but a InputText"));
@@ -57,12 +59,12 @@ public class HiddenTest extends WebTest {
 
     @Test
     public void test_can_obtain_value() {
-        assertThat(component(Hidden.class, "hidden").value(), is("hiddenValue"));
+        assertThat(component(Hidden.class, $("#hidden")), has(value("hiddenValue")));
     }
 
     @Test
     public void test_i18nAttributes() {
-        Hidden hidden = component(Hidden.class, "hidden");
+        Hidden hidden = component(Hidden.class, $("#hidden"));
 
         assertThat(hidden.direction(), is(Direction.righttoleft));
         assertThat(hidden.language(), is("fr"));
@@ -70,7 +72,7 @@ public class HiddenTest extends WebTest {
 
     @Test
     public void test_coreAttributes() {
-        Hidden hidden = component(Hidden.class, "hidden");
+        Hidden hidden = component(Hidden.class, $("#hidden"));
 
         assertThat(hidden.id(), is("hidden"));
         assertThat(hidden.classname(), is("myClass"));
@@ -80,7 +82,7 @@ public class HiddenTest extends WebTest {
 
     @Test
     public void test_specifics_attributes() {
-        Hidden hidden = component(Hidden.class, "hidden");
+        Hidden hidden = component(Hidden.class, $("#hidden"));
 
         assertThat(hidden.name(), is("hiddenName"));
         assertThat(hidden.type(), is(InputType.hidden));
@@ -89,7 +91,7 @@ public class HiddenTest extends WebTest {
         assertThat(hidden.tabindex(), is(4));
         assertThat(hidden.accesskey(), is("C"));
 
-        Hidden hidden2 = component(Hidden.class, "hidden2");
+        Hidden hidden2 = component(Hidden.class, $("#hidden2"));
         assertThat(hidden2.name(), is(""));
         assertThat(hidden2.type(), is(InputType.hidden));
         assertThat(hidden2.value(), is(""));
@@ -99,6 +101,6 @@ public class HiddenTest extends WebTest {
 
     @Test
     public void test_toString() {
-        assertThat(component(Hidden.class, "hidden").toString(), is("class org.testatoo.cartridge.html4.element.Hidden with state : enabled:true, visible:false, value:hiddenValue, label:"));
+        assertThat(component(Hidden.class, $("#hidden")).toString(), is("class org.testatoo.cartridge.html4.element.Hidden with state : enabled:true, visible:false, value:hiddenValue, label:"));
     }
 }

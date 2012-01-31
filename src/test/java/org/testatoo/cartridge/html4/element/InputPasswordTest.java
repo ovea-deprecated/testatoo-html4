@@ -22,9 +22,11 @@ import org.testatoo.WebTest;
 import org.testatoo.core.ComponentException;
 
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
+import static org.testatoo.cartridge.html4.By.$;
 import static org.testatoo.core.ComponentFactory.*;
 import static org.testatoo.core.Language.assertThat;
+import static org.testatoo.core.matcher.Matchers.*;
 
 public class InputPasswordTest extends WebTest {
 
@@ -35,17 +37,17 @@ public class InputPasswordTest extends WebTest {
 
     @Test
     public void can_find_inputText_by_id() {
-        component(InputPassword.class, "input_1");
+        component(InputPassword.class, $("#input_1"));
 
         try {
-            component(InputPassword.class, "input_2");
+            component(InputPassword.class, $("#input_2"));
             fail();
         } catch (ComponentException e) {
-            assertThat(e.getMessage(), is("Cannot find component defined by id=input_2"));
+            assertThat(e.getMessage(), is("Cannot find component defined by jQueryExpression=$('#input_2')"));
         }
 
         try {
-            component(InputPassword.class, "inputPasswordError");
+            component(InputPassword.class, $("#inputPasswordError"));
             fail();
         } catch (ComponentException e) {
             assertThat(e.getMessage(), is("The component with id=inputPasswordError is not a PasswordField but a CheckBox"));
@@ -55,7 +57,7 @@ public class InputPasswordTest extends WebTest {
     @Test
     public void exception_thrown_if_component_not_a_html_inputPassword() {
         try {
-            component(InputPassword.class, "image_3");
+            component(InputPassword.class, $("#image_3"));
             fail();
         } catch (ComponentException e) {
             assertThat(e.getMessage(), is("The component with id=image_3 is not a PasswordField but a Image"));
@@ -64,7 +66,7 @@ public class InputPasswordTest extends WebTest {
 
     @Test
     public void test_i18nAttributes() {
-        InputPassword myInputPwd = component(InputPassword.class, "password");
+        InputPassword myInputPwd = component(InputPassword.class, $("#password"));
 
         assertThat(myInputPwd.direction(), is(Direction.righttoleft));
         assertThat(myInputPwd.language(), is("fr"));
@@ -72,7 +74,7 @@ public class InputPasswordTest extends WebTest {
 
     @Test
     public void test_coreAttributes() {
-        InputPassword myInputPwd = component(InputPassword.class, "password");
+        InputPassword myInputPwd = component(InputPassword.class, $("#password"));
 
         assertThat(myInputPwd.id(), is("password"));
         assertThat(myInputPwd.classname(), is("myClass"));
@@ -82,7 +84,7 @@ public class InputPasswordTest extends WebTest {
 
     @Test
     public void test_specifics_attributes() {
-        InputPassword myInputPwd = component(InputPassword.class, "password");
+        InputPassword myInputPwd = component(InputPassword.class, $("#password"));
 
         assertThat(myInputPwd.name(), is("myPassword"));
         assertThat(myInputPwd.value(), is("passwordValue"));
@@ -92,7 +94,7 @@ public class InputPasswordTest extends WebTest {
         assertThat(myInputPwd.size(), is(15));
         assertThat(myInputPwd.type(), is(InputType.password));
 
-        InputPassword myInputPwdDef = component(InputPassword.class, "password_def");
+        InputPassword myInputPwdDef = component(InputPassword.class, $("#password_def"));
 
         assertThat(myInputPwdDef.name(), is(""));
         assertThat(myInputPwdDef.value(), is(""));
@@ -105,19 +107,19 @@ public class InputPasswordTest extends WebTest {
 
     @Test
     public void can_test_if_readonly() {
-        assertThat(component(InputPassword.class, "password").isReadOnly(), is(true));
-        assertThat(component(InputPassword.class, "password_1").isReadOnly(), is(false));
+        assertTrue(component(InputPassword.class, $("#password")).isReadOnly());
+        assertThat(component(InputPassword.class, $("#password_1")).isReadOnly(), is(false));
     }
 
     @Test
     public void can_test_max_length() {
-        assertThat(component(InputPassword.class, "input_1").maxLength(), is(10));
-        assertThat(component(InputPassword.class, "password_1").maxLength(), is(20));
+        assertThat(component(InputPassword.class, $("#input_1")), has(maxLength(10)));
+        assertThat(component(InputPassword.class, $("#password_1")), has(maxLength(20)));
     }
 
     @Test
     public void test_toString() {
-        assertThat(component(InputPassword.class, "password").toString(),
+        assertThat(component(InputPassword.class, $("#password")).toString(),
                 is("class org.testatoo.cartridge.html4.element.InputPassword with state : enabled:false, visible:true, value:passwordValue, label:Password label, maxLength:8"));
     }
 }

@@ -27,6 +27,7 @@ import static org.testatoo.core.Language.max;
 
 public abstract class By {
 
+    @Deprecated
     public static By id(final String id) {
         if (id == null)
             throw new IllegalArgumentException("Cannot find component with a null id.");
@@ -60,18 +61,10 @@ public abstract class By {
     }
 
     public static By $(final String jQueryExpression) {
-        return jQuery(jQueryExpression);
+        return $(jQueryExpression, max(2, SECONDS));
     }
 
-    public static By $(final String jQueryExpression, Duration duration) {
-        return jQuery(jQueryExpression, duration);
-    }
-
-    public static By jQuery(final String jQueryExpression) {
-        return jQuery(jQueryExpression, max(2, SECONDS));
-    }
-
-    public static By jQuery(final String jQueryExpression, final Duration duration) {
+    public static By $(final String jQueryExpression, final Duration duration) {
         if (jQueryExpression == null)
             throw new IllegalArgumentException("Cannot find component when jQueryExpression is null.");
 
@@ -110,6 +103,16 @@ public abstract class By {
                 }
             }
         };
+    }
+
+    @Deprecated
+    public static By jQuery(final String jQueryExpression) {
+        return $(jQueryExpression, max(2, SECONDS));
+    }
+
+    @Deprecated
+    public static By jQuery(final String jQueryExpression, final Duration duration) {
+        return $(jQueryExpression, duration);
     }
 
     public abstract String id(HtmlEvaluator evaluator);

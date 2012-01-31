@@ -22,10 +22,11 @@ import org.testatoo.WebTest;
 import org.testatoo.cartridge.html4.element.Form;
 import org.testatoo.cartridge.html4.element.InputText;
 
-import static org.hamcrest.Matchers.is;
+import static org.testatoo.cartridge.html4.By.$;
 import static org.testatoo.cartridge.html4.Language.*;
 import static org.testatoo.core.ComponentFactory.*;
 import static org.testatoo.core.Language.assertThat;
+import static org.testatoo.core.matcher.Matchers.*;
 
 public class FormTest extends WebTest {
 
@@ -36,20 +37,19 @@ public class FormTest extends WebTest {
 
     @Test
     public void can_reset_a_form() {
-        type("Joe", on(component(InputText.class, "firstname")));
-        type("Blow", into(component(InputText.class, "lastname")));
-        enter("email@noname.com", into(component(InputText.class, "email")));
+        type("Joe", on(component(InputText.class, $("#firstname"))));
+        type("Blow", into(component(InputText.class, $("#lastname"))));
+        enter("email@noname.com", into(component(InputText.class, $("#email"))));
 
-        reset(component(Form.class, "myForm"));
+        reset(component(Form.class, $("#myForm")));
 
-        assertThat(component(InputText.class, "firstname").value(), is(""));
+        assertThat(component(InputText.class, $("#firstname")), has(value("")));
     }
 
     @Test
     public void can_submit_a_form() {
-        assertThat(page().title(), is("Form tests"));
-        submit(component(Form.class, "myForm"));
-        assertThat(page().title(), is("Exit page"));
+        assertThat(page(), has(title("Form tests")));
+        submit(component(Form.class, $("#myForm")));
+        assertThat(page(), has(title("Exit page")));
     }
-
 }

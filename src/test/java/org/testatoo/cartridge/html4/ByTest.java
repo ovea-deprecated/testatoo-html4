@@ -36,48 +36,26 @@ public class ByTest {
     }
 
     @Test
-    public void can_find_component_by_id_always_return_the_is_passed() {
-        when(evaluator.elementsId(id)).thenReturn(new String[] {id});
-
-        By by = By.id(id);
-        assertEquals(id, by.id(evaluator));
-    }
-
-    @Test
-    public void can_find_components_by_id() {
-        String[] ids = {id};
-        when(evaluator.elementsId(id)).thenReturn(ids);
-
-        By by = By.id(id);
-
-        List<String> cmpIds = by.ids(evaluator);
-        assertEquals(cmpIds.size(), 1);
-        assertEquals(cmpIds.get(0), id);
-    }
-
-    // ----------------------------------------------------------------------------------------------
-
-    @Test
     public void can_find_component_by_jquery() {
-        when(evaluator.elementsId("jquery:$('div#content .photo')")).thenReturn(new String[] {id});
+        when(evaluator.elementsId("jquery:$('div#content .photo')")).thenReturn(new String[]{id});
 
-        By by = By.jQuery("$('div#content .photo')");
+        By by = $("$('div#content .photo')");
         by.id(evaluator);
         verify(evaluator, times(1)).elementsId("jquery:$('div#content .photo')");
     }
 
     @Test
     public void can_find_component_by_jquery_selector() {
-        when(evaluator.elementsId("jquery:$('div#content .photo')")).thenReturn(new String[] {id});
+        when(evaluator.elementsId("jquery:$('div#content .photo')")).thenReturn(new String[]{id});
 
-        By by = By.jQuery("div#content .photo");
+        By by = $("div#content .photo");
         by.id(evaluator);
         verify(evaluator, times(1)).elementsId("jquery:$('div#content .photo')");
     }
 
     @Test
     public void can_find_component_by_$_selector() {
-        when(evaluator.elementsId("jquery:$('div#content .photo')")).thenReturn(new String[] {id});
+        when(evaluator.elementsId("jquery:$('div#content .photo')")).thenReturn(new String[]{id});
 
         $("div#content .photo").id(evaluator);
         verify(evaluator, times(1)).elementsId("jquery:$('div#content .photo')");
@@ -88,7 +66,7 @@ public class ByTest {
         String[] result = {"myId_1", "myId_2", "myId_3"};
         when(evaluator.elementsId("jquery:$('#tableId tr')")).thenReturn(result);
 
-        By by = By.jQuery("$('#tableId tr')");
+        By by = $("$('#tableId tr')");
         by.ids(evaluator);
         verify(evaluator, times(1)).elementsId("jquery:$('#tableId tr')");
     }
@@ -98,7 +76,7 @@ public class ByTest {
         String[] result = {"myId_1", "myId_2", "myId_3"};
         when(evaluator.elementsId("jquery:$('#tableId tr')")).thenReturn(result);
 
-        By by = By.jQuery("#tableId tr");
+        By by = $("#tableId tr");
         by.ids(evaluator);
         verify(evaluator, times(1)).elementsId("jquery:$('#tableId tr')");
     }

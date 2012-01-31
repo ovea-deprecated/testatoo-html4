@@ -34,6 +34,7 @@ public final class ComponentFactory {
         return new Page(evaluator(), evaluator().pageId());
     }
 
+    @Deprecated
     public static <T extends Component> T component(Class<T> componentType, String id) {
         if (id.startsWith("$"))
             return component(componentType, By.jQuery(id));

@@ -24,9 +24,10 @@ import org.testatoo.core.component.*;
 import org.testatoo.core.component.datagrid.DataGrid;
 
 import static org.hamcrest.Matchers.is;
+import static org.testatoo.cartridge.html4.By.$;
 import static org.testatoo.core.ComponentFactory.*;
 import static org.testatoo.core.Language.assertThat;
-import static org.testatoo.core.matcher.Matchers.exist;
+import static org.testatoo.core.matcher.Matchers.*;
 
 public class FinderTest extends WebTest {
 
@@ -34,7 +35,7 @@ public class FinderTest extends WebTest {
     public void can_find_element_by_id_with_points() {
         page().open("ElementIdWithPoints.html");
 
-        assertThat(component(Button.class, By.id("my.button.id")), exist());
+        assertThat(component(Button.class, $("#my\\\\.button\\\\.id")), exist());
         assertThat(new Panel(EvaluatorHolder.get(), "my.panel.id"), exist());
     }
 
@@ -42,7 +43,7 @@ public class FinderTest extends WebTest {
     public void can_find_one_component_with_jQuery_expression() {
         page().open("Button.html");
 
-        assertThat(component(Button.class, "$(':submit:first')"), exist());
+        assertThat(component(Button.class, $(":submit:first")), exist());
     }
 
     @Test
@@ -51,7 +52,7 @@ public class FinderTest extends WebTest {
         Selection<Button> buttons = findAll(Button.class);
         assertThat(buttons.size(), is(7));
 
-        assertThat(components(Button.class, By.jQuery("$(':submit')")).size(), is(2));
+        assertThat(components(Button.class, $(":submit")), has(size(2)));
     }
 
     @Test
@@ -60,56 +61,55 @@ public class FinderTest extends WebTest {
         Selection<TextField> textfields = findAll(TextField.class);
         assertThat(textfields.size(), is(10));
 
-        assertThat(components(TextField.class, By.jQuery("$(':text')")).size(), is(10));
+        assertThat(components(TextField.class, $(":text")), has(size(10)));
     }
 
     @Test
     public void can_find_all_Passwordfields() {
         page().open("InputPassword.html");
         Selection<PasswordField> passwordfields = findAll(PasswordField.class);
-        assertThat(passwordfields.size(), is(4));
+        assertThat(passwordfields, has(size(4)));
     }
 
     @Test
     public void can_find_all_Images() {
         page().open("Img.html");
         Selection<Image> images = findAll(Image.class);
-        assertThat(images.size(), is(4));
+        assertThat(images, has(size(4)));
     }
 
     @Test
     public void can_find_all_Links() {
         page().open("Link.html");
         Selection<Link> links = findAll(Link.class);
-        assertThat(links.size(), is(4));
+        assertThat(links, has(size(4)));
     }
 
     @Test
     public void can_find_all_Radios() {
         page().open("Radio.html");
         Selection<Radio> radios = findAll(Radio.class);
-        assertThat(radios.size(), is(5));
+        assertThat(radios, has(size(5)));
     }
 
     @Test
     public void can_find_all_Checkboxes() {
         page().open("CheckBox.html");
         Selection<CheckBox> checkboxes = findAll(CheckBox.class);
-        assertThat(checkboxes.size(), is(4));
+        assertThat(checkboxes, has(size(4)));
     }
 
     @Test
     public void can_find_all_Listboxes() {
         page().open("Select.html");
         Selection<ListBox> listboxes = findAll(ListBox.class);
-        assertThat(listboxes.size(), is(9));
+        assertThat(listboxes, has(size(9)));
     }
 
     @Test
     public void can_find_all_Datagrids() {
         page().open("DataGrid.html");
         Selection<DataGrid> datagrids = findAll(DataGrid.class);
-        assertThat(datagrids.size(), is(2));
+        assertThat(datagrids, has(size(2)));
     }
-
 }

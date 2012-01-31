@@ -23,6 +23,7 @@ import org.testatoo.core.ComponentException;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.fail;
+import static org.testatoo.cartridge.html4.By.$;
 import static org.testatoo.core.ComponentFactory.*;
 import static org.testatoo.core.Language.assertThat;
 
@@ -36,7 +37,7 @@ public class CheckBoxTest extends WebTest {
     @Test
     public void exception_thrown_if_component_not_a_html_checkbox() {
         try {
-            component(CheckBox.class, "hidden_1");
+            component(CheckBox.class, $("#hidden_1"));
             fail();
         } catch (ComponentException e) {
             assertThat(e.getMessage(), is("The component with id=hidden_1 is not a CheckBox but a Hidden"));
@@ -45,7 +46,7 @@ public class CheckBoxTest extends WebTest {
 
     @Test
     public void test_i18nAttributes() {
-        CheckBox checkbox = component(CheckBox.class, "checkbox");
+        CheckBox checkbox = component(CheckBox.class, $("#checkbox"));
 
         assertThat(checkbox.direction(), is(Direction.righttoleft));
         assertThat(checkbox.language(), is("fr"));
@@ -53,7 +54,7 @@ public class CheckBoxTest extends WebTest {
 
     @Test
     public void test_coreAttributes() {
-        CheckBox checkbox = component(CheckBox.class, "checkbox");
+        CheckBox checkbox = component(CheckBox.class, $("#checkbox"));
 
         assertThat(checkbox.id(), is("checkbox"));
         assertThat(checkbox.classname(), is("myClass"));
@@ -63,7 +64,7 @@ public class CheckBoxTest extends WebTest {
 
     @Test
     public void test_specifics_attributes() {
-        CheckBox checkbox = component(CheckBox.class, "checkbox");
+        CheckBox checkbox = component(CheckBox.class, $("#checkbox"));
 
         assertThat(checkbox.name(), is("myCheckbox"));
         assertThat(checkbox.value(), is("checkboxValue"));
@@ -74,6 +75,6 @@ public class CheckBoxTest extends WebTest {
 
     @Test
     public void test_toString() {
-        assertThat(component(CheckBox.class, "checkbox2").toString(), is("class org.testatoo.cartridge.html4.element.CheckBox with state : enabled:true, visible:true, label:Checkbox into label, checked:false"));
+        assertThat(component(CheckBox.class, $("#checkbox2")).toString(), is("class org.testatoo.cartridge.html4.element.CheckBox with state : enabled:true, visible:true, label:Checkbox into label, checked:false"));
     }
 }

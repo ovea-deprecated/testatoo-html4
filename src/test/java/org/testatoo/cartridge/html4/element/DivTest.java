@@ -23,6 +23,7 @@ import org.testatoo.core.ComponentException;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.fail;
+import static org.testatoo.cartridge.html4.By.$;
 import static org.testatoo.core.ComponentFactory.*;
 import static org.testatoo.core.Language.assertThat;
 
@@ -35,20 +36,20 @@ public class DivTest extends WebTest {
 
     @Test
     public void can_find_div_by_id() {
-        component(Div.class, "panelId");
+        component(Div.class, $("#panelId"));
 
         try {
-            component(Div.class, "otherPanel");
+            component(Div.class, $("#otherPanel"));
             fail();
         } catch (ComponentException e) {
-            assertThat(e.getMessage(), is("Cannot find component defined by id=otherPanel"));
+            assertThat(e.getMessage(), is("Cannot find component defined by jQueryExpression=$('#otherPanel')"));
         }
     }
 
     @Test
     public void exception_thrown_if_component_not_a_html_div() {
         try {
-            component(Div.class, "radio");
+            component(Div.class, $("#radio"));
             fail();
         } catch (ComponentException e) {
             assertThat(e.getMessage(), is("The component with id=radio is not a Panel but a Radio"));
@@ -57,7 +58,7 @@ public class DivTest extends WebTest {
 
     @Test
     public void test_i18nAttributes() {
-        Div div = component(Div.class, "panelId");
+        Div div = component(Div.class, $("#panelId"));
 
         assertThat(div.direction(), is(Direction.lefttoright));
         assertThat(div.language(), is("en"));
@@ -65,7 +66,7 @@ public class DivTest extends WebTest {
 
     @Test
     public void test_coreAttributes() {
-        Div div = component(Div.class, "panelId");
+        Div div = component(Div.class, $("#panelId"));
 
         assertThat(div.id(), is("panelId"));
         assertThat(div.classname(), is("myClass"));
@@ -75,7 +76,7 @@ public class DivTest extends WebTest {
 
     @Test
     public void test_toString() {
-        Div div = component(Div.class, "panelId");
+        Div div = component(Div.class, $("#panelId"));
         assertThat(div.toString(), is("class org.testatoo.cartridge.html4.element.Div with state : enabled:true, visible:true, title:panelTitle"));
     }
 }

@@ -19,11 +19,11 @@ package org.testatoo.cartridge.html4.element;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.testatoo.WebTest;
-import org.testatoo.cartridge.html4.By;
 import org.testatoo.core.ComponentException;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.fail;
+import static org.testatoo.cartridge.html4.By.$;
 import static org.testatoo.core.ComponentFactory.*;
 import static org.testatoo.core.Language.assertThat;
 
@@ -36,20 +36,20 @@ public class BaseTest extends WebTest {
 
     @Test
     public void can_find_base_by_id() {
-        component(Base.class, "base");
+        component(Base.class, $("#base"));
 
         try {
-            component(Base.class, By.id("otherBase"));
+            component(Base.class, $("#otherBase"));
             fail();
         } catch (ComponentException e) {
-            assertThat(e.getMessage(), is("Cannot find component defined by id=otherBase"));
+            assertThat(e.getMessage(), is("Cannot find component defined by jQueryExpression=$('#otherBase')"));
         }
     }
 
     @Test
     public void exception_thrown_if_component_not_a_html_base() {
         try {
-            component(Base.class, "link");
+            component(Base.class, $("#link"));
             fail();
         } catch (ComponentException e) {
             assertThat(e.getMessage(), is("The component with id=link is not a Base but a A"));
@@ -58,11 +58,11 @@ public class BaseTest extends WebTest {
 
     @Test
     public void test_base_specifics_attributes() {
-        assertThat(component(Base.class, "base").href(), is("http://www.google.ca"));
+        assertThat(component(Base.class, $("#base")).href(), is("http://www.google.ca"));
     }
 
     @Test
     public void testBase_toString() {
-        assertThat(component(Base.class, "base").toString(), is("class org.testatoo.cartridge.html4.element.Base with state : enabled:true, visible:false, reference:http://www.google.ca"));
+        assertThat(component(Base.class, $("#base")).toString(), is("class org.testatoo.cartridge.html4.element.Base with state : enabled:true, visible:false, reference:http://www.google.ca"));
     }
 }
