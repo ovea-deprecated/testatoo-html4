@@ -19,13 +19,14 @@ package org.testatoo.cartridge.html4.element;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.testatoo.WebTest;
-import org.testatoo.cartridge.html4.By;
 import org.testatoo.core.ComponentException;
 
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
+import static org.testatoo.cartridge.html4.By.$;
 import static org.testatoo.core.ComponentFactory.*;
 import static org.testatoo.core.Language.assertThat;
+import static org.testatoo.core.matcher.Matchers.*;
 
 public class InputTextTest extends WebTest {
 
@@ -36,17 +37,17 @@ public class InputTextTest extends WebTest {
 
     @Test
     public void can_find_inputText_by_id() {
-        component(InputText.class, "input_1");
+        component(InputText.class, $("#input_1"));
 
         try {
-            component(InputText.class, "input_2");
+            component(InputText.class, $("#input_2"));
             fail();
         } catch (ComponentException e) {
-            assertThat(e.getMessage(), is("Cannot find component defined by id=input_2"));
+            assertThat(e.getMessage(), is("Cannot find component defined by jQueryExpression=$('#input_2')"));
         }
 
         try {
-            component(InputText.class, "inputTextError");
+            component(InputText.class, $("#inputTextError"));
             fail();
         } catch (ComponentException e) {
             assertThat(e.getMessage(), is("The component with id=inputTextError is not a TextField but a CheckBox"));
@@ -55,7 +56,7 @@ public class InputTextTest extends WebTest {
 
     @Test
     public void test_i18nAttributes() {
-        InputText myText = component(InputText.class, "text");
+        InputText myText = component(InputText.class, $("#text"));
 
         assertThat(myText.direction(), is(Direction.righttoleft));
         assertThat(myText.language(), is("fr"));
@@ -63,7 +64,7 @@ public class InputTextTest extends WebTest {
 
     @Test
     public void test_coreAttributes() {
-        InputText myText = component(InputText.class, "text");
+        InputText myText = component(InputText.class, $("#text"));
 
         assertThat(myText.id(), is("text"));
         assertThat(myText.classname(), is("myClass"));
@@ -73,7 +74,7 @@ public class InputTextTest extends WebTest {
 
     @Test
     public void test_specifics_attributes() {
-        InputText myText = component(InputText.class, "text");
+        InputText myText = component(InputText.class, $("#text"));
 
         assertThat(myText.name(), is("myText"));
         assertThat(myText.value(), is("textValue"));
@@ -83,9 +84,9 @@ public class InputTextTest extends WebTest {
         assertThat(myText.type(), is(InputType.text));
         assertThat(myText.toString(), is("class org.testatoo.cartridge.html4.element.InputText with state : enabled:false, visible:true, value:textValue, label:Text label, maxLength:20"));
 
-        assertThat(component(InputText.class, "input_1").size(), is(20));
+        assertThat(component(InputText.class, "input_1"), has(size(20)));
 
-        InputText myTextDef = component(InputText.class, "text_def");
+        InputText myTextDef = component(InputText.class, $("#text_def"));
 
         assertThat(myTextDef.name(), is(""));
         assertThat(myTextDef.value(), is(""));
@@ -98,30 +99,30 @@ public class InputTextTest extends WebTest {
 
     @Test
     public void test_enability() {
-        assertThat(component(InputText.class, "text").isReadOnly(), is(true));
-        assertThat(component(InputText.class, "readonlytext").isReadOnly(), is(true));
-        assertThat(component(InputText.class, "input_language").isReadOnly(), is(false));
+        assertTrue(component(InputText.class, $("#text")).isReadOnly());
+        assertTrue(component(InputText.class, $("#readonlytext")).isReadOnly());
+        assertThat(component(InputText.class, $("#input_language")).isReadOnly(), is(false));
 
-        assertThat(component(InputText.class, "disabledtext").isEnabled(), is(false));
-        assertThat(component(InputText.class, "input_language").isEnabled(), is(true));
+        assertThat(component(InputText.class, $("#disabledtext")), is(not(enabled())));
+        assertThat(component(InputText.class, $("#input_language")), is(enabled()));
     }
 
     @Test
     public void can_test_max_length() {
-        assertThat(component(InputText.class, "input_1").maxLength(), is(10));
-        assertThat(component(InputText.class, "input_language").maxLength(), is(20));
+        assertThat(component(InputText.class, $("#input_1")), has(maxLength(10)));
+        assertThat(component(InputText.class, $("#input_language")), has(maxLength(20)));
     }
 
     @Test
     public void test_label() {
-        assertThat(component(InputText.class, "text").label(), is("Text label"));
-        assertThat(component(InputText.class, By.jQuery("$('[name=cellnumber]')")).label(), is("Cell phone number"));
-        assertThat(component(InputText.class, By.jQuery("$('[name=homenumber]')")).label(), is("Home phone number"));
+        assertThat(component(InputText.class, $("#text")), has(label("Text label")));
+        assertThat(component(InputText.class, $("[name=cellnumber]")), has(label("Cell phone number")));
+        assertThat(component(InputText.class, $("[name=homenumber]")), has(label("Home phone number")));
     }
 
     @Test
     public void test_toString() {
-        assertThat(component(InputText.class, "text").toString(),
+        assertThat(component(InputText.class, $("#text")).toString(),
                 is("class org.testatoo.cartridge.html4.element.InputText with state : enabled:false, visible:true, value:textValue, label:Text label, maxLength:20"));
     }
 }

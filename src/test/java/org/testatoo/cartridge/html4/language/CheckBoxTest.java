@@ -19,10 +19,10 @@ package org.testatoo.cartridge.html4.language;
 import org.junit.Before;
 import org.junit.Test;
 import org.testatoo.WebTest;
-import org.testatoo.cartridge.html4.By;
 import org.testatoo.cartridge.html4.element.CheckBox;
 
 import static org.hamcrest.Matchers.*;
+import static org.testatoo.cartridge.html4.By.$;
 import static org.testatoo.cartridge.html4.Language.*;
 import static org.testatoo.core.ComponentFactory.component;
 import static org.testatoo.core.matcher.Matchers.checked;
@@ -36,7 +36,7 @@ public class CheckBoxTest extends WebTest {
 
     @Test
     public void checkbox_usage_through_language() {
-        CheckBox checkBox = component(CheckBox.class, By.jQuery("$('[name=checkboxName]')"));
+        CheckBox checkBox = component(CheckBox.class, $("$('[name=checkboxName]')"));
 
         assertThat(checkBox, is(not(checked())));
 

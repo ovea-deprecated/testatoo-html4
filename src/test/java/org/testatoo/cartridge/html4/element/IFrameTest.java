@@ -22,10 +22,13 @@ import org.junit.Test;
 import org.testatoo.WebTest;
 import org.testatoo.core.ComponentException;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.fail;
+import static org.testatoo.cartridge.html4.By.$;
 import static org.testatoo.core.ComponentFactory.*;
 import static org.testatoo.core.Language.assertThat;
+import static org.testatoo.core.matcher.Matchers.contains;
 
 public class IFrameTest extends WebTest {
 
@@ -36,10 +39,10 @@ public class IFrameTest extends WebTest {
 
     @Test
     public void can_find_iFrame_by_id() {
-        component(IFrame.class, "iFrame_1");
+        component(IFrame.class, $("#iFrame_1"));
 
         try {
-            component(IFrame.class, "iFrame_0");
+            component(IFrame.class, $("#iFrame_0"));
             fail();
         } catch (ComponentException e) {
             assertThat(e.getMessage(), is("Cannot find component defined by id=iFrame_0"));
@@ -49,7 +52,7 @@ public class IFrameTest extends WebTest {
     @Test
     public void exception_thrown_if_component_not_a_html_iframe() {
         try {
-            component(IFrame.class, "abbr_ess1");
+            component(IFrame.class, $("#abbr_ess1"));
             fail();
         } catch (ComponentException e) {
             assertThat(e.getMessage(), is("The component with id=abbr_ess1 is not a IFrame but a Abbr"));
@@ -58,7 +61,7 @@ public class IFrameTest extends WebTest {
 
     @Test
     public void test_iFrame_coreAttributes() {
-        IFrame iFrame_1 = component(IFrame.class, "iFrame_1");
+        IFrame iFrame_1 = component(IFrame.class, $("#iFrame_1"));
 
         assertThat(iFrame_1.id(), is("iFrame_1"));
         assertThat(iFrame_1.classname(), is("MyIFRAMEClass"));
@@ -68,7 +71,7 @@ public class IFrameTest extends WebTest {
 
     @Test
     public void test_iFrame_specifics_attributes() {
-        IFrame iFrame_1 = component(IFrame.class, "iFrame_1");
+        IFrame iFrame_1 = component(IFrame.class, $("#iFrame_1"));
 
         assertThat(iFrame_1.name(), is("iFrameName1"));
         assertThat(iFrame_1.frameborder(), is(1));
@@ -78,7 +81,7 @@ public class IFrameTest extends WebTest {
         assertThat(iFrame_1.scrolling(), is(Scrolling.yes));
         assertThat(iFrame_1.src(), is("http://www.google.com"));
 
-        IFrame iFrame_2 = component(IFrame.class, "iFrame_2");
+        IFrame iFrame_2 = component(IFrame.class, $("#iFrame_2"));
 
         assertThat(iFrame_2.name(), is(""));
         assertThat(iFrame_2.frameborder(), is(1));
@@ -92,13 +95,13 @@ public class IFrameTest extends WebTest {
     @Test
     @Ignore
     public void test_contains() {
-        IFrame iFrame_1 = component(IFrame.class, "iFrame_1");
-        A a = component(A.class, "a_1");
-        assertThat(iFrame_1.contains(a), is(true));
+        IFrame iFrame_1 = component(IFrame.class, $("#iFrame_1"));
+        A a = component(A.class, $("#a_1"));
+        assertThat(iFrame_1, contains(a));
     }
 
     @Test
     public void test_toString() {
-        assertThat(component(IFrame.class, "iFrame_1").toString(), is("class org.testatoo.cartridge.html4.element.IFrame with state : enabled:true, visible:true, title:iFrameTitle1"));
+        assertThat(component(IFrame.class, $("#iFrame_1")).toString(), is("class org.testatoo.cartridge.html4.element.IFrame with state : enabled:true, visible:true, title:iFrameTitle1"));
     }
 }

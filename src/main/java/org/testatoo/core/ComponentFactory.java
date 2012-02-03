@@ -34,8 +34,12 @@ public final class ComponentFactory {
         return new Page(evaluator(), evaluator().pageId());
     }
 
+    @Deprecated
     public static <T extends Component> T component(Class<T> componentType, String id) {
-        return component(componentType, By.id(id));
+        if (id.startsWith("$"))
+            return component(componentType, By.jQuery(id));
+        else
+            return component(componentType, By.id(id));
     }
 
     public static <T extends Component> T component(Class<T> componentType, By by) {
@@ -114,7 +118,7 @@ public final class ComponentFactory {
         }
 
         if (componentType == TextField.class) {
-             return components(InputText.class, By.jQuery("$('input:text')")).transform(componentType);
+            return components(InputText.class, By.jQuery("$('input:text')")).transform(componentType);
         }
 
         if (componentType == PasswordField.class) {

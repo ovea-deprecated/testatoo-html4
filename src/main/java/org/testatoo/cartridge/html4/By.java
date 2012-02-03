@@ -16,16 +16,18 @@
 
 package org.testatoo.cartridge.html4;
 
-
 import org.testatoo.core.ComponentException;
 import org.testatoo.core.Duration;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.*;
+import static org.testatoo.core.Language.max;
 
 public abstract class By {
 
+    @Deprecated
     public static By id(final String id) {
         if (id == null)
             throw new IllegalArgumentException("Cannot find component with a null id.");
@@ -58,7 +60,11 @@ public abstract class By {
         };
     }
 
-    public static By jQuery(final String jQueryExpression) {
+    public static By $(final String jQueryExpression) {
+        return $(jQueryExpression, max(2, SECONDS));
+    }
+
+    public static By $(final String jQueryExpression, final Duration duration) {
         if (jQueryExpression == null)
             throw new IllegalArgumentException("Cannot find component when jQueryExpression is null.");
 
@@ -66,29 +72,47 @@ public abstract class By {
 
             @Override
             public String id(HtmlEvaluator evaluator) {
-                return id(evaluator, new Duration(2000, MILLISECONDS), new Duration(500, MILLISECONDS));
+                return id(evaluator, duration, max(500, MILLISECONDS));
             }
 
             @Override
             public String id(HtmlEvaluator evaluator, Duration duration, Duration frequency) {
-                return waitUntilId(evaluator, "jquery:" + jQueryExpression, duration, frequency);
+                return waitUntilId(evaluator, "jquery:" + jQueryExpression(), duration, frequency);
             }
 
             @Override
             public List<String> ids(HtmlEvaluator evaluator) {
-                return ids(evaluator, new Duration(2000, MILLISECONDS), new Duration(500, MILLISECONDS));
+                return ids(evaluator, duration, max(500, MILLISECONDS));
             }
 
             @Override
             public List<String> ids(HtmlEvaluator evaluator, Duration duration, Duration frequency) {
-                return Arrays.asList(waitUntilIds(evaluator, "jquery:" + jQueryExpression, duration, frequency));
+                return Arrays.asList(waitUntilIds(evaluator, "jquery:" + jQueryExpression(), duration, frequency));
             }
 
             @Override
             public String toString() {
-                return "by jQueryExpression=" + jQueryExpression;
+                return "by jQueryExpression=" + jQueryExpression();
+            }
+
+            private String jQueryExpression() {
+                if (!jQueryExpression.startsWith("$")) {
+                    return "$('" + jQueryExpression + "')";
+                } else {
+                    return jQueryExpression;
+                }
             }
         };
+    }
+
+    @Deprecated
+    public static By jQuery(final String jQueryExpression) {
+        return $(jQueryExpression, max(2, SECONDS));
+    }
+
+    @Deprecated
+    public static By jQuery(final String jQueryExpression, final Duration duration) {
+        return $(jQueryExpression, duration);
     }
 
     public abstract String id(HtmlEvaluator evaluator);

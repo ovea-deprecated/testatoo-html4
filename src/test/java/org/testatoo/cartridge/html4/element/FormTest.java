@@ -19,12 +19,11 @@ package org.testatoo.cartridge.html4.element;
 import org.junit.Before;
 import org.junit.Test;
 import org.testatoo.WebTest;
-import org.testatoo.cartridge.html4.By;
 import org.testatoo.core.ComponentException;
-import org.testatoo.core.input.Mouse;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.fail;
+import static org.testatoo.cartridge.html4.By.$;
 import static org.testatoo.core.ComponentFactory.*;
 import static org.testatoo.core.Language.*;
 import static org.testatoo.core.matcher.Matchers.*;
@@ -38,20 +37,20 @@ public class FormTest extends WebTest {
 
     @Test
     public void can_find_form_by_id() {
-        component(Form.class, "myForm");
+        component(Form.class, $("#myForm"));
 
         try {
-            component(Form.class, "otherForm");
+            component(Form.class, $("#otherForm"));
             fail();
         } catch (ComponentException e) {
-            assertThat(e.getMessage(), is("Cannot find component defined by id=otherForm"));
+            assertThat(e.getMessage(), is("Cannot find component defined by jQueryExpression=$('#otherForm')"));
         }
     }
 
     @Test
     public void exception_thrown_if_component_not_a_html_form() {
         try {
-            component(Form.class, "email");
+            component(Form.class, $("#email"));
             fail();
         } catch (ComponentException e) {
             assertThat(e.getMessage(), is("The component with id=email is not a Form but a InputText"));
@@ -60,7 +59,7 @@ public class FormTest extends WebTest {
 
     @Test
     public void test_i18nAttributes() {
-        Form myForm = component(Form.class, "myForm");
+        Form myForm = component(Form.class, $("#myForm"));
 
         assertThat(myForm.direction(), is(Direction.lefttoright));
         assertThat(myForm.language(), is("fr"));
@@ -68,7 +67,7 @@ public class FormTest extends WebTest {
 
     @Test
     public void test_coreAttributes() {
-        Form myForm = component(Form.class, "myForm");
+        Form myForm = component(Form.class, $("#myForm"));
 
         assertThat(myForm.id(), is("myForm"));
         assertThat(myForm.classname(), is("myClass"));
@@ -78,7 +77,7 @@ public class FormTest extends WebTest {
 
     @Test
     public void test_specifics_attributes() {
-        Form myForm = component(Form.class, "myForm");
+        Form myForm = component(Form.class, $("#myForm"));
 
         assertThat(myForm.method(), is(Method.post));
         assertThat(myForm.action(), is("Exit.html"));
@@ -91,7 +90,7 @@ public class FormTest extends WebTest {
 
     @Test
     public void if_attribute_are_not_defined_then_return_default_values() {
-        Form myForm3 = component(Form.class, "myForm3");
+        Form myForm3 = component(Form.class, $("#myForm3"));
 
         assertThat(myForm3.method(), is(Method.get));
         assertThat(myForm3.enctype(), is("application/x-www-form-urlencoded"));
@@ -102,92 +101,92 @@ public class FormTest extends WebTest {
 
     @Test
     public void test_contains() {
-        Form myForm = component(Form.class, "myForm");
+        Form myForm = component(Form.class, $("#myForm"));
 
-        Select citiesList = component(Select.class, "cities");
+        Select citiesList = component(Select.class, $("#cities"));
         assertThat(myForm.contains(citiesList), is(true));
 
-        InputText inputText = component(InputText.class, "lastname");
+        InputText inputText = component(InputText.class, $("#lastname"));
         assertThat(myForm.contains(inputText), is(true));
 
-        Radio radio = component(Radio.class, "male");
+        Radio radio = component(Radio.class, $("#male"));
         assertThat(myForm.contains(radio), is(true));
 
-        CheckBox checkBox = component(CheckBox.class, By.jQuery("$('[name=yes]')"));
+        CheckBox checkBox = component(CheckBox.class, $("[name=yes]"));
         assertThat(myForm.contains(checkBox), is(true));
 
-        Button button = component(Button.class, "submitImage");
+        Button button = component(Button.class, $("#submitImage"));
         assertThat(myForm.contains(button), is(true));
     }
 
     @Test
     public void can_reset_a_form() {
-        type("Joe", on(component(InputText.class, "firstname")));
-        type("Blow", into(component(InputText.class, "lastname")));
-        enter("email@noname.com", into(into(component(InputText.class, "email"))));
+        type("Joe", on(component(InputText.class, $("#firstname"))));
+        type("Blow", into(component(InputText.class, $("#lastname"))));
+        enter("email@noname.com", into(component(InputText.class, $("#email"))));
 
-        check(component(Radio.class, "male"));
-        check(component(CheckBox.class, By.jQuery("$('[name=yes]')")));
+        check(component(Radio.class, $("#male")));
+        check(component(CheckBox.class, $("[name=yes]")));
 
-        on(component(Select.class, "cities")).select("Casablanca");
+        on(component(Select.class, $("#cities"))).select("Casablanca");
 
-        component(Form.class, "myForm").reset();
+        component(Form.class, $("#myForm")).reset();
 
-        assertThat(component(InputText.class, "firstname").value(), is(""));
-        assertThat(component(InputText.class, "lastname").value(), is(""));
-        assertThat(component(InputText.class, "email").value(), is(""));
+        assertThat(component(InputText.class, $("#firstname")), has(value("")));
+        assertThat(component(InputText.class, $("#lastname")), has(value("")));
+        assertThat(component(InputText.class, $("#email")), has(value("")));
 
-        assertThat(component(Radio.class, "male").isChecked(), is(false));
-        assertThat(component(CheckBox.class, By.jQuery("$('[name=yes]')")).isChecked(), is(false));
+        assertThat(component(Radio.class, $("#male")), is(not(checked())));
+        assertThat(component(CheckBox.class, $("[name=yes]")), is(not(checked())));
 
-        assertThat(component(Select.class, "cities").selectedOptions().get(0).content(), is("New York"));
+        assertThat(component(Select.class, $("#cities")), has(selectedValues("New York")));
 
-        type("Joe", on(component(InputText.class, "firstname")));
-        type("Blow", into(component(InputText.class, "lastname")));
-        enter("email@noname.com", into(component(InputText.class, "email")));
+        type("Joe", on(component(InputText.class, $("#firstname"))));
+        type("Blow", into(component(InputText.class, $("#lastname"))));
+        enter("email@noname.com", into(component(InputText.class, $("#email"))));
 
-        check(component(Radio.class, "male"));
-        check(component(CheckBox.class, By.jQuery("$('[name=yes]')")));
+        check(component(Radio.class, $("#male")));
+        check(component(CheckBox.class, $("[name=yes]")));
 
-        on(component(Select.class, "cities")).select("Casablanca");
+        on(component(Select.class, $("#cities"))).select("Casablanca");
 
-        on(component(Form.class, "myForm")).reset();
+        on(component(Form.class, $("#myForm"))).reset();
 
-        assertThat(component(InputText.class, "firstname").value(), is(""));
-        assertThat(component(InputText.class, "lastname").value(), is(""));
-        assertThat(component(InputText.class, "email").value(), is(""));
+        assertThat(component(InputText.class, $("#firstname")), has(value("")));
+        assertThat(component(InputText.class, $("#lastname")), has(value("")));
+        assertThat(component(InputText.class, $("#email")), has(value("")));
 
-        assertThat(component(Radio.class, "male").isChecked(), is(false));
-        assertThat(component(CheckBox.class, By.jQuery("$('[name=yes]')")).isChecked(), is(false));
+        assertThat(component(Radio.class, $("#male")), is(not(checked())));
+        assertThat(component(CheckBox.class, $("[name=yes]")), is(not(checked())));
 
-        assertThat(component(Select.class, "cities").selectedOptions().get(0).content(), is("New York"));
+        assertThat(component(Select.class, $("#cities")), has(selectedValues("New York")));
     }
 
     @Test
     public void can_submit_a_form() throws Exception {
         assertThat(page().title(), is("Form tests"));
 
-        Button submitButton = component(Button.class, "submitImage");
+        Button submitButton = component(Button.class, $("#submitImage"));
         clickOn(submitButton);
 
         waitUntil(page(), has(title("Exit page")));
 
         page().open("Form.html");
-        assertThat(page().title(), is("Form tests"));
-        Mouse.clickOn(submitButton);
+        assertThat(page(), has(title("Form tests")));
+        clickOn(submitButton);
 
-        assertThat(page().title(), is("Exit page"));
+        assertThat(page(), has(title("Exit page")));
 
         page().open("Form.html");
-        assertThat(page().title(), is("Form tests"));
+        assertThat(page(), has(title("Form tests")));
 
-        component(Form.class, "myForm").submit();
+        component(Form.class, $("#myForm")).submit();
 
-        assertThat(page().title(), is("Exit page"));
+        assertThat(page(), has(title("Exit page")));
     }
 
     @Test
     public void test_toString() {
-        assertThat(component(Form.class, By.id("myForm")).toString(), is("class org.testatoo.cartridge.html4.element.Form with state : enabled:true, visible:true, action:Exit.html"));
+        assertThat(component(Form.class, $("#myForm")).toString(), is("class org.testatoo.cartridge.html4.element.Form with state : enabled:true, visible:true, action:Exit.html"));
     }
 }

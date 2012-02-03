@@ -21,28 +21,29 @@ import org.testatoo.WebTest;
 import org.testatoo.cartridge.html4.By;
 import org.testatoo.cartridge.html4.element.A;
 import org.testatoo.cartridge.html4.element.Form;
-import org.testatoo.core.component.Page;
 import org.testatoo.core.component.Radio;
 
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 import static org.testatoo.cartridge.html4.Language.*;
 import static org.testatoo.core.ComponentFactory.component;
+import static org.testatoo.core.ComponentFactory.page;
+import static org.testatoo.core.matcher.Matchers.contains;
 
 public class ContainerTest extends WebTest {
 
     @Test
     public void can_test_if_element_is_embedded() {
-        Page page = goTo("Page.html");
+        goTo("Page.html");
 
         // Trivial, page contains all the elements
-        assertThat(page.contains(component(A.class, "link_1")), is(true));
+        assertThat(page(), contains(component(A.class, "link_1")));
 
         // For form
         goTo("Form.html");
 
         Radio maleRadio = component(Radio.class, By.id("male"));
 
-        assertThat(component(Form.class, "myForm").contains(maleRadio), is(true));
-        assertThat(component(Form.class, "myForm2").contains(maleRadio), is(false));
+        assertThat(component(Form.class, "myForm"), contains(maleRadio));
+        assertThat(component(Form.class, "myForm2"), not(contains(maleRadio)));
     }
 }

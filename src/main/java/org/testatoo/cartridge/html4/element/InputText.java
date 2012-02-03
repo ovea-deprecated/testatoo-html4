@@ -17,6 +17,7 @@
 package org.testatoo.cartridge.html4.element;
 
 import org.testatoo.cartridge.html4.HtmlEvaluator;
+import org.testatoo.core.nature.SizeSupport;
 
 /**
  * This class allows the testing of the "input" element (with "text" type)  properties,  for html4.
@@ -25,7 +26,7 @@ import org.testatoo.cartridge.html4.HtmlEvaluator;
  * @see <a href="http://www.w3.org/TR/html401/interact/forms.html#edef-INPUT"> "input" specification </a>
  */
 
-public final class InputText extends org.testatoo.core.component.TextField implements Coreattrs, I18n {
+public final class InputText extends org.testatoo.core.component.TextField implements Coreattrs, I18n, SizeSupport {
 
     private HtmlEvaluator evaluator;
     private CoreAttributeSupport coreAttributeSupport;

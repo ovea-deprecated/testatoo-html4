@@ -23,6 +23,7 @@ import org.testatoo.core.ComponentException;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.fail;
+import static org.testatoo.cartridge.html4.By.$;
 import static org.testatoo.core.ComponentFactory.*;
 import static org.testatoo.core.Language.assertThat;
 
@@ -35,20 +36,20 @@ public class FileTest extends WebTest {
 
     @Test
     public void can_find_file_by_id() {
-        component(File.class, "file");
+        component(File.class, $("#file"));
 
         try {
-            component(File.class, "file_2");
+            component(File.class, $("#file_2"));
             fail();
         } catch (ComponentException e) {
-            assertThat(e.getMessage(), is("Cannot find component defined by id=file_2"));
+            assertThat(e.getMessage(), is("Cannot find component defined by jQueryExpression=$('#file_2')"));
         }
     }
 
     @Test
     public void exception_thrown_if_component_not_a_html_file() {
         try {
-            component(File.class, "radio");
+            component(File.class, $("#radio"));
             fail();
         } catch (ComponentException e) {
             assertThat(e.getMessage(), is("The component with id=radio is not a FileDialog but a Radio"));
@@ -57,7 +58,7 @@ public class FileTest extends WebTest {
 
     @Test
     public void can_retreive_attributes() {
-        File file = component(File.class, "file");
+        File file = component(File.class, $("#file"));
         assertThat(file.name(), is("fileName"));
 
         assertThat(file.value(), is(""));
@@ -79,7 +80,7 @@ public class FileTest extends WebTest {
 
     @Test
     public void test_toString() {
-        File file = component(File.class, "file2");
+        File file = component(File.class, $("#file2"));
         assertThat(file.toString(), is("class org.testatoo.cartridge.html4.element.File with state : enabled:true, visible:true, title:fileTitle, selectedFilePath:"));
     }
 }

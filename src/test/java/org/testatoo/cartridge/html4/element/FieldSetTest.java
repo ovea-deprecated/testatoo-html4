@@ -23,6 +23,7 @@ import org.testatoo.core.ComponentException;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.fail;
+import static org.testatoo.cartridge.html4.By.$;
 import static org.testatoo.core.ComponentFactory.*;
 import static org.testatoo.core.Language.assertThat;
 
@@ -35,20 +36,20 @@ public class FieldSetTest extends WebTest {
 
     @Test
     public void can_find_fieldSet_by_id() {
-        component(FieldSet.class, "fieldSet_1");
+        component(FieldSet.class, $("#fieldSet_1"));
 
         try {
-            component(FieldSet.class, "fieldSet_0");
+            component(FieldSet.class, $("#fieldSet_0"));
             fail();
         } catch (ComponentException e) {
-            assertThat(e.getMessage(), is("Cannot find component defined by id=fieldSet_0"));
+            assertThat(e.getMessage(), is("Cannot find component defined by jQueryExpression=$('#fieldSet_0')"));
         }
     }
 
     @Test
     public void exception_thrown_if_component_not_a_html_fieldSet() {
         try {
-            component(FieldSet.class, "radio");
+            component(FieldSet.class, $("#radio"));
             fail();
         } catch (ComponentException e) {
             assertThat(e.getMessage(), is("The component with id=radio is not a FieldSet but a Radio"));
@@ -57,7 +58,7 @@ public class FieldSetTest extends WebTest {
 
     @Test
     public void test_fieldSet_i18nAttributes() {
-        FieldSet fieldSet_1 = component(FieldSet.class, "fieldSet_1");
+        FieldSet fieldSet_1 = component(FieldSet.class, $("#fieldSet_1"));
 
         assertThat(fieldSet_1.direction(), is(Direction.lefttoright));
         assertThat(fieldSet_1.language(), is("fr"));
@@ -65,7 +66,7 @@ public class FieldSetTest extends WebTest {
 
     @Test
     public void test_fieldSet_coreAttributes() {
-        FieldSet fieldSet_1 = component(FieldSet.class, "fieldSet_1");
+        FieldSet fieldSet_1 = component(FieldSet.class, $("#fieldSet_1"));
 
         assertThat(fieldSet_1.id(), is("fieldSet_1"));
         assertThat(fieldSet_1.classname(), is("MyFIELDSETClass"));
@@ -75,7 +76,7 @@ public class FieldSetTest extends WebTest {
 
     @Test
     public void test_toString() {
-        FieldSet fieldSet = component(FieldSet.class, "fieldSet_1");
+        FieldSet fieldSet = component(FieldSet.class, $("#fieldSet_1"));
         assertThat(fieldSet.toString(), is("class org.testatoo.cartridge.html4.element.FieldSet with state : enabled:true, visible:true"));
     }
 }
