@@ -22,10 +22,12 @@ import org.testatoo.WebTest;
 import org.testatoo.core.ComponentException;
 import org.testatoo.core.component.Page;
 
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.fail;
+import static org.testatoo.cartridge.html4.By.$;
 import static org.testatoo.core.ComponentFactory.*;
 import static org.testatoo.core.Language.assertThat;
+import static org.testatoo.core.matcher.Matchers.*;
 
 public class PageTest extends WebTest {
 
@@ -38,24 +40,24 @@ public class PageTest extends WebTest {
 
     @Test
     public void can_open_page() throws Exception {
-        assertThat(page.source().toLowerCase().contains("<title>page tests</title>"), is(true));
+        assertThat(page.source().toLowerCase(), containsString("<title>page tests</title>"));
     }
 
     @Test
     public void can_get_the_title() {
-        assertThat(page.title(), is("Page tests"));
+        assertThat(page, has(title("Page tests")));
     }
 
     @Test
     public void test_contains() {
-        A a1 = component(A.class, "link_1");
-        assertThat(page.contains(a1), is(true));
+        A a1 = component(A.class, $("#link_1"));
+        assertThat(page, contains(a1));
 
         try {
-            component(A.class, "base_1");
+            component(A.class, $("#base_1"));
             fail();
         } catch (ComponentException e) {
-            assertThat(e.getMessage(), is("Cannot find component defined by id=base_1"));
+            assertThat(e.getMessage(), is("Cannot find component defined by jQueryExpression=$('#base_1')"));
         }
     }
 

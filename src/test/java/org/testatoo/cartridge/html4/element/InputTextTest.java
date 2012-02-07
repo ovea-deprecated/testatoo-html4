@@ -84,7 +84,7 @@ public class InputTextTest extends WebTest {
         assertThat(myText.type(), is(InputType.text));
         assertThat(myText.toString(), is("class org.testatoo.cartridge.html4.element.InputText with state : enabled:false, visible:true, value:textValue, label:Text label, maxLength:20"));
 
-        assertThat(component(InputText.class, "input_1"), has(size(20)));
+        assertThat(component(InputText.class, $("#input_1")), has(size(20)));
 
         InputText myTextDef = component(InputText.class, $("#text_def"));
 

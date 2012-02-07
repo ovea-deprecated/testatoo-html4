@@ -23,6 +23,7 @@ import org.testatoo.core.ComponentException;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.fail;
+import static org.testatoo.cartridge.html4.By.$;
 import static org.testatoo.core.ComponentFactory.*;
 import static org.testatoo.core.Language.assertThat;
 
@@ -35,10 +36,10 @@ public class ScriptTest extends WebTest {
 
     @Test
     public void can_find_script_by_id() {
-        component(Script.class, "script_1");
+        component(Script.class, $("#script_1"));
 
         try {
-            component(Script.class, "script_0");
+            component(Script.class, $("#script_0"));
             fail();
         } catch (ComponentException e) {
             assertThat(e.getMessage(), is("Cannot find component defined by id=script_0"));
@@ -48,7 +49,7 @@ public class ScriptTest extends WebTest {
     @Test
     public void exception_thrown_if_component_not_a_html_script() {
         try {
-            component(Script.class, "var_ess1");
+            component(Script.class, $("#var_ess1"));
             fail();
         } catch (ComponentException e) {
             assertThat(e.getMessage(), is("The component with id=var_ess1 is not a Script but a Var"));
@@ -57,7 +58,7 @@ public class ScriptTest extends WebTest {
 
     @Test
     public void test_script_specifics_attributes() {
-        Script script = component(Script.class, "script_1");
+        Script script = component(Script.class, $("#script_1"));
 
         assertThat(script.charset(), is("utf-8"));
         assertThat(script.src(), is("addtext.js"));
@@ -66,7 +67,7 @@ public class ScriptTest extends WebTest {
 
     @Test
     public void test_toString() {
-        assertThat(component(Script.class, "script_1").toString(),
+        assertThat(component(Script.class, $("#script_1")).toString(),
                 is("class org.testatoo.cartridge.html4.element.Script with state : enabled:true, visible:false, source:addtext.js"));
     }
 }
