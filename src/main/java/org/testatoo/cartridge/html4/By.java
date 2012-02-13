@@ -27,7 +27,6 @@ import static org.testatoo.core.Language.max;
 
 public abstract class By {
 
-    @Deprecated
     public static By id(final String id) {
         if (id == null)
             throw new IllegalArgumentException("Cannot find component with a null id.");
