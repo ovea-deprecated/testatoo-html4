@@ -106,6 +106,7 @@ public class DropDownTest extends WebTest {
 
     @Test
     public void test_toString() {
+        page().open("Select.html");
         assertThat(component(DropDown.class, "elements").toString(), is("class org.testatoo.cartridge.html4.element.DropDown with state : enabled:true, visible:true, values:[1, 5, 84, 20, 88], selectedValues:[], label:Elements list"));
     }
 }

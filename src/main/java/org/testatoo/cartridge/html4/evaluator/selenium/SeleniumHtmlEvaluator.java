@@ -652,10 +652,10 @@ public final class SeleniumHtmlEvaluator extends EvaluatorSkeleton<Selenium> imp
     public Selection<OptionGroup> optionGroups(Select select) {
         List<OptionGroup> optionGroups = new ArrayList<OptionGroup>();
         try {
-            for (String id : By.jQuery("$('#" + select.id() + " optgroup')").ids(this)) {
+            for (String id : $("#" + select.id() + " optgroup").ids(this)) {
                 optionGroups.add(new OptionGroup(this, id));
             }
-        } catch (EvaluatorException e) {
+        } catch (ComponentException e) {
             return ListSelection.from(optionGroups);
         }
         return ListSelection.from(optionGroups);
@@ -668,7 +668,7 @@ public final class SeleniumHtmlEvaluator extends EvaluatorSkeleton<Selenium> imp
     public Selection<Option> options(Select select) {
         List<Option> options = new ArrayList<Option>();
         try {
-            for (String id : By.jQuery("$('#" + select.id() + " option')").ids(this)) {
+            for (String id : $("#" + select.id() + " option").ids(this)) {
                 options.add(new Option(this, id));
             }
         } catch (EvaluatorException e) {
@@ -701,7 +701,7 @@ public final class SeleniumHtmlEvaluator extends EvaluatorSkeleton<Selenium> imp
     public Selection<Option> options(OptionGroup optionGroup) {
         List<Option> options = new ArrayList<Option>();
         try {
-            for (String id : By.jQuery("$('#" + optionGroup.id() + " option')").ids(this)) {
+            for (String id : $("#" + optionGroup.id() + " option").ids(this)) {
                 options.add(new Option(this, id));
             }
         } catch (EvaluatorException e) {
@@ -717,7 +717,7 @@ public final class SeleniumHtmlEvaluator extends EvaluatorSkeleton<Selenium> imp
     public Selection<Param> params(Object object) {
         List<Param> params = new ArrayList<Param>();
         try {
-            for (String id : By.jQuery("$('#" + object.id() + " param')").ids(this)) {
+            for (String id : $("#" + object.id() + " param").ids(this)) {
                 params.add(new Param(this, id));
             }
         } catch (EvaluatorException e) {
