@@ -150,7 +150,10 @@ public abstract class By {
         }
 
         if (ex instanceof EvaluatorException) {
-            throw new ComponentException("Cannot find component defined by jQueryExpression=" + expression.substring(7));
+            if (expression.startsWith("jquery:"))
+                throw new ComponentException("Cannot find component defined by jQueryExpression=" + expression.substring(7));
+            else
+                throw new ComponentException("Cannot find component defined by id=" + expression);
         }
         throw new RuntimeException("Unable to reach the condition in " + duration.duration + " " + duration.unit, ex);
     }

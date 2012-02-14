@@ -42,7 +42,7 @@ public class ScriptTest extends WebTest {
             component(Script.class, $("#script_0"));
             fail();
         } catch (ComponentException e) {
-            assertThat(e.getMessage(), is("Cannot find component defined by id=script_0"));
+            assertThat(e.getMessage(), is("Cannot find component defined by jQueryExpression=$('#script_0')"));
         }
     }
 

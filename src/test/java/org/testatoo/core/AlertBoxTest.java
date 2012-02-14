@@ -38,13 +38,13 @@ public class AlertBoxTest extends WebTest {
     @Test
     public void can_find_alertbox() {
         try {
-            component(AlertBox.class, "");
+            component(AlertBox.class);
             fail();
         } catch (ComponentException e) {
             assertThat(e.getMessage(), containsString("Cannot find component defined by id="));
         }
         clickOn(component(Button.class, "alertButton"));
-        AlertBox alertbox = component(AlertBox.class, "");
+        AlertBox alertbox = component(AlertBox.class);
         alertbox.close();
     }
 
@@ -52,7 +52,7 @@ public class AlertBoxTest extends WebTest {
     public void can_test_title() {
         clickOn(component(Button.class, "alertButton"));
         // On HTML alertbox have no title
-        AlertBox alertbox = component(AlertBox.class, "");
+        AlertBox alertbox = component(AlertBox.class);
         assertThat(alertbox.title(), is(""));
         alertbox.close();
     }
@@ -60,7 +60,7 @@ public class AlertBoxTest extends WebTest {
     @Test
     public void can_test_message() {
         clickOn(component(Button.class, "alertButton"));
-        AlertBox alertbox = component(AlertBox.class, "");
+        AlertBox alertbox = component(AlertBox.class);
         assertThat(alertbox.message(), is("Changes saved successfully."));
         alertbox.close();
     }
@@ -68,10 +68,10 @@ public class AlertBoxTest extends WebTest {
     @Test
     public void can_close_alertbox() {
         clickOn(component(Button.class, "alertButton"));
-        AlertBox alertbox = component(AlertBox.class, "");
+        AlertBox alertbox = component(AlertBox.class);
         alertbox.close();
         try {
-            component(AlertBox.class, "");
+            component(AlertBox.class);
         } catch (ComponentException e) {
             assertThat(e.getMessage(), containsString("Cannot find component defined by id="));
         }
@@ -80,7 +80,7 @@ public class AlertBoxTest extends WebTest {
     @Test
     public void test_toString() {
         clickOn(component(Button.class, "alertButton"));
-        AlertBox alertbox = component(AlertBox.class, "");
+        AlertBox alertbox = component(AlertBox.class);
         assertThat(alertbox.toString(), is("class org.testatoo.cartridge.html4.element.AlertBox with state : enabled:true, visible:true, title:, message:Changes saved successfully."));
         alertbox.close();
     }
