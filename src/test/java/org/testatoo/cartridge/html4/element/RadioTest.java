@@ -23,6 +23,7 @@ import org.testatoo.core.ComponentException;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.fail;
+import static org.testatoo.cartridge.html4.By.$;
 import static org.testatoo.core.ComponentFactory.*;
 import static org.testatoo.core.Language.assertThat;
 
@@ -35,7 +36,7 @@ public class RadioTest extends WebTest {
 
     @Test
     public void test_i18nAttributes() {
-        Radio radio = component(Radio.class, "radio");
+        Radio radio = component(Radio.class, $("#radio"));
 
         assertThat(radio.direction(), is(Direction.righttoleft));
         assertThat(radio.language(), is("fr"));
@@ -43,7 +44,7 @@ public class RadioTest extends WebTest {
 
     @Test
     public void test_coreAttributes() {
-        Radio radio = component(Radio.class, "radio");
+        Radio radio = component(Radio.class, $("#radio"));
 
         assertThat(radio.id(), is("radio"));
         assertThat(radio.classname(), is("myClass"));
@@ -53,7 +54,7 @@ public class RadioTest extends WebTest {
 
     @Test
     public void test_specifics_attributes() {
-        Radio radio = component(Radio.class, "radio");
+        Radio radio = component(Radio.class, $("#radio"));
 
         assertThat(radio.name(), is("myRadio"));
         assertThat(radio.value(), is("radioValue"));
@@ -65,7 +66,7 @@ public class RadioTest extends WebTest {
     @Test
     public void exception_thrown_if_component_not_a_html_radio() {
         try {
-            component(Radio.class, "var_ess1");
+            component(Radio.class, $("#var_ess1"));
             fail();
         } catch (ComponentException e) {
             assertThat(e.getMessage(), is("The component with id=var_ess1 is not a Radio but a Var"));
@@ -75,7 +76,7 @@ public class RadioTest extends WebTest {
     @Test
     public void exception_thrown_if_component_is_a_html_checkbox() {
         try {
-            component(Radio.class, "firstChoice");
+            component(Radio.class, $("#firstChoice"));
             fail();
         } catch (ComponentException e) {
             assertThat(e.getMessage(), is("The component with id=firstChoice is not a Radio but a CheckBox"));
@@ -84,7 +85,7 @@ public class RadioTest extends WebTest {
 
     @Test
     public void test_toString() {
-        assertThat(component(Radio.class, "radio").toString(),
+        assertThat(component(Radio.class, $("#radio")).toString(),
                 is("class org.testatoo.cartridge.html4.element.Radio with state : enabled:true, visible:true, label:Radio label, checked:false"));
     }
 }

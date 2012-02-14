@@ -19,6 +19,7 @@ package org.testatoo.cartridge.html4.element;
 import org.testatoo.cartridge.html4.HtmlEvaluator;
 import org.testatoo.core.ComponentException;
 import org.testatoo.core.component.Component;
+import org.testatoo.core.nature.TitleSupport;
 
 import static org.testatoo.cartridge.html4.element.HtmlElementType.Caption;
 
@@ -30,7 +31,7 @@ import static org.testatoo.cartridge.html4.element.HtmlElementType.Caption;
  * @see <a href="http://www.w3.org/TR/html401/struct/tables.html#edef-CAPTION"> "caption" specification </a>
  */
 
-public final class Caption extends Component implements Coreattrs, I18n {
+public final class Caption extends Component implements Coreattrs, I18n, TitleSupport {
 
     private CoreAttributeSupport coreAttributeSupport;
     private I18nAttributeSupport i18nAttributeSupport;

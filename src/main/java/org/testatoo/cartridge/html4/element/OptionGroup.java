@@ -22,6 +22,8 @@ import org.testatoo.core.ListSelection;
 import org.testatoo.core.Selection;
 import org.testatoo.core.component.Component;
 import org.testatoo.core.nature.Container;
+import org.testatoo.core.nature.LabelSupport;
+import org.testatoo.core.nature.TitleSupport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +39,7 @@ import static org.testatoo.cartridge.html4.element.HtmlElementType.Undefined;
  * @see <a href="http://www.w3.org/TR/html401/interact/forms.html#edef-OPTGROUP"> "optgroup" specification </a>
  */
 
-public final class OptionGroup extends Component implements Coreattrs, I18n, Container {
+public final class OptionGroup extends Component implements Coreattrs, I18n, Container, LabelSupport, TitleSupport {
 
     private HtmlEvaluator evaluator;
     private CoreAttributeSupport coreAttributeSupport;

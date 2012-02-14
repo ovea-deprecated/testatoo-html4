@@ -22,9 +22,12 @@ import org.testatoo.WebTest;
 import org.testatoo.core.ComponentException;
 
 import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.testatoo.cartridge.html4.By.$;
 import static org.testatoo.core.ComponentFactory.*;
 import static org.testatoo.core.Language.assertThat;
+import static org.testatoo.core.matcher.Matchers.*;
 
 public class OptionGroupTest extends WebTest {
 
@@ -35,20 +38,20 @@ public class OptionGroupTest extends WebTest {
 
     @Test
     public void can_find_optionGroup_by_id() {
-        component(OptionGroup.class, "linux");
+        component(OptionGroup.class, $("#linux"));
 
         try {
-            component(OptionGroup.class, "someOptionGroup");
+            component(OptionGroup.class, $("#someOptionGroup"));
             fail();
         } catch (ComponentException e) {
-            assertThat(e.getMessage(), is("Cannot find component defined by id=someOptionGroup"));
+            assertThat(e.getMessage(), is("Cannot find component defined by jQueryExpression=$('#someOptionGroup')"));
         }
     }
 
     @Test
     public void exception_thrown_if_component_not_a_html_optionGroup() {
         try {
-            component(OptionGroup.class, "var_ess1");
+            component(OptionGroup.class, $("#var_ess1"));
             fail();
         } catch (ComponentException e) {
             assertThat(e.getMessage(), is("The component with id=var_ess1 is not a OptionGroup but a Var"));
@@ -57,17 +60,17 @@ public class OptionGroupTest extends WebTest {
 
     @Test
     public void test_label() {
-        assertThat(component(OptionGroup.class, "linux").label(), is("linux"));
+        assertThat(component(OptionGroup.class, $("#linux")), has(label("linux")));
     }
 
     @Test
     public void can_get_options_of_optionGroup() {
-        OptionGroup myLinux = component(OptionGroup.class, "linux");
+        OptionGroup myLinux = component(OptionGroup.class, $("#linux"));
 
-        assertThat(myLinux.options().size(), is(3));
+        assertThat(myLinux.options(), has(size(3)));
 
-        Option optionLinux = component(Option.class, "kubuntuOption");
-        assertThat(myLinux.options().contains(optionLinux), is(true));
+        Option optionLinux = component(Option.class, $("#kubuntuOption"));
+        assertThat(myLinux, contains(optionLinux));
 
         assertThat(myLinux.options().get(0).content(), is("Kubuntu"));
         assertThat(myLinux.options().get(1).content(), is("Fedora"));
@@ -76,7 +79,7 @@ public class OptionGroupTest extends WebTest {
 
     @Test
     public void test_i18nAttributes() {
-        OptionGroup myLinux = component(OptionGroup.class, "linux");
+        OptionGroup myLinux = component(OptionGroup.class, $("#linux"));
 
         assertThat(myLinux.direction(), is(Direction.lefttoright));
         assertThat(myLinux.language(), is("fr"));
@@ -84,7 +87,7 @@ public class OptionGroupTest extends WebTest {
 
     @Test
     public void test_coreAttributes() {
-        OptionGroup myLinux = component(OptionGroup.class, "linux");
+        OptionGroup myLinux = component(OptionGroup.class, $("#linux"));
 
         assertThat(myLinux.id(), is("linux"));
         assertThat(myLinux.classname(), is("myClass"));
@@ -94,22 +97,22 @@ public class OptionGroupTest extends WebTest {
 
     @Test
     public void test_enability() {
-        OptionGroup myLinux = component(OptionGroup.class, "linux");
-        assertThat(myLinux.isEnabled(), is(true));
-        assertThat(myLinux.isDisabled(), is(false));
+        OptionGroup myLinux = component(OptionGroup.class, $("#linux"));
+        assertThat(myLinux, is(enabled()));
+        assertThat(myLinux, is(not(disabled())));
     }
 
     @Test
     public void test_contains() {
-        OptionGroup myLinux = component(OptionGroup.class, "linux");
-        Option optionLinux = component(Option.class, "kubuntuOption");
-        assertThat(myLinux.contains(optionLinux), is(true));
+        OptionGroup myLinux = component(OptionGroup.class, $("#linux"));
+        Option optionLinux = component(Option.class, $("#kubuntuOption"));
+        assertThat(myLinux, contains(optionLinux));
     }
 
     @Test
     public void test_toString() {
         // Test fail by browser specific implementation state of visibility
-        assertThat(component(OptionGroup.class, "linux").toString(),
+        assertThat(component(OptionGroup.class, $("#linux")).toString(),
                 is("class org.testatoo.cartridge.html4.element.OptionGroup with state : enabled:true, visible:false, label:linux, optionsValue:[KubuntuValue, RedHatValue, GentooValue]"));
     }
 }

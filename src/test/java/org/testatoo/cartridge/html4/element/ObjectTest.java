@@ -24,6 +24,7 @@ import org.testatoo.core.Selection;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.fail;
+import static org.testatoo.cartridge.html4.By.$;
 import static org.testatoo.core.ComponentFactory.*;
 import static org.testatoo.core.Language.assertThat;
 
@@ -38,20 +39,20 @@ public class ObjectTest extends WebTest {
     //---------- Object --------------------
     @Test
     public void can_find_object_by_id() {
-        component(Object.class, "object_1");
+        component(Object.class, $("#object_1"));
 
         try {
-            component(Object.class, "object_0");
+            component(Object.class, $("#object_0"));
             fail();
         } catch (ComponentException e) {
-            assertThat(e.getMessage(), is("Cannot find component defined by id=object_0"));
+            assertThat(e.getMessage(), is("Cannot find component defined by jQueryExpression=$('#object_0')"));
         }
     }
 
     @Test
     public void exception_thrown_if_component_not_a_html_object() {
         try {
-            component(Object.class, "var_ess1");
+            component(Object.class, $("#var_ess1"));
             fail();
         } catch (ComponentException e) {
             assertThat(e.getMessage(), is("The component with id=var_ess1 is not a Object but a Var"));
@@ -60,7 +61,7 @@ public class ObjectTest extends WebTest {
 
     @Test
     public void test_object_coreAttributes() {
-        Object object_1 = component(Object.class, "object_1");
+        Object object_1 = component(Object.class, $("#object_1"));
 
         assertThat(object_1.id(), is("object_1"));
         assertThat(object_1.classname(), is("MyOBJECTClass"));
@@ -70,7 +71,7 @@ public class ObjectTest extends WebTest {
 
     @Test
     public void test_object_i18nAttributes() {
-        Object object_1 = component(Object.class, "object_1");
+        Object object_1 = component(Object.class, $("#object_1"));
 
         assertThat(object_1.direction(), is(Direction.lefttoright));
         assertThat(object_1.language(), is("es"));
@@ -78,11 +79,11 @@ public class ObjectTest extends WebTest {
 
     @Test
     public void test_object_specifics_attributes() {
-        Object object_1 = component(Object.class, "object_1");
-        Object object_2 = component(Object.class, "object_2");
+        Object object_1 = component(Object.class, $("#object_1"));
+        Object object_2 = component(Object.class, $("#object_2"));
         // Not loaded in IE
 //        Object object_3 = findObject(By.id("object_3"));
-        Object object_4 = component(Object.class, "object_4");
+        Object object_4 = component(Object.class, $("#object_4"));
 
         assertThat(object_1.data(), containsString("images/forward.png"));
         assertThat(object_1.type(), is("image/jpg"));
@@ -99,7 +100,7 @@ public class ObjectTest extends WebTest {
 
     @Test
     public void can_obtain_params_associated() {
-        Object object_1 = component(Object.class, "object_2");
+        Object object_1 = component(Object.class, $("#object_2"));
 
         Selection<Param> params = object_1.params();
         assertThat(params.size(), is(3));
@@ -110,7 +111,7 @@ public class ObjectTest extends WebTest {
 
     @Test
     public void test_toString() {
-        assertThat(component(Object.class, "object_2").toString(),
+        assertThat(component(Object.class, $("#object_2")).toString(),
                 is("class org.testatoo.cartridge.html4.element.Object with state : enabled:true, visible:true"));
     }
 }

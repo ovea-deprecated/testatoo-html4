@@ -25,8 +25,8 @@ import org.testatoo.core.component.*;
 import org.testatoo.core.component.datagrid.DataGrid;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.List;
+
+import static org.testatoo.cartridge.html4.By.$;
 
 public final class ComponentFactory {
 
@@ -34,15 +34,133 @@ public final class ComponentFactory {
         return new Page(evaluator(), evaluator().pageId());
     }
 
-    @Deprecated
+    public static <T extends Component> T component(Class<T> componentType) {
+        if (componentType.equals(AlertBox.class) || componentType.equals(org.testatoo.cartridge.html4.element.AlertBox.class))
+            return (T) new org.testatoo.cartridge.html4.element.AlertBox(evaluator());
+        else {
+            Selection<T> components = findAll(componentType);
+            if (components.size() == 1)
+                return components.get(0);
+            else if (components.size() > 1) {
+                throw new ComponentException("Find more than one component for type : " + componentType.getSimpleName());
+            } else {
+                throw new ComponentException("Cannot find component for type " + componentType.getSimpleName());
+            }
+        }
+    }
+
+    public static <T extends Component> Selection<T> components(Class<T> componentType) {
+        return findAll(componentType);
+    }
+
     public static <T extends Component> T component(Class<T> componentType, String id) {
         if (id.startsWith("$"))
-            return component(componentType, By.jQuery(id));
+            //@Deprecated
+            return component(componentType, $(id));
         else
             return component(componentType, By.id(id));
     }
 
     public static <T extends Component> T component(Class<T> componentType, By by) {
+        return loadComponent(componentType, by.id(evaluator()));
+    }
+
+    public static Selection<? extends Component> components(By by) {
+        return components(Component.class, by);
+    }
+
+    public static <T extends Component> Selection<T> components(final Class<T> componentType, By by) {
+        return ListSelection.from(by.ids(evaluator())).transform(new Function<String, T>() {
+            @Override
+            public T apply(String id) {
+                return loadComponent(componentType, id);
+            }
+        });
+    }
+
+    public static <T extends Component> Selection<T> findAll(Class<T> componentType) {
+
+        if (componentType == Button.class) {
+            return ListSelection.compose(
+                    components(Button.class, $("input[type=button]")),
+                    components(Button.class, $("input[type=reset]")),
+                    components(Button.class, $("input[type=submit]")),
+                    components(Button.class, $("button")),
+                    components(Button.class, $("input:image")))
+                    .transform(componentType);
+        }
+
+        if (componentType == TextField.class) {
+            return components(InputText.class, $("input:text")).transform(componentType);
+        }
+
+        if (componentType == PasswordField.class) {
+            return components(PasswordField.class, $("input:password")).transform(componentType);
+        }
+
+        if (componentType == Field.class) {
+
+            Selection<PasswordField> passwords = ListSelection.empty();
+            Selection<TextField> texts = ListSelection.empty();
+
+            try {
+                passwords = components(PasswordField.class, $("input:password"));
+            } catch (ComponentException e) {
+                // Not available in the page so continue
+            }
+
+            try {
+                texts = components(TextField.class, $("input:text"));
+            } catch (ComponentException e) {
+                // Not available in the page so continue
+            }
+
+            return ListSelection.compose(passwords, texts).transform(componentType);
+        }
+
+        if (componentType == Image.class) {
+            return components(Image.class, $("img")).transform(componentType);
+        }
+
+        if (componentType == Link.class) {
+            return components(Link.class, $("a")).transform(componentType);
+        }
+
+        if (componentType == Radio.class) {
+            return components(Radio.class, $("input:radio")).transform(componentType);
+        }
+
+        if (componentType == CheckBox.class) {
+            return components(CheckBox.class, $("input:checkbox")).transform(componentType);
+        }
+
+        if (componentType == ListBox.class) {
+            // TODO see with mathieu
+            return (Selection<T>) components(Select.class, $("select"));
+        }
+
+        //TODO test
+        if (componentType == Panel.class) {
+            return components(Panel.class, $("div")).transform(componentType);
+        }
+
+        // Image
+        // Dropdown
+        // Combobox
+        // Checkbox
+
+        if (componentType == DataGrid.class) {
+            return components(DataGrid.class, $("table")).transform(componentType);
+        }
+
+        return ListSelection.empty();
+    }
+
+    private static HtmlEvaluator evaluator() {
+        return EvaluatorHolder.get();
+    }
+
+    private static <T extends Component> T loadComponent(Class<T> componentType, String id) {
         Class cmpType = componentType;
 
         if (componentType.equals(AlertBox.class) || componentType.equals(org.testatoo.cartridge.html4.element.AlertBox.class))
@@ -52,12 +170,6 @@ public final class ComponentFactory {
         if (componentType.equals(ListBox.class))
             cmpType = org.testatoo.cartridge.html4.component.ListBox.class;
 
-        final String id;
-        try {
-            id = by.id(evaluator());
-        } catch (Exception e) {
-            throw new ComponentException("Cannot find component defined " + by, e);
-        }
         try {
             return (T) cmpType.getConstructor(HtmlEvaluator.class, String.class).newInstance(evaluator(), id);
         } catch (Exception e) {
@@ -72,119 +184,4 @@ public final class ComponentFactory {
             }
         }
     }
-
-    public static Selection<? extends Component> components(By by) {
-        final List<String> ids;
-        try {
-            ids = by.ids(evaluator());
-        } catch (Exception e) {
-            throw new ComponentException("Cannot find component defined " + by, e);
-        }
-        return ListSelection.from(ids).transform(new Function<String, Component>() {
-            @Override
-            public Component apply(String id) {
-                return component(Component.class, id);
-            }
-        });
-    }
-
-    public static <T extends Component> Selection<T> components(Class<T> componentType, By by) {
-        final List<String> ids;
-        final List<Component> components = new ArrayList<Component>();
-
-        try {
-            ids = by.ids(evaluator());
-        } catch (Exception e) {
-            throw new ComponentException("Cannot find component defined " + by, e);
-        }
-
-        for (String id : ids) {
-            components.add(component(componentType, id));
-        }
-
-        return ListSelection.from(components).transform(componentType);
-    }
-
-
-    public static <T extends Component> Selection<T> findAll(Class<T> componentType) {
-        if (componentType == Button.class) {
-            return ListSelection.compose(
-                    components(Button.class, By.jQuery("$('input[type=button]')")),
-                    components(Button.class, By.jQuery("$('input[type=reset]')")),
-                    components(Button.class, By.jQuery("$('input[type=submit]')")),
-                    components(Button.class, By.jQuery("$('button')")),
-                    components(Button.class, By.jQuery("$('input:image')")))
-                    .transform(componentType);
-        }
-
-        if (componentType == TextField.class) {
-            return components(InputText.class, By.jQuery("$('input:text')")).transform(componentType);
-        }
-
-        if (componentType == PasswordField.class) {
-            return components(PasswordField.class, By.jQuery("$('input:password')")).transform(componentType);
-        }
-
-        if (componentType == Field.class) {
-
-            Selection<PasswordField> passwords = ListSelection.empty();
-            Selection<TextField> texts = ListSelection.empty();
-
-            try {
-                passwords = components(PasswordField.class, By.jQuery("$('input:password')"));
-            } catch (ComponentException e) {
-                // Not available in the page so continue
-            }
-
-            try {
-                texts = components(TextField.class, By.jQuery("$('input:text')"));
-            } catch (ComponentException e) {
-                // Not available in the page so continue
-            }
-
-            return ListSelection.compose(passwords, texts).transform(componentType);
-        }
-
-        if (componentType == Image.class) {
-            return components(Image.class, By.jQuery("$('img')")).transform(componentType);
-        }
-
-        if (componentType == Link.class) {
-            return components(Link.class, By.jQuery("$('a')")).transform(componentType);
-        }
-
-        if (componentType == Radio.class) {
-            return components(Radio.class, By.jQuery("$('input:radio')")).transform(componentType);
-        }
-
-        if (componentType == CheckBox.class) {
-            return components(CheckBox.class, By.jQuery("$('input:checkbox')")).transform(componentType);
-        }
-
-        if (componentType == ListBox.class) {
-            // TODO see with mathieu
-            return (Selection<T>) components(Select.class, By.jQuery("$('select')"));
-        }
-
-        //TODO test
-        if (componentType == Panel.class) {
-            return components(Panel.class, By.jQuery("$('div9)")).transform(componentType);
-        }
-
-        // Image
-        // Dropdown
-        // Combobox
-        // Checkbox
-
-        if (componentType == DataGrid.class) {
-            return components(DataGrid.class, By.jQuery("$('table')")).transform(componentType);
-        }
-
-        return ListSelection.empty();
-    }
-
-    private static HtmlEvaluator evaluator() {
-        return EvaluatorHolder.get();
-    }
-
 }

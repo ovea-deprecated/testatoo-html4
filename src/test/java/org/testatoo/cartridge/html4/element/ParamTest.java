@@ -23,6 +23,7 @@ import org.testatoo.core.ComponentException;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.fail;
+import static org.testatoo.cartridge.html4.By.$;
 import static org.testatoo.core.ComponentFactory.*;
 import static org.testatoo.core.Language.assertThat;
 
@@ -35,20 +36,20 @@ public class ParamTest extends WebTest {
 
     @Test
     public void can_find_param_by_id() {
-        component(Param.class, "param_1");
+        component(Param.class, $("#param_1"));
 
         try {
-            component(Param.class, "param_0");
+            component(Param.class, $("#param_0"));
             fail();
         } catch (ComponentException e) {
-            assertThat(e.getMessage(), is("Cannot find component defined by id=param_0"));
+            assertThat(e.getMessage(), is("Cannot find component defined by jQueryExpression=$('#param_0')"));
         }
     }
 
     @Test
     public void exception_thrown_if_component_not_a_html_param() {
         try {
-            component(Param.class, "var_ess1");
+            component(Param.class, $("#var_ess1"));
             fail();
         } catch (ComponentException e) {
             assertThat(e.getMessage(), is("The component with id=var_ess1 is not a Param but a Var"));
@@ -57,9 +58,9 @@ public class ParamTest extends WebTest {
 
     @Test
     public void test_param_specifics_attributes() {
-        Param param_1 = component(Param.class, "param_1");
-        Param param_2 = component(Param.class, "param_2");
-        Param param_3 = component(Param.class, "param_3");
+        Param param_1 = component(Param.class, $("#param_1"));
+        Param param_2 = component(Param.class, $("#param_2"));
+        Param param_3 = component(Param.class, $("#param_3"));
 
         assertThat(param_1.valuetype(), is(ValueType.data));
         assertThat(param_1.name(), is("movie"));
@@ -73,7 +74,7 @@ public class ParamTest extends WebTest {
 
     @Test
     public void test_toString() {
-        assertThat(component(Param.class, "param_1").toString(),
+        assertThat(component(Param.class, $("#param_1")).toString(),
                 is("class org.testatoo.cartridge.html4.element.Param with state : enabled:true, visible:false, name:movie, value:images/dropdown.swf"));
     }
 }

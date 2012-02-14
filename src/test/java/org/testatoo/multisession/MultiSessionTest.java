@@ -25,10 +25,13 @@ import org.testatoo.config.annotation.TestatooModules;
 import org.testatoo.config.junit.TestatooJunitRunner;
 
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
+import static org.testatoo.cartridge.html4.By.$;
 import static org.testatoo.cartridge.html4.Language.*;
 import static org.testatoo.core.ComponentFactory.*;
 import static org.testatoo.core.EvaluatorHolder.withEvaluator;
 import static org.testatoo.core.Language.assertThat;
+import static org.testatoo.core.matcher.Matchers.*;
 
 @RunWith(TestatooJunitRunner.class)
 @TestatooModules(MultiSessionModule.class)
@@ -41,23 +44,23 @@ public class MultiSessionTest {
 
     @Test
     public void can_reset_a_form() {
-        type("Joe", on(component(InputText.class, "firstname")));
-        type("Blow", into(component(InputText.class, "lastname")));
-        enter("email@noname.com", into(into(component(InputText.class, "email"))));
+        type("Joe", on(component(InputText.class, $("#firstname"))));
+        type("Blow", into(component(InputText.class, $("#lastname"))));
+        enter("email@noname.com", into(into(component(InputText.class, $("#email")))));
 
         check(component(Radio.class, "male"));
-        check(component(CheckBox.class, By.jQuery("$('[name=yes]')")));
+        check(component(CheckBox.class, $("[name=yes]")));
 
-        on(component(Select.class, "cities")).select("Casablanca");
+        on(component(Select.class, $("#cities"))).select("Casablanca");
 
-        component(Form.class, "myForm").reset();
+        component(Form.class, $("#myForm")).reset();
 
-        assertThat(component(InputText.class, "firstname").value(), is(""));
-        assertThat(component(InputText.class, "lastname").value(), is(""));
-        assertThat(component(InputText.class, "email").value(), is(""));
+        assertThat(component(InputText.class, $("#firstname")), has(value("")));
+        assertThat(component(InputText.class, $("#lastname")), has(value("")));
+        assertThat(component(InputText.class, $("#email")), has(value("")));
 
-        assertThat(component(Radio.class, "male").isChecked(), is(false));
-        assertThat(component(CheckBox.class, By.jQuery("$('[name=yes]')")).isChecked(), is(false));
+        assertThat(component(Radio.class, $("#male")), is(not(checked())));
+        assertThat(component(CheckBox.class, $("[name=yes]")), is(not(checked())));
 
         assertThat(component(Select.class, "cities").selectedOptions().get(0).content(), is("New York"));
 
@@ -67,30 +70,30 @@ public class MultiSessionTest {
             @Override
             public void run() {
                 page().open("/");
-                type("testatoo", on(component(InputText.class, By.jQuery("$('[name=q]')"))));
-                clickOn(component(Button.class, By.jQuery("$('[name=btnG]')")));
+                type("testatoo", on(component(InputText.class, $("[name=q]"))));
+                clickOn(component(Button.class, $("[name=btnG]")));
             }
         });
 
-        type("Joe", on(component(InputText.class, "firstname")));
-        type("Blow", into(component(InputText.class, "lastname")));
-        enter("email@noname.com", into(component(InputText.class, "email")));
+        type("Joe", on(component(InputText.class, $("#firstname"))));
+        type("Blow", into(component(InputText.class, $("#lastname"))));
+        enter("email@noname.com", into(component(InputText.class, $("#email"))));
 
-        check(component(Radio.class, "male"));
-        check(component(CheckBox.class, By.jQuery("$('[name=yes]')")));
+        check(component(Radio.class, $("#male")));
+        check(component(CheckBox.class, $("[name=yes]")));
 
-        on(component(Select.class, "cities")).select("Casablanca");
+        on(component(Select.class, $("#cities"))).select("Casablanca");
 
-        on(component(Form.class, "myForm")).reset();
+        on(component(Form.class, $("#myForm"))).reset();
 
-        assertThat(component(InputText.class, "firstname").value(), is(""));
-        assertThat(component(InputText.class, "lastname").value(), is(""));
-        assertThat(component(InputText.class, "email").value(), is(""));
+        assertThat(component(InputText.class, $("#firstname")), has(value("")));
+        assertThat(component(InputText.class, $("#lastname")), has(value("")));
+        assertThat(component(InputText.class, $("#email")), has(value("")));
 
-        assertThat(component(Radio.class, "male").isChecked(), is(false));
-        assertThat(component(CheckBox.class, By.jQuery("$('[name=yes]')")).isChecked(), is(false));
+        assertThat(component(Radio.class, $("#male")), is(not(checked())));
+        assertThat(component(CheckBox.class, $("[name=yes]")), is(not(checked())));
 
-        assertThat(component(Select.class, "cities").selectedOptions().get(0).content(), is("New York"));
+        assertThat(component(Select.class, $("#cities")).selectedOptions().get(0).content(), is("New York"));
     }
 
 }

@@ -21,10 +21,10 @@ import org.junit.Test;
 import org.testatoo.WebTest;
 import org.testatoo.core.ComponentException;
 
-import java.util.concurrent.TimeUnit;
-
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.fail;
+import static org.testatoo.cartridge.html4.By.$;
 import static org.testatoo.core.ComponentFactory.*;
 import static org.testatoo.core.Language.*;
 import static org.testatoo.core.input.Mouse.clickOn;
@@ -39,20 +39,20 @@ public class LinkTest extends WebTest {
 
     @Test
     public void can_find_a_by_id() {
-        component(A.class, "a_1");
+        component(A.class, $("#a_1"));
 
         try {
-            component(A.class, "a_0");
+            component(A.class, $("#a_0"));
             fail();
         } catch (ComponentException e) {
-            assertThat(e.getMessage(), is("Cannot find component defined by id=a_0"));
+            assertThat(e.getMessage(), is("Cannot find component defined by jQueryExpression=$('#a_0')"));
         }
     }
 
     @Test
     public void exception_thrown_if_component_not_a_html_a() {
         try {
-            component(A.class, "radio");
+            component(A.class, $("#radio"));
             fail();
         } catch (ComponentException e) {
             assertThat(e.getMessage(), is("The component with id=radio is not a Link but a Radio"));
@@ -61,7 +61,7 @@ public class LinkTest extends WebTest {
 
     @Test
     public void test_a_i18nAttributes() {
-        A a = component(A.class, "a_1");
+        A a = component(A.class, $("#a_1"));
 
         assertThat(a.direction(), is(Direction.lefttoright));
         assertThat(a.language(), is("fr"));
@@ -69,7 +69,7 @@ public class LinkTest extends WebTest {
 
     @Test
     public void test_a_coreAttributes() {
-        A a = component(A.class, "a_1");
+        A a = component(A.class, $("#a_1"));
 
         assertThat(a.id(), is("a_1"));
         assertThat(a.classname(), is("myAClass"));
@@ -79,7 +79,7 @@ public class LinkTest extends WebTest {
 
     @Test
     public void test_a_specifics_attributes() {
-        A a = component(A.class, "a_1");
+        A a = component(A.class, $("#a_1"));
 
         assertThat(a.type(), is("text/html"));
         assertThat(a.name(), is("aName"));
@@ -98,7 +98,7 @@ public class LinkTest extends WebTest {
 
     @Test
     public void click_on_A_change_page() throws Exception {
-        A a_link = component(A.class, "a_1");
+        A a_link = component(A.class, $("#a_1"));
         assertThat(page().title(), is("Link tests"));
         clickOn(a_link);
         waitUntil(page(), has(title("Exit page")));
@@ -109,44 +109,44 @@ public class LinkTest extends WebTest {
         // 1 - Link without js
         page().open("Link.html");
         assertThat(page(), has(title("Link tests")));
-        clickOn(component(A.class, "a_1"));
+        clickOn(component(A.class, $("#a_1")));
         waitUntil(page(), has(title("Exit page")));
 
         // 2 - Link with js
         page().open("Link.html");
         assertThat(page(), has(title("Link tests")));
-        clickOn(component(A.class, "jsLink"));
+        clickOn(component(A.class, $("#jsLink")));
         waitUntil(page(), has(title("Exit page")));
 
         // 3 - Link with hooked js
         page().open("Link.html");
-        assertThat(component(P.class, "message"), has(text("")));
-        clickOn(component(A.class, "jsHookedLink"));
-        waitUntil(component(P.class, "message"), has(text("Success")), max(10, TimeUnit.SECONDS));
+        assertThat(component(P.class, $("#message")), has(text("")));
+        clickOn(component(A.class, $("#jsHookedLink")));
+        waitUntil(component(P.class, $("#message")), has(text("Success")), max(10, SECONDS));
     }
 
     @Test
     public void testA_toString() {
-        assertThat(component(A.class, "a_1").toString(), is("class org.testatoo.cartridge.html4.element.A with state : enabled:true, visible:true, text:Link 1 - a type, reference:Exit.html"));
+        assertThat(component(A.class, $("#a_1")).toString(), is("class org.testatoo.cartridge.html4.element.A with state : enabled:true, visible:true, text:Link 1 - a type, reference:Exit.html"));
     }
 
     //------------------------------------------
     @Test
     public void can_find_link_by_id() {
-        component(Link.class, "link_1");
+        component(Link.class, $("#link_1"));
 
         try {
-            component(A.class, "link_0");
+            component(A.class, $("#link_0"));
             fail();
         } catch (ComponentException e) {
-            assertThat(e.getMessage(), is("Cannot find component defined by id=link_0"));
+            assertThat(e.getMessage(), is("Cannot find component defined by jQueryExpression=$('#link_0')"));
         }
     }
 
     @Test
     public void exception_thrown_if_component_not_a_html_link() {
         try {
-            component(Link.class, "radio");
+            component(Link.class, $("#radio"));
             fail();
         } catch (ComponentException e) {
             assertThat(e.getMessage(), is("The component with id=radio is not a Link but a Radio"));
@@ -155,7 +155,7 @@ public class LinkTest extends WebTest {
 
     @Test
     public void test_link_i18nAttributes() {
-        Link link = component(Link.class, "link_1");
+        Link link = component(Link.class, $("#link_1"));
 
         assertThat(link.direction(), is(Direction.righttoleft));
         assertThat(link.language(), is("en"));
@@ -163,7 +163,7 @@ public class LinkTest extends WebTest {
 
     @Test
     public void test_link_coreAttributes() {
-        Link link = component(Link.class, "link_1");
+        Link link = component(Link.class, $("#link_1"));
 
         assertThat(link.id(), is("link_1"));
         assertThat(link.classname(), is("myLINKClass"));
@@ -173,7 +173,7 @@ public class LinkTest extends WebTest {
 
     @Test
     public void test_link_specifics_attributes() {
-        Link link = component(Link.class, "link_1");
+        Link link = component(Link.class, $("#link_1"));
 
         assertThat(link.type(), is("text/html"));
         assertThat(link.charset(), is("utf-8"));
@@ -187,13 +187,13 @@ public class LinkTest extends WebTest {
 
     @Test
     public void test_enability() {
-        Link link = component(Link.class, "link_1");
+        Link link = component(Link.class, $("#link_1"));
         assertThat(link.isVisible(), is(false));
     }
 
     @Test
     public void testLink_toString() {
-        Link link = component(Link.class, "link_1");
+        Link link = component(Link.class, $("#link_1"));
         assertThat(link.toString(), is("class org.testatoo.cartridge.html4.element.Link with state : enabled:true, visible:false, text:, reference:Exit.html"));
     }
 }

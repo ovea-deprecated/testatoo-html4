@@ -24,6 +24,7 @@ import org.testatoo.cartridge.html4.element.Form;
 import org.testatoo.core.component.Radio;
 
 import static org.hamcrest.Matchers.not;
+import static org.testatoo.cartridge.html4.By.$;
 import static org.testatoo.cartridge.html4.Language.*;
 import static org.testatoo.core.ComponentFactory.component;
 import static org.testatoo.core.ComponentFactory.page;
@@ -36,14 +37,14 @@ public class ContainerTest extends WebTest {
         goTo("Page.html");
 
         // Trivial, page contains all the elements
-        assertThat(page(), contains(component(A.class, "link_1")));
+        assertThat(page(), contains(component(A.class, $("#link_1"))));
 
         // For form
         goTo("Form.html");
 
-        Radio maleRadio = component(Radio.class, By.id("male"));
+        Radio maleRadio = component(Radio.class, $("#male"));
 
-        assertThat(component(Form.class, "myForm"), contains(maleRadio));
-        assertThat(component(Form.class, "myForm2"), not(contains(maleRadio)));
+        assertThat(component(Form.class, $("#myForm")), contains(maleRadio));
+        assertThat(component(Form.class, $("#myForm2")), not(contains(maleRadio)));
     }
 }

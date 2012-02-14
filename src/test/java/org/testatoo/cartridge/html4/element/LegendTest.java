@@ -23,6 +23,7 @@ import org.testatoo.core.ComponentException;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.fail;
+import static org.testatoo.cartridge.html4.By.$;
 import static org.testatoo.core.ComponentFactory.*;
 import static org.testatoo.core.Language.assertThat;
 
@@ -35,20 +36,20 @@ public class LegendTest extends WebTest {
 
     @Test
     public void can_find_legend_by_id() {
-        component(Legend.class, "legend_1");
+        component(Legend.class, $("#legend_1"));
 
         try {
-            component(Legend.class, "legend_0");
+            component(Legend.class, $("#legend_0"));
             fail();
         } catch (ComponentException e) {
-            assertThat(e.getMessage(), is("Cannot find component defined by id=legend_0"));
+            assertThat(e.getMessage(), is("Cannot find component defined by jQueryExpression=$('#legend_0')"));
         }
     }
 
     @Test
     public void exception_thrown_if_component_not_a_html_legend() {
         try {
-            component(Legend.class, "radio");
+            component(Legend.class, $("#radio"));
             fail();
         } catch (ComponentException e) {
             assertThat(e.getMessage(), is("The component with id=radio is not a Legend but a Radio"));
@@ -57,14 +58,14 @@ public class LegendTest extends WebTest {
 
     @Test
     public void test_legend_i18nAttributes() {
-        Legend legend = component(Legend.class, "legend_1");
+        Legend legend = component(Legend.class, $("#legend_1"));
         assertThat(legend.direction(), is(Direction.lefttoright));
         assertThat(legend.language(), is("es"));
     }
 
     @Test
     public void test_legend_coreAttributes() {
-        Legend legend = component(Legend.class, "legend_1");
+        Legend legend = component(Legend.class, $("#legend_1"));
         assertThat(legend.id(), is("legend_1"));
         assertThat(legend.classname(), is("MyLEGENDClass"));
         assertThat(legend.style(), containsString("color:blue"));
@@ -73,13 +74,13 @@ public class LegendTest extends WebTest {
 
     @Test
     public void test_legend_specifics_attributes() {
-        Legend legend = component(Legend.class, "legend_2");
+        Legend legend = component(Legend.class, $("#legend_2"));
         assertThat(legend.accesskey(), is("M"));
     }
 
     @Test
     public void test_toString() {
-        assertThat(component(Legend.class, "legend_1").toString(),
+        assertThat(component(Legend.class, $("#legend_1")).toString(),
                 is("class org.testatoo.cartridge.html4.element.Legend with state : enabled:true, visible:true, title:legendTitle, content:Personal information"));
     }
 }

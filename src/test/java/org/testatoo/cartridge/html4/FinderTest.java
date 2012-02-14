@@ -18,12 +18,14 @@ package org.testatoo.cartridge.html4;
 
 import org.junit.Test;
 import org.testatoo.WebTest;
+import org.testatoo.core.ComponentException;
 import org.testatoo.core.EvaluatorHolder;
 import org.testatoo.core.Selection;
 import org.testatoo.core.component.*;
 import org.testatoo.core.component.datagrid.DataGrid;
 
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.fail;
 import static org.testatoo.cartridge.html4.By.$;
 import static org.testatoo.core.ComponentFactory.*;
 import static org.testatoo.core.Language.assertThat;
@@ -44,6 +46,13 @@ public class FinderTest extends WebTest {
         page().open("Button.html");
 
         assertThat(component(Button.class, $(":submit:first")), exist());
+    }
+
+    @Test
+    public void can_find_elements_with_multiple_search(){
+        page().open("MultipleElements.html");
+
+        assertThat(components(Panel.class, $(".classp")), has(size(3)));
     }
 
     @Test
@@ -111,5 +120,41 @@ public class FinderTest extends WebTest {
         page().open("DataGrid.html");
         Selection<DataGrid> datagrids = findAll(DataGrid.class);
         assertThat(datagrids, has(size(2)));
+    }
+
+    @Test
+    public void can_see_explicit_exception_when_no_element_is_found_on_simple_search() {
+        page().open("MultipleElements.html");
+
+        try {
+            component(Panel.class, $(".classUnknow"));
+            fail();
+        } catch (ComponentException e) {
+            assertThat(e.getMessage(), is("Cannot find component defined by jQueryExpression=$('.classUnknow')"));
+        }
+    }
+
+    @Test
+    public void can_see_explicit_exception_when_no_element_is_found_on_multiple_search() {
+        page().open("MultipleElements.html");
+
+        try {
+            components(Panel.class, $(".classUnknow"));
+            fail();
+        } catch (ComponentException e) {
+            assertThat(e.getMessage(), is("Cannot find component defined by jQueryExpression=$('.classUnknow')"));
+        }
+    }
+
+    @Test
+    public void can_see_explicit_exception_when_there_is_any_elements_found_on_simple_search() {
+        page().open("MultipleElements.html");
+
+        try {
+            component(Panel.class, $(".classp"));
+            fail();
+        } catch (ComponentException e) {
+            assertThat(e.getMessage(), is("Find more than one component defined by jQueryExpression=$('.classp')"));
+        }
     }
 }

@@ -23,6 +23,7 @@ import org.testatoo.core.ComponentException;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.fail;
+import static org.testatoo.cartridge.html4.By.$;
 import static org.testatoo.core.ComponentFactory.*;
 import static org.testatoo.core.Language.assertThat;
 
@@ -35,20 +36,20 @@ public class LabelTest extends WebTest {
 
     @Test
     public void can_find_label_by_id() {
-        component(Label.class, "label_1");
+        component(Label.class, $("#label_1"));
 
         try {
-            component(Label.class, "label_0");
+            component(Label.class, $("#label_0"));
             fail();
         } catch (ComponentException e) {
-            assertThat(e.getMessage(), is("Cannot find component defined by id=label_0"));
+            assertThat(e.getMessage(), is("Cannot find component defined by jQueryExpression=$('#label_0')"));
         }
     }
 
     @Test
     public void exception_thrown_if_component_not_a_html_label() {
         try {
-            component(Label.class, "abbr_ess1");
+            component(Label.class, $("#abbr_ess1"));
             fail();
         } catch (ComponentException e) {
             assertThat(e.getMessage(), is("The component with id=abbr_ess1 is not a Label but a Abbr"));
@@ -57,7 +58,7 @@ public class LabelTest extends WebTest {
 
     @Test
     public void test_label_i18nAttributes() {
-        Label label = component(Label.class, "label_1");
+        Label label = component(Label.class, $("#label_1"));
 
         assertThat(label.direction(), is(Direction.lefttoright));
         assertThat(label.language(), is("en"));
@@ -65,7 +66,7 @@ public class LabelTest extends WebTest {
 
     @Test
     public void test_label_coreAttributes() {
-        Label label = component(Label.class, "label_1");
+        Label label = component(Label.class, $("#label_1"));
 
         assertThat(label.id(), is("label_1"));
         assertThat(label.classname(), is("myLABELClass"));
@@ -75,8 +76,8 @@ public class LabelTest extends WebTest {
 
     @Test
     public void test_label_specifics_attributes() {
-        Label label_1 = component(Label.class, "label_1");
-        Label label_2 = component(Label.class, "label_2");
+        Label label_1 = component(Label.class, $("#label_1"));
+        Label label_2 = component(Label.class, $("#label_2"));
 
         assertThat(label_1._for(), is("lname"));
         assertThat(label_2.accesskey(), is("L"));
@@ -85,11 +86,11 @@ public class LabelTest extends WebTest {
 
     @Test
     public void test_label_content() {
-        assertThat(component(Label.class, "label_3").content(), is("Home phone number"));
+        assertThat(component(Label.class, $("#label_3")).content(), is("Home phone number"));
     }
 
     @Test
     public void test_toString() {
-        assertThat(component(Label.class, "label_3").toString(), is("class org.testatoo.cartridge.html4.element.Label with state : enabled:true, visible:true, content: Home phone number"));
+        assertThat(component(Label.class, $("#label_3")).toString(), is("class org.testatoo.cartridge.html4.element.Label with state : enabled:true, visible:true, content: Home phone number"));
     }
 }

@@ -24,8 +24,10 @@ import org.testatoo.core.ComponentException;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.fail;
+import static org.testatoo.cartridge.html4.By.$;
 import static org.testatoo.core.ComponentFactory.*;
 import static org.testatoo.core.Language.assertThat;
+import static org.testatoo.core.matcher.Matchers.*;
 
 public class TextAreaTest extends WebTest {
 
@@ -36,20 +38,20 @@ public class TextAreaTest extends WebTest {
 
     @Test
     public void can_find_textArea_by_id() {
-        component(TextArea.class, "textArea_1");
+        component(TextArea.class, $("#textArea_1"));
 
         try {
-            component(TextArea.class, "textArea_0");
+            component(TextArea.class, $("#textArea_0"));
             fail();
         } catch (ComponentException e) {
-            assertThat(e.getMessage(), is("Cannot find component defined by id=textArea_0"));
+            assertThat(e.getMessage(), is("Cannot find component defined by jQueryExpression=$('#textArea_0')"));
         }
     }
 
     @Test
     public void exception_thrown_if_component_not_a_html_textArea() {
         try {
-            component(TextArea.class, "abbr_ess1");
+            component(TextArea.class, $("#abbr_ess1"));
             fail();
         } catch (ComponentException e) {
             assertThat(e.getMessage(), is("The component with id=abbr_ess1 is not a TextArea but a Abbr"));
@@ -58,7 +60,7 @@ public class TextAreaTest extends WebTest {
 
     @Test
     public void test_textArea_coreAttributes() {
-        TextArea textArea_1 = component(TextArea.class, "textArea_1");
+        TextArea textArea_1 = component(TextArea.class, $("#textArea_1"));
 
         assertThat(textArea_1.id(), is("textArea_1"));
         assertThat(textArea_1.classname(), is("myTEXTAREAClass"));
@@ -68,7 +70,7 @@ public class TextAreaTest extends WebTest {
 
     @Test
     public void test_textArea_i18nAttributes() {
-        TextArea textArea_1 = component(TextArea.class, "textArea_1");
+        TextArea textArea_1 = component(TextArea.class, $("#textArea_1"));
 
         assertThat(textArea_1.direction(), is(Direction.lefttoright));
         assertThat(textArea_1.language(), is("en"));
@@ -76,7 +78,7 @@ public class TextAreaTest extends WebTest {
 
     @Test
     public void test_textArea_specifics_attributes() {
-        TextArea textArea_1 = component(TextArea.class, "textArea_1");
+        TextArea textArea_1 = component(TextArea.class, $("#textArea_1"));
 
         assertThat(textArea_1.name(), is("textAreaName"));
         assertThat(textArea_1.rows(), is(10));
@@ -90,27 +92,27 @@ public class TextAreaTest extends WebTest {
 
     @Test
     public void test_enability() {
-        TextArea textArea_1 = component(TextArea.class, "textArea_1");
-        TextArea textArea_2 = component(TextArea.class, "textArea_2");
-        TextArea textArea_3 = component(TextArea.class, By.jQuery("$('[name=textArea3linesName]')"));
+        TextArea textArea_1 = component(TextArea.class, $("#textArea_1"));
+        TextArea textArea_2 = component(TextArea.class, $("#textArea_2"));
+        TextArea textArea_3 = component(TextArea.class, $("[name=textArea3linesName]"));
 
-        assertThat(textArea_1.isDisabled(), is(false));
-        assertThat(textArea_1.isEnabled(), is(true));
+        assertThat(textArea_1, is(not(disabled())));
+        assertThat(textArea_1, is(enabled()));
         assertThat(textArea_1.isReadOnly(), is(false));
         assertThat(textArea_2.isReadOnly(), is(true));
-        assertThat(textArea_3.isDisabled(), is(true));
-        assertThat(textArea_3.isEnabled(), is(false));
+        assertThat(textArea_3, is(disabled()));
+        assertThat(textArea_3, is(not(enabled())));
     }
 
     @Test
     public void test_label() {
-        assertThat(component(TextArea.class, "textArea_2").label(), is("Text with two lines"));
-        assertThat(component(TextArea.class, By.jQuery("$('[name=textArea3linesName]')")).label(), containsString("Text with three lines"));
+        assertThat(component(TextArea.class, $("#textArea_2")), has(label("Text with two lines")));
+        assertThat(component(TextArea.class, $("[name=textArea3linesName]")).label(), containsString("Text with three lines"));
     }
 
     @Test
     public void test_toString() {
-        TextArea textArea = component(TextArea.class, "textArea_1");
+        TextArea textArea = component(TextArea.class, $("#textArea_1"));
         assertThat(textArea.toString(),
                 containsString("class org.testatoo.cartridge.html4.element.TextArea with state : enabled:true, visible:true, value:First line of initial text."));
 

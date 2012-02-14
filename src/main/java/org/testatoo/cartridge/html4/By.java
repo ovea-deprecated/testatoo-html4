@@ -27,7 +27,16 @@ import static org.testatoo.core.Language.max;
 
 public abstract class By {
 
-    @Deprecated
+    public abstract String id(HtmlEvaluator evaluator);
+
+    public abstract String id(HtmlEvaluator evaluator, Duration duration, Duration frequency);
+
+    public abstract List<String> ids(HtmlEvaluator evaluator);
+
+    public abstract List<String> ids(HtmlEvaluator evaluator, Duration duration, Duration frequency);
+
+    public abstract String toString();
+
     public static By id(final String id) {
         if (id == null)
             throw new IllegalArgumentException("Cannot find component with a null id.");
@@ -115,42 +124,12 @@ public abstract class By {
         return $(jQueryExpression, duration);
     }
 
-    public abstract String id(HtmlEvaluator evaluator);
-
-    public abstract String id(HtmlEvaluator evaluator, Duration duration, Duration frequency);
-
-    public abstract List<String> ids(HtmlEvaluator evaluator);
-
-    public abstract List<String> ids(HtmlEvaluator evaluator, Duration duration, Duration frequency);
-
-    public abstract String toString();
-
     private static String waitUntilId(HtmlEvaluator evaluator, String expression, Duration duration, Duration frequency) {
-        Throwable ex = null;
-        try {
-            final long step = frequency.unit.toMillis(frequency.duration);
-
-            for (long timeout = duration.unit.toMillis(duration.duration); timeout > 0 && !Thread.currentThread().isInterrupted(); timeout -= step, Thread.sleep(step)) {
-                try {
-
-                    String[] ids = evaluator.elementsId(expression);
-                    if (ids.length != 1) {
-                        throw new ComponentException("Find more than one component defined by the jquery expression : " + expression.substring(7));
-                    }
-                    return ids[0];
-                } catch (RuntimeException e) {
-                    ex = e;
-                }
-            }
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            ex = e;
-        }
-
-        if (ex instanceof EvaluatorException) {
-            throw (EvaluatorException) ex;
-        }
-        throw new RuntimeException("Unable to reach the condition in " + duration.duration + " " + duration.unit, ex);
+        String[] ids = waitUntilIds(evaluator, expression, duration, frequency);
+        if (ids.length > 1)
+            throw new ComponentException("Find more than one component defined by jQueryExpression=" + expression.substring(7));
+        else
+            return ids[0];
     }
 
     private static String[] waitUntilIds(HtmlEvaluator evaluator, String expression, Duration duration, Duration frequency) {
@@ -171,7 +150,7 @@ public abstract class By {
         }
 
         if (ex instanceof EvaluatorException) {
-            throw (EvaluatorException) ex;
+            throw new ComponentException("Cannot find component defined by jQueryExpression=" + expression.substring(7));
         }
         throw new RuntimeException("Unable to reach the condition in " + duration.duration + " " + duration.unit, ex);
     }

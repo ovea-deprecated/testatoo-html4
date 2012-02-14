@@ -45,7 +45,7 @@ public class IFrameTest extends WebTest {
             component(IFrame.class, $("#iFrame_0"));
             fail();
         } catch (ComponentException e) {
-            assertThat(e.getMessage(), is("Cannot find component defined by id=iFrame_0"));
+            assertThat(e.getMessage(), is("Cannot find component defined by jQueryExpression=$('#iFrame_0')"));
         }
     }
 
