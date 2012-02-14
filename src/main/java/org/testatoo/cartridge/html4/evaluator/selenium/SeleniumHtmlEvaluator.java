@@ -25,10 +25,7 @@ import org.testatoo.cartridge.html4.component.ListBox;
 import org.testatoo.cartridge.html4.element.*;
 import org.testatoo.cartridge.html4.element.Map;
 import org.testatoo.cartridge.html4.element.Object;
-import org.testatoo.core.ComponentType;
-import org.testatoo.core.EvaluatorSkeleton;
-import org.testatoo.core.ListSelection;
-import org.testatoo.core.Selection;
+import org.testatoo.core.*;
 import org.testatoo.core.component.*;
 import org.testatoo.core.component.AlertBox;
 import org.testatoo.core.component.Button;
@@ -45,6 +42,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.*;
 
+import static org.testatoo.cartridge.html4.By.$;
 import static org.testatoo.core.ComponentType.AlertBox;
 import static org.testatoo.core.input.KeyModifier.*;
 
@@ -223,13 +221,13 @@ public final class SeleniumHtmlEvaluator extends EvaluatorSkeleton<Selenium> imp
     @Override
     public String label(LabelSupport labelSupport) {
         try {
-            Component label = new Component(this, By.jQuery("$('label[for=" + ((Component) labelSupport).id() + "]')").id(this));
+            Component label = new Component(this, $("label[for=" + ((Component) labelSupport).id() + "]").id(this));
             return nodeTextContent(label);
-        } catch (EvaluatorException e) {
+        } catch (ComponentException e) {
             try {
-                Component label = new Component(this, By.jQuery("$('#" + ((Component) labelSupport).id() + "').parent()").id(this));
+                Component label = new Component(this, $("$('#" + ((Component) labelSupport).id() + "').parent()").id(this));
                 return nodeTextContent(label);
-            } catch (EvaluatorException ex) {
+            } catch (ComponentException ex) {
                 return "";
             }
         }

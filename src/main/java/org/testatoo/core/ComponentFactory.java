@@ -25,8 +25,6 @@ import org.testatoo.core.component.*;
 import org.testatoo.core.component.datagrid.DataGrid;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.testatoo.cartridge.html4.By.$;
 
@@ -36,77 +34,52 @@ public final class ComponentFactory {
         return new Page(evaluator(), evaluator().pageId());
     }
 
+    public static <T extends Component> T component(Class<T> componentType) {
+        if (componentType.equals(AlertBox.class) || componentType.equals(org.testatoo.cartridge.html4.element.AlertBox.class))
+            return (T) new org.testatoo.cartridge.html4.element.AlertBox(evaluator());
+        else {
+            Selection<T> components = findAll(componentType);
+            if (components.size() == 1)
+                return components.get(0);
+            else if (components.size() > 1) {
+                throw new ComponentException("Find more than one component for type : " + componentType.getSimpleName());
+            } else {
+                throw new ComponentException("Cannot find component for type " + componentType.getSimpleName());
+            }
+        }
+    }
+
+    public static <T extends Component> Selection<T> components(Class<T> componentType) {
+        return findAll(componentType);
+    }
+
     public static <T extends Component> T component(Class<T> componentType, String id) {
         if (id.startsWith("$"))
+            //@Deprecated
             return component(componentType, $(id));
         else
             return component(componentType, By.id(id));
     }
 
     public static <T extends Component> T component(Class<T> componentType, By by) {
-        Class cmpType = componentType;
-
-        if (componentType.equals(AlertBox.class) || componentType.equals(org.testatoo.cartridge.html4.element.AlertBox.class))
-            return (T) new org.testatoo.cartridge.html4.element.AlertBox(evaluator());
-        if (componentType.equals(DropDown.class))
-            cmpType = org.testatoo.cartridge.html4.element.DropDown.class;
-        if (componentType.equals(ListBox.class))
-            cmpType = org.testatoo.cartridge.html4.component.ListBox.class;
-
-        final String id;
-        try {
-            id = by.id(evaluator());
-        } catch (Exception e) {
-            throw new ComponentException("Cannot find component defined " + by, e);
-        }
-        try {
-            return (T) cmpType.getConstructor(HtmlEvaluator.class, String.class).newInstance(evaluator(), id);
-        } catch (Exception e) {
-            if (e.getCause() instanceof ComponentException)
-                throw (ComponentException) e.getCause();
-            try {
-                return componentType.getConstructor(Evaluator.class, String.class).newInstance(evaluator(), id);
-            } catch (InvocationTargetException ite) {
-                throw new ComponentException(ite.getTargetException().getMessage(), ite.getTargetException());
-            } catch (Exception e1) {
-                throw new ComponentException(e1.getMessage(), e1);
-            }
-        }
+        return loadComponent(componentType, by.id(evaluator()));
     }
 
     public static Selection<? extends Component> components(By by) {
-        final List<String> ids;
-        try {
-            ids = by.ids(evaluator());
-        } catch (Exception e) {
-            throw new ComponentException("Cannot find component defined " + by, e);
-        }
-        return ListSelection.from(ids).transform(new Function<String, Component>() {
+        return components(Component.class, by);
+    }
+
+    public static <T extends Component> Selection<T> components(final Class<T> componentType, By by) {
+        return ListSelection.from(by.ids(evaluator())).transform(new Function<String, T>() {
             @Override
-            public Component apply(String id) {
-                return component(Component.class, id);
+            public T apply(String id) {
+                return loadComponent(componentType, id);
             }
         });
     }
 
-    public static <T extends Component> Selection<T> components(Class<T> componentType, By by) {
-        final List<String> ids;
-        final List<Component> components = new ArrayList<Component>();
-
-        try {
-            ids = by.ids(evaluator());
-        } catch (Exception e) {
-            throw new ComponentException("Cannot find component defined " + by, e);
-        }
-
-        for (String id : ids) {
-            components.add(component(componentType, id));
-        }
-
-        return ListSelection.from(components).transform(componentType);
-    }
-
     public static <T extends Component> Selection<T> findAll(Class<T> componentType) {
+
         if (componentType == Button.class) {
             return ListSelection.compose(
                     components(Button.class, $("input[type=button]")),
@@ -187,4 +160,28 @@ public final class ComponentFactory {
         return EvaluatorHolder.get();
     }
 
+    private static <T extends Component> T loadComponent(Class<T> componentType, String id) {
+        Class cmpType = componentType;
+
+        if (componentType.equals(AlertBox.class) || componentType.equals(org.testatoo.cartridge.html4.element.AlertBox.class))
+            return (T) new org.testatoo.cartridge.html4.element.AlertBox(evaluator());
+        if (componentType.equals(DropDown.class))
+            cmpType = org.testatoo.cartridge.html4.element.DropDown.class;
+        if (componentType.equals(ListBox.class))
+            cmpType = org.testatoo.cartridge.html4.component.ListBox.class;
+
+        try {
+            return (T) cmpType.getConstructor(HtmlEvaluator.class, String.class).newInstance(evaluator(), id);
+        } catch (Exception e) {
+            if (e.getCause() instanceof ComponentException)
+                throw (ComponentException) e.getCause();
+            try {
+                return componentType.getConstructor(Evaluator.class, String.class).newInstance(evaluator(), id);
+            } catch (InvocationTargetException ite) {
+                throw new ComponentException(ite.getTargetException().getMessage(), ite.getTargetException());
+            } catch (Exception e1) {
+                throw new ComponentException(e1.getMessage(), e1);
+            }
+        }
+    }
 }
