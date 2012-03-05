@@ -20,12 +20,13 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.testatoo.WebTest;
 import org.testatoo.core.component.CheckBox;
-import org.testatoo.core.input.Mouse;
 
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.fail;
 import static org.testatoo.core.ComponentFactory.*;
 import static org.testatoo.core.Language.*;
+import static org.testatoo.core.matcher.Matchers.checked;
 
 public class CheckBoxTest extends WebTest {
 
@@ -60,19 +61,19 @@ public class CheckBoxTest extends WebTest {
     public void can_check() {
         CheckBox firstchoice = component(CheckBox.class, "firstChoice");
 
-        assertThat(firstchoice.isChecked(), is(false));
+        assertThat(firstchoice, is(not(checked())));
         clickOn(firstchoice);
-        assertThat(firstchoice.isChecked(), is(true));
-        Mouse.clickOn(firstchoice);
-        assertThat(firstchoice.isChecked(), is(false));
+        assertThat(firstchoice, is(checked()));
+        clickOn(firstchoice);
+        assertThat(firstchoice, is(not(checked())));
 
         CheckBox secondchoice = component(CheckBox.class, "secondChoice");
 
-        assertThat(secondchoice.isChecked(), is(false));
+        assertThat(secondchoice, is(not(checked())));
         secondchoice.check();
-        assertThat(secondchoice.isChecked(), is(true));
+        assertThat(secondchoice, is(checked()));
         secondchoice.unCheck();
-        assertThat(secondchoice.isChecked(), is(false));
+        assertThat(secondchoice, is(not(checked())));
     }
 
     @Test
