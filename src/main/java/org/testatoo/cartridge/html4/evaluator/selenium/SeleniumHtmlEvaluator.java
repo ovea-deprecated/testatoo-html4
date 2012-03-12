@@ -733,7 +733,7 @@ public final class SeleniumHtmlEvaluator extends EvaluatorSkeleton<Selenium> imp
     public Selection<Area> areas(Map map) {
         List<Area> areas = new ArrayList<Area>();
         try {
-            for (String id : By.jQuery("$('#" + map.id() + " area')").ids(this)) {
+            for (String id : $("#" + map.id() + " area").ids(this)) {
                 areas.add(new Area(this, id));
             }
         } catch (EvaluatorException e) {
@@ -749,7 +749,7 @@ public final class SeleniumHtmlEvaluator extends EvaluatorSkeleton<Selenium> imp
     public Selection<Col> cols(Colgroup colgroup) {
         List<Col> cols = new ArrayList<Col>();
         try {
-            for (String id : By.jQuery("$('#" + colgroup.id() + " col')").ids(this)) {
+            for (String id : $("#" + colgroup.id() + " col").ids(this)) {
                 cols.add(new Col(this, id));
             }
         } catch (EvaluatorException e) {
@@ -763,7 +763,7 @@ public final class SeleniumHtmlEvaluator extends EvaluatorSkeleton<Selenium> imp
      */
     @Override
     public Caption caption(Table table) {
-        return new Caption(this, By.jQuery("$('#" + table.id() + " caption')").id(this));
+        return new Caption(this, $("#" + table.id() + " caption").id(this));
     }
 
     /**
@@ -779,7 +779,7 @@ public final class SeleniumHtmlEvaluator extends EvaluatorSkeleton<Selenium> imp
      */
     @Override
     public THead thead(Table table) {
-        return new THead(this, By.jQuery("$('#" + table.id() + " thead')").id(this));
+        return new THead(this, $("#" + table.id() + " thead").id(this));
     }
 
     /**
@@ -787,7 +787,7 @@ public final class SeleniumHtmlEvaluator extends EvaluatorSkeleton<Selenium> imp
      */
     @Override
     public TBody tbody(Table table) {
-        return new TBody(this, By.jQuery("$('#" + table.id() + " tbody')").id(this));
+        return new TBody(this, $("#" + table.id() + " tbody").id(this));
     }
 
     /**
@@ -795,7 +795,7 @@ public final class SeleniumHtmlEvaluator extends EvaluatorSkeleton<Selenium> imp
      */
     @Override
     public TFoot tfoot(Table table) {
-        return new TFoot(this, By.jQuery("$('#" + table.id() + " tfoot')").id(this));
+        return new TFoot(this, $("#" + table.id() + " tfoot").id(this));
     }
 
     /**
@@ -805,7 +805,7 @@ public final class SeleniumHtmlEvaluator extends EvaluatorSkeleton<Selenium> imp
     public Selection<Tr> tr(Component component) {
         List<Tr> tableRows = new ArrayList<Tr>();
         try {
-            for (String id : By.jQuery("$('#" + component.id() + " tr')").ids(this)) {
+            for (String id : $("#" + component.id() + " tr").ids(this)) {
                 tableRows.add(new Tr(this, id));
             }
         } catch (EvaluatorException e) {
@@ -821,7 +821,7 @@ public final class SeleniumHtmlEvaluator extends EvaluatorSkeleton<Selenium> imp
     public Selection<Td> td(Tr tr) {
         List<Td> td = new ArrayList<Td>();
         try {
-            for (String id : By.jQuery("$('#" + tr.id() + " td')").ids(this)) {
+            for (String id : $("#" + tr.id() + " td").ids(this)) {
                 td.add(new Td(this, id));
             }
         } catch (EvaluatorException e) {
@@ -837,7 +837,7 @@ public final class SeleniumHtmlEvaluator extends EvaluatorSkeleton<Selenium> imp
     public Selection<Th> th(Tr tr) {
         List<Th> th = new ArrayList<Th>();
         try {
-            for (String id : By.jQuery("$('#" + tr.id() + " th')").ids(this)) {
+            for (String id :$("#" + tr.id() + " th").ids(this)) {
                 th.add(new Th(this, id));
             }
         } catch (EvaluatorException e) {
@@ -853,7 +853,7 @@ public final class SeleniumHtmlEvaluator extends EvaluatorSkeleton<Selenium> imp
     public Selection<Col> cols(Table table) {
         List<Col> cols = new ArrayList<Col>();
         try {
-            for (String id : By.jQuery("$('#" + table.id() + " col')").ids(this)) {
+            for (String id : $("#" + table.id() + " col").ids(this)) {
                 cols.add(new Col(this, id));
             }
         } catch (EvaluatorException e) {
@@ -869,7 +869,7 @@ public final class SeleniumHtmlEvaluator extends EvaluatorSkeleton<Selenium> imp
     public Selection<Colgroup> colgroups(Table table) {
         List<Colgroup> colgroups = new ArrayList<Colgroup>();
         try {
-            for (String id : By.jQuery("$('#" + table.id() + " colgroup')").ids(this)) {
+            for (String id : $("#" + table.id() + " colgroup").ids(this)) {
                 colgroups.add(new Colgroup(this, id));
             }
         } catch (EvaluatorException e) {
@@ -1029,7 +1029,7 @@ public final class SeleniumHtmlEvaluator extends EvaluatorSkeleton<Selenium> imp
     }
 
     private Button getResetButton(Form form) {
-        return new Button(this, By.jQuery("$('#" + form.id() + " :reset')").id(this));
+        return new Button(this, $("#" + form.id() + " :reset").id(this));
     }
 
     private Select findEmbeddedSelect(ListModel listModel) {

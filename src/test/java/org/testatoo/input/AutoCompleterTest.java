@@ -19,12 +19,12 @@ package org.testatoo.input;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.testatoo.WebTest;
-import org.testatoo.cartridge.html4.By;
 import org.testatoo.cartridge.html4.element.Div;
 import org.testatoo.cartridge.html4.element.InputText;
 import org.testatoo.core.input.Keyboard;
 
 import static org.junit.Assert.fail;
+import static org.testatoo.cartridge.html4.By.$;
 import static org.testatoo.core.ComponentFactory.*;
 import static org.testatoo.core.Language.clickOn;
 
@@ -36,7 +36,7 @@ public class AutoCompleterTest extends WebTest {
         page().open("AutoCompleter.html");
 
         try {
-            component(Div.class, By.jQuery("$('[title=March]')"));
+            component(Div.class, $("[title=March]"));
             fail();
         } catch (Exception e) {
 
@@ -51,7 +51,7 @@ public class AutoCompleterTest extends WebTest {
         clickOn(component(InputText.class, "months"));
         Keyboard.type("M");
 
-        component(Div.class, By.jQuery("$('[title=March]')"));
-        component(Div.class, By.jQuery("$('[title=May]')"));
+        component(Div.class, $("[title=March]"));
+        component(Div.class, $("[title=May]"));
     }
 }

@@ -19,10 +19,10 @@ package org.testatoo.cartridge.html4.language;
 import org.junit.Before;
 import org.junit.Test;
 import org.testatoo.WebTest;
-import org.testatoo.cartridge.html4.By;
 import org.testatoo.core.component.Radio;
 
 import static org.hamcrest.Matchers.*;
+import static org.testatoo.cartridge.html4.By.$;
 import static org.testatoo.cartridge.html4.Language.*;
 import static org.testatoo.core.ComponentFactory.component;
 import static org.testatoo.core.matcher.Matchers.*;
@@ -36,7 +36,7 @@ public class RadioTest extends WebTest {
 
     @Test
     public void radio_usage_through_language() {
-        Radio radio = component(Radio.class, By.jQuery("$('[name=radioName]')"));
+        Radio radio = component(Radio.class, $("[name=radioName]"));
 
         assertThat(radio, is(not(checked())));
         and(has(label("Male")));
