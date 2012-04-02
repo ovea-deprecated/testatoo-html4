@@ -23,8 +23,11 @@ import org.testatoo.core.component.PasswordField;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.fail;
-import static org.testatoo.core.ComponentFactory.*;
+import static org.testatoo.core.ComponentFactory.component;
+import static org.testatoo.core.ComponentFactory.page;
 import static org.testatoo.core.Language.assertThat;
+import static org.testatoo.core.matcher.Matchers.has;
+import static org.testatoo.core.matcher.Matchers.label;
 
 public class PasswordFieldTest extends WebTest {
 
@@ -63,7 +66,7 @@ public class PasswordFieldTest extends WebTest {
 
     @Test
     public void test_label() {
-        assertThat(component(PasswordField.class, "password").label(), is("Password label"));
+        assertThat(component(PasswordField.class, "password"), has(label("Password label")));
     }
 
     @Test

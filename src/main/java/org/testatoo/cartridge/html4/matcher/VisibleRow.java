@@ -44,5 +44,3 @@ public class VisibleRow extends TypeSafeMatcher<Select> {
         return new VisibleRow(num);
     }
 }   
-
-

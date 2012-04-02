@@ -24,9 +24,10 @@ import org.testatoo.core.component.CheckBox;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.fail;
-import static org.testatoo.core.ComponentFactory.*;
+import static org.testatoo.core.ComponentFactory.component;
+import static org.testatoo.core.ComponentFactory.page;
 import static org.testatoo.core.Language.*;
-import static org.testatoo.core.matcher.Matchers.checked;
+import static org.testatoo.core.matcher.Matchers.*;
 
 public class CheckBoxTest extends WebTest {
 
@@ -70,16 +71,16 @@ public class CheckBoxTest extends WebTest {
         CheckBox secondchoice = component(CheckBox.class, "secondChoice");
 
         assertThat(secondchoice, is(not(checked())));
-        secondchoice.check();
+        check(secondchoice);
         assertThat(secondchoice, is(checked()));
-        secondchoice.unCheck();
+        unCheck(secondchoice);
         assertThat(secondchoice, is(not(checked())));
     }
 
     @Test
     public void test_label() {
-        assertThat(component(CheckBox.class, "checkbox").label(), is("Checkbox Label"));
-        assertThat(component(CheckBox.class, "checkbox2").label(), is("Checkbox into label"));
+        assertThat(component(CheckBox.class, "checkbox"), has(label("Checkbox Label")));
+        assertThat(component(CheckBox.class, "checkbox2"), has(label("Checkbox into label")));
     }
 
     @Test

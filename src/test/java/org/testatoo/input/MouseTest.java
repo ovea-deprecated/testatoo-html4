@@ -27,6 +27,7 @@ import org.testatoo.core.input.Mouse;
 import static org.hamcrest.Matchers.is;
 import static org.testatoo.core.ComponentFactory.*;
 import static org.testatoo.core.Language.assertThat;
+import static org.testatoo.core.matcher.Matchers.visible;
 
 public class MouseTest extends WebTest {
 
@@ -101,7 +102,7 @@ public class MouseTest extends WebTest {
 
         Mouse.drag(draggablePanel).on(droppablePanel);
 
-        assertThat(component(Image.class, "image").isVisible(), is(true));
+        assertThat(component(Image.class, "image"), is(visible()));
     }
 
 }

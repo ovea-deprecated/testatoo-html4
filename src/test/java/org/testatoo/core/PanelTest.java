@@ -23,7 +23,8 @@ import org.testatoo.core.component.Panel;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.fail;
-import static org.testatoo.core.ComponentFactory.*;
+import static org.testatoo.core.ComponentFactory.component;
+import static org.testatoo.core.ComponentFactory.page;
 import static org.testatoo.core.Language.assertThat;
 
 public class PanelTest extends WebTest {

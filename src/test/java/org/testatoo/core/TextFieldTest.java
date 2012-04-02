@@ -23,8 +23,11 @@ import org.testatoo.core.component.TextField;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.fail;
-import static org.testatoo.core.ComponentFactory.*;
+import static org.testatoo.core.ComponentFactory.component;
+import static org.testatoo.core.ComponentFactory.page;
 import static org.testatoo.core.Language.assertThat;
+import static org.testatoo.core.matcher.Matchers.has;
+import static org.testatoo.core.matcher.Matchers.label;
 
 public class TextFieldTest extends WebTest {
 
@@ -63,7 +66,7 @@ public class TextFieldTest extends WebTest {
 
     @Test
     public void test_label() {
-        assertThat(component(TextField.class, "text").label(), is("Text label"));
+        assertThat(component(TextField.class, "text"), has(label("Text label")));
     }
 
     @Test

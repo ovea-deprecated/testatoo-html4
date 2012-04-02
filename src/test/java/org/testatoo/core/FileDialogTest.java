@@ -24,7 +24,8 @@ import org.testatoo.core.component.FileDialog;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.fail;
-import static org.testatoo.core.ComponentFactory.*;
+import static org.testatoo.core.ComponentFactory.component;
+import static org.testatoo.core.ComponentFactory.page;
 import static org.testatoo.core.Language.assertThat;
 
 // Test not available for security constraints :
