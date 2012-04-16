@@ -163,7 +163,7 @@ public final class SeleniumHtmlEvaluator extends EvaluatorSkeleton<Selenium> imp
     @Override
     public Boolean isEnabled(Component component) {
         return selenium.isAlertPresent() || !Boolean.valueOf(evaljQuery("$('#" + component.id() + "').is(':disabled');"))
-                && !Boolean.valueOf(evaljQuery("$('#" + component.id() + "').attr('readonly') == true;"));
+                && !Boolean.valueOf(evaljQuery("$('#" + component.id() + "').prop('readonly') == true;"));
     }
 
     /**
@@ -278,7 +278,7 @@ public final class SeleniumHtmlEvaluator extends EvaluatorSkeleton<Selenium> imp
             List<String> selectedValues = Arrays.asList(values);
             if (option.value().equals(value)) {
                 if (selectedValues.contains(option.value())) {
-                    evaljQuery("$('#" + option.id() + "').attr('selected', '')");
+                    evaljQuery("$('#" + option.id() + "').prop('selected', false)");
                     evaljQuery("$('#" + select.id() + "').simulate('change');");
                 }
             }
@@ -295,7 +295,7 @@ public final class SeleniumHtmlEvaluator extends EvaluatorSkeleton<Selenium> imp
         for (Option option : select.options()) {
             List<String> selectedValues = Arrays.asList(values);
             if (selectedValues.contains(option.value())) {
-                evaljQuery("$('#" + option.id() + "').attr('selected', '')");
+                evaljQuery("$('#" + option.id() + "').prop('selected', false)");
                 evaljQuery("$('#" + select.id() + "').simulate('change')");
             }
         }
@@ -309,7 +309,7 @@ public final class SeleniumHtmlEvaluator extends EvaluatorSkeleton<Selenium> imp
         Select select = findEmbeddedSelect(listModel);
         for (Option option : select.options()) {
             if (option.value().equals(value)) {
-                evaljQuery("$('#" + option.id() + "').attr('selected', 'selected');");
+                evaljQuery("$('#" + option.id() + "').prop('selected', 'selected');");
                 // use fix for IE
                 evaljQuery("null; if (window.tQuery.browser.msie) {window.tQuery('#" + select.id() + "').simulate('click');} " +
                         "else {window.tQuery('#" + select.id() + "').simulate('change');}");
@@ -336,7 +336,7 @@ public final class SeleniumHtmlEvaluator extends EvaluatorSkeleton<Selenium> imp
      */
     @Override
     public String label(Option option) {
-        return attribute(option.id(), Attribute.label);
+        return property(option.id(), Attribute.label);
     }
 
     /**
@@ -623,6 +623,18 @@ public final class SeleniumHtmlEvaluator extends EvaluatorSkeleton<Selenium> imp
     @Override
     public String attribute(String id, Attribute attribute) {
         String attributeValue = evaljQuery("$('#" + id + "').attr('" + attribute + "');");
+        if (attributeValue.equals("null")) {
+            return "";
+        }
+        return attributeValue;
+    }
+
+    /**
+     * @see org.testatoo.cartridge.html4.HtmlEvaluator
+     */
+    @Override
+    public String property(String id, Attribute attribute) {
+        String attributeValue = evaljQuery("$('#" + id + "').prop('" + attribute + "');");
         if (attributeValue.equals("null")) {
             return "";
         }
@@ -957,7 +969,7 @@ public final class SeleniumHtmlEvaluator extends EvaluatorSkeleton<Selenium> imp
      */
     @Override
     public String nodename(Component component) {
-        return evaljQuery("$('#" + component.id() + "').attr('nodeName')");
+        return evaljQuery("$('#" + component.id() + "').prop('nodeName')");
     }
 
     @Override
@@ -1056,7 +1068,7 @@ public final class SeleniumHtmlEvaluator extends EvaluatorSkeleton<Selenium> imp
         selenium.runScript("if(window.tQuery){(function($, jQuery){window.testatoo_tmp=" + expression + ";})(window.tQuery, window.tQuery);}else{window.testatoo_tmp='__TQUERY_MISSING__';}");
         String s = selenium.getEval("window.testatoo_tmp");
         if ("__TQUERY_MISSING__".equals(s)) {
-            selenium.runScript(addScript("tquery-1.5.js") + addScript("tquery-simulate.js") + addScript("tquery-util.js"));
+            selenium.runScript(addScript("tquery-1.7.2.js") + addScript("tquery-simulate.js") + addScript("tquery-util.js"));
             selenium.runScript("if(window.tQuery){(function($, jQuery){window.testatoo_tmp=" + expression + ";})(window.tQuery, window.tQuery);}else{window.testatoo_tmp='__TQUERY_MISSING__';}");
             s = selenium.getEval("window.testatoo_tmp");
         }

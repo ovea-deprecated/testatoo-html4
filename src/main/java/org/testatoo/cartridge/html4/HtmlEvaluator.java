@@ -44,6 +44,15 @@ public interface HtmlEvaluator extends Evaluator<Selenium> {
     String attribute(String id, Attribute attribute);
 
     /**
+     * To get the value of a property of the html element with a given id
+     *
+     * @param id        the id of the html element
+     * @param attribute the attribute
+     * @return the string corresponding to the value of the attribute of the html element
+     */
+    String property(String id, Attribute attribute);
+
+    /**
      * To open the page corresponding to the given url
      *
      * @param url the url of the page

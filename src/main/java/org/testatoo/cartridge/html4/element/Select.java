@@ -175,7 +175,7 @@ public final class Select extends org.testatoo.core.component.ListModel implemen
      * @return true if the list is multi-selectable
      */
     public boolean isMultiple() {
-        return Boolean.valueOf(evaluator.attribute(id(), Attribute.multiple));
+        return Boolean.valueOf(evaluator.property(id(), Attribute.multiple));
     }
 
     /**
