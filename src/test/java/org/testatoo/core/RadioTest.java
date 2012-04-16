@@ -23,9 +23,13 @@ import org.testatoo.core.component.Radio;
 import org.testatoo.core.input.Mouse;
 
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.fail;
-import static org.testatoo.core.ComponentFactory.*;
-import static org.testatoo.core.Language.*;
+import static org.testatoo.core.ComponentFactory.component;
+import static org.testatoo.core.ComponentFactory.page;
+import static org.testatoo.core.Language.assertThat;
+import static org.testatoo.core.Language.clickOn;
+import static org.testatoo.core.matcher.Matchers.*;
 
 public class RadioTest extends WebTest {
 
@@ -61,36 +65,36 @@ public class RadioTest extends WebTest {
         // No group
         Radio male = component(Radio.class, "male");
 
-        assertThat(male.isChecked(), is(false));
+        assertThat(male, is(not(checked())));
         Mouse.clickOn(male);
-        assertThat(male.isChecked(), is(true));
+        assertThat(male, is(checked()));
 
         Radio female = component(Radio.class, "female");
-        assertThat(female.isChecked(), is(false));
+        assertThat(female, is(not(checked())));
         female.check();
-        assertThat(female.isChecked(), is(true));
+        assertThat(female, is(checked()));
 
-        assertThat(male.isChecked(), is(true));
+        assertThat(male, is(checked()));
 
         // Group
         Radio yes = component(Radio.class, "yes");
         Radio no = component(Radio.class, "no");
 
-        assertThat(yes.isChecked(), is(false));
+        assertThat(yes, is(not(checked())));
         clickOn(yes);
-        assertThat(yes.isChecked(), is(true));
+        assertThat(yes, is(checked()));
 
-        assertThat(no.isChecked(), is(false));
+        assertThat(no, is(not(checked())));
         no.check();
-        assertThat(no.isChecked(), is(true));
+        assertThat(no, is(checked()));
 
-        assertThat(yes.isChecked(), is(false));
+        assertThat(yes, is(not(checked())));
     }
 
     @Test
     public void test_label() {
-        assertThat(component(Radio.class, "male").label(), is("Male"));
-        assertThat(component(Radio.class, "female").label(), is("Female"));
+        assertThat(component(Radio.class, "male"), has(label("Male")));
+        assertThat(component(Radio.class, "female"), has(label("Female")));
     }
 
     @Test

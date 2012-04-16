@@ -26,8 +26,11 @@ import java.util.Arrays;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.fail;
-import static org.testatoo.core.ComponentFactory.*;
+import static org.testatoo.core.ComponentFactory.component;
+import static org.testatoo.core.ComponentFactory.page;
 import static org.testatoo.core.Language.assertThat;
+import static org.testatoo.core.matcher.Matchers.has;
+import static org.testatoo.core.matcher.Matchers.label;
 
 public class ListBoxTest extends WebTest {
 
@@ -95,7 +98,7 @@ public class ListBoxTest extends WebTest {
 
     @Test
     public void test_label() {
-        assertThat(component(ListBox.class, "cities").label(), is("Cities list"));
+        assertThat(component(ListBox.class, "cities"), has(label("Cities list")));
     }
 
     @Test

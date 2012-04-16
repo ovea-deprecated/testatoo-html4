@@ -23,8 +23,11 @@ import org.testatoo.core.component.Button;
 import org.testatoo.core.component.Component;
 
 import static org.hamcrest.Matchers.is;
-import static org.testatoo.core.ComponentFactory.*;
+import static org.hamcrest.Matchers.not;
+import static org.testatoo.core.ComponentFactory.component;
+import static org.testatoo.core.ComponentFactory.page;
 import static org.testatoo.core.Language.assertThat;
+import static org.testatoo.core.matcher.Matchers.*;
 
 public class ComponentTest extends WebTest {
 
@@ -37,21 +40,21 @@ public class ComponentTest extends WebTest {
     public void test_component_enability() {
         Button invisible_button = component(Button.class, "hidden_button_1");
 
-        assertThat(invisible_button.isDisabled(), is(false));
-        assertThat(invisible_button.isEnabled(), is(true));
+        assertThat(invisible_button, is(not(disabled())));
+        assertThat(invisible_button, is(enabled()));
 
         Button disabled_button = component(Button.class, "disabled_button");
 
-        assertThat(disabled_button.isDisabled(), is(true));
-        assertThat(disabled_button.isEnabled(), is(false));
+        assertThat(disabled_button, is(disabled()));
+        assertThat(disabled_button, is(not(enabled())));
     }
 
     @Test
     public void test_component_visibility() {
-        assertThat(component(Button.class, "disabled_button").isVisible(), is(true));
+        assertThat(component(Button.class, "disabled_button"), is(visible()));
 
-        assertThat(component(Button.class, "hidden_button_1").isVisible(), is(false));
-        assertThat(component(Button.class, "hidden_button_2").isVisible(), is(false));
-        assertThat(component(Component.class, "hiddenField").isVisible(), is(false));
+        assertThat(component(Button.class, "hidden_button_1"), is(not(visible())));
+        assertThat(component(Button.class, "hidden_button_2"), is(not(visible())));
+        assertThat(component(Component.class, "hiddenField"), is(not(visible())));
     }
 }

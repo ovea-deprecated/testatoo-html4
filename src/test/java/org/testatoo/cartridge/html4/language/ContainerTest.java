@@ -18,7 +18,6 @@ package org.testatoo.cartridge.html4.language;
 
 import org.junit.Test;
 import org.testatoo.WebTest;
-import org.testatoo.cartridge.html4.By;
 import org.testatoo.cartridge.html4.element.A;
 import org.testatoo.cartridge.html4.element.Form;
 import org.testatoo.core.component.Radio;
@@ -26,8 +25,7 @@ import org.testatoo.core.component.Radio;
 import static org.hamcrest.Matchers.not;
 import static org.testatoo.cartridge.html4.By.$;
 import static org.testatoo.cartridge.html4.Language.*;
-import static org.testatoo.core.ComponentFactory.component;
-import static org.testatoo.core.ComponentFactory.page;
+import static org.testatoo.core.ComponentFactory.*;
 import static org.testatoo.core.matcher.Matchers.contains;
 
 public class ContainerTest extends WebTest {

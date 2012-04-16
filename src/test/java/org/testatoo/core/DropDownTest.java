@@ -23,10 +23,14 @@ import org.testatoo.core.component.DropDown;
 
 import java.util.Arrays;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.hasItems;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.fail;
-import static org.testatoo.core.ComponentFactory.*;
+import static org.testatoo.core.ComponentFactory.component;
+import static org.testatoo.core.ComponentFactory.page;
 import static org.testatoo.core.Language.assertThat;
+import static org.testatoo.core.matcher.Matchers.has;
+import static org.testatoo.core.matcher.Matchers.label;
 
 public class DropDownTest extends WebTest {
 
@@ -101,7 +105,7 @@ public class DropDownTest extends WebTest {
 
     @Test
     public void test_label() {
-        assertThat(component(DropDown.class, "elements").label(), is("Elements list"));
+        assertThat(component(DropDown.class, "elements"), has(label("Elements list")));
     }
 
     @Test

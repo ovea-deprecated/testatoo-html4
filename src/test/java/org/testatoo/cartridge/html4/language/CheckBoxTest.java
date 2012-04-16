@@ -36,7 +36,7 @@ public class CheckBoxTest extends WebTest {
 
     @Test
     public void checkbox_usage_through_language() {
-        CheckBox checkBox = component(CheckBox.class, $("$('[name=checkboxName]')"));
+        CheckBox checkBox = component(CheckBox.class, $("[name=checkboxName]"));
 
         assertThat(checkBox, is(not(checked())));
 
