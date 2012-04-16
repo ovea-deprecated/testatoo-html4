@@ -375,7 +375,6 @@ tQuery.extend = tQuery.fn.extend = function() {
 
 tQuery.extend({
 	noConflict: function( deep ) {
-		window.$ = _$;
 
 		if ( deep ) {
 			window.tQuery = _tQuery;
@@ -1068,7 +1067,7 @@ function doScrollCheck() {
 }
 
 // Expose tQuery to the global object
-return (window.tQuery = window.$ = tQuery);
+return (window.tQuery = tQuery);
 
 })();
 

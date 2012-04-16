@@ -53,11 +53,11 @@ public class AutoCompleterTest extends WebTest {
         clickOn(component(InputText.class, "months"));
 
         SeleniumHtmlEvaluator eval = (SeleniumHtmlEvaluator)EvaluatorHolder.get();
-        eval.evaljQuery("$('#months').focus();");
+//        eval.evaljQuery("$('#months').focus();");
         //eval.evaljQuery("($.browser.webkit) ? $(window.document).simulate('type', {charCode: 77}) : $('body').simulate('type', {keyCode: 77});");
         Thread.sleep(2000);
 
-        eval.evaljQuery("($.browser.mozilla) ? $(window.document).simulate('type', {keyCode: 77}) : $(window.document).simulate('type', {charCode: 77})");
+//        eval.evaljQuery("($.browser.mozilla) ? $(window.document).simulate('type', {keyCode: 77}) : $(window.document).simulate('type', {charCode: 77})");
         Thread.sleep(2000);
 
         Keyboard.type("M");
