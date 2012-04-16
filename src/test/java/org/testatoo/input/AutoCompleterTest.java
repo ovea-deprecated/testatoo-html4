@@ -21,6 +21,8 @@ import org.junit.Test;
 import org.testatoo.WebTest;
 import org.testatoo.cartridge.html4.element.Div;
 import org.testatoo.cartridge.html4.element.InputText;
+import org.testatoo.cartridge.html4.evaluator.selenium.SeleniumHtmlEvaluator;
+import org.testatoo.core.EvaluatorHolder;
 import org.testatoo.core.input.Keyboard;
 
 import static org.junit.Assert.fail;
@@ -31,7 +33,6 @@ import static org.testatoo.core.Language.clickOn;
 public class AutoCompleterTest extends WebTest {
 
     @Test
-    @Ignore
     public void can_test_ajax_autocompleter() throws Exception {
         page().open("AutoCompleter.html");
 
@@ -49,6 +50,15 @@ public class AutoCompleterTest extends WebTest {
         // Success with Testatoo and native keyboard events
         // TODO need keyboard refactor ASAP => Romain
         clickOn(component(InputText.class, "months"));
+
+        SeleniumHtmlEvaluator eval = (SeleniumHtmlEvaluator)EvaluatorHolder.get();
+        eval.evaljQuery("$('#months').focus();");
+        //eval.evaljQuery("($.browser.webkit) ? $(window.document).simulate('type', {charCode: 77}) : $('body').simulate('type', {keyCode: 77});");
+        Thread.sleep(2000);
+
+        eval.evaljQuery("($.browser.mozilla) ? $(window.document).simulate('type', {keyCode: 77}) : $(window.document).simulate('type', {charCode: 77})");
+        Thread.sleep(2000);
+
         Keyboard.type("M");
 
         component(Div.class, $("[title=March]"));
