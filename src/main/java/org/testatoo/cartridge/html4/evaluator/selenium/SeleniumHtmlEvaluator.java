@@ -1052,7 +1052,7 @@ public final class SeleniumHtmlEvaluator extends EvaluatorSkeleton<Selenium> imp
         throw new EvaluatorException("Unable to identify the type of ListModel");
     }
 
-    public String evaljQuery(String expression) {
+    private String evaljQuery(String expression) {
         selenium.runScript("if(window.tQuery){(function($, jQuery){window.testatoo_tmp=" + expression + ";})(window.tQuery, window.tQuery);}else{window.testatoo_tmp='__TQUERY_MISSING__';}");
         String s = selenium.getEval("window.testatoo_tmp");
         if ("__TQUERY_MISSING__".equals(s)) {
