@@ -32,6 +32,7 @@ import static org.testatoo.core.Language.clickOn;
 
 public class AutoCompleterTest extends WebTest {
 
+    @Ignore
     @Test
     public void can_test_ajax_autocompleter() throws Exception {
         page().open("AutoCompleter.html");
