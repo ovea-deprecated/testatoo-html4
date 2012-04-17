@@ -24,16 +24,16 @@ package org.testatoo.cartridge.html4.element;
 public enum Attribute {
     src("src"), type("type"), maxlength("maxlength"), lang("lang"), value("value"), dir("dir"), label("label"),
     selected("selected"), action("action"), summary("summary"), width("width"), border("border"), frame("frame"),
-    rules("rules"), cellspacing("cellspacing"), cellpadding("cellpadding"), cellhalign("cellhalign"),
+    rules("rules"), cellspacing("cellspacing"), cellpadding("cellpadding"), cellhalign("cellHAlign"),
     cellvalign("cellvalign"), span("span"), abbr("abbr"), rowspan("rowspan"), colspan("colspan"), axis("axis"),
     headers("headers"), scope("scope"), nohref("nohref"), media("media"), rows("rows"), cols("cols"), _for("for"),
     ismap("ismap"), readonly("readonly"), href("href"), clazz("class"), frameborder("frameborder"),
-    marginwidth("marginwidth"), marginheight("marginheight"), noresize("noresize"), scrolling("scrolling"),
-    classid("classid"), codebase("codebase"), data("data"), codetype("codetype"), archive("archive"), valuetype("valuetype"),
+    marginwidth("marginWidth"), marginheight("marginHeight"), noresize("noresize"), scrolling("scrolling"),
+    classid("classid"), codebase("codeBase"), data("data"), codetype("codeType"), archive("archive"), valuetype("valueType"),
     standby("standby"), height("height"), style("style"), title("title"), multiple("multiple"), size("size"),
-    alt("alt"), tabindex("tabindex"), accesskey("accesskey"), name("name"), longdesc("longdesc"), usemap("usemap"),
+    alt("alt"), tabindex("tabindex"), accesskey("accessKey"), name("name"), longdesc("longDesc"), usemap("usemap"),
     charset("charset"), hreflang("hreflang"), rel("rel"), rev("rev"), shape("shape"), coords("coords"),
-    method("method"), enctype("enctype"), accept("accept"), acceptcharset("accept-charset"), defer("defer");
+    method("method"), enctype("enctype"), accept("accept"), acceptcharset("accept-charset"), defer("defer"), checked("checked");
 
     private String _value;
 

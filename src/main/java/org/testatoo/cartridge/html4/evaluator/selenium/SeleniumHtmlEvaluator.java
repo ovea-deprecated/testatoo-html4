@@ -18,7 +18,6 @@ package org.testatoo.cartridge.html4.evaluator.selenium;
 
 import com.thoughtworks.selenium.Selenium;
 import org.testatoo.cartridge.html4.Bootstraper;
-import org.testatoo.cartridge.html4.By;
 import org.testatoo.cartridge.html4.EvaluatorException;
 import org.testatoo.cartridge.html4.HtmlEvaluator;
 import org.testatoo.cartridge.html4.component.ListBox;
@@ -180,7 +179,7 @@ public final class SeleniumHtmlEvaluator extends EvaluatorSkeleton<Selenium> imp
      */
     @Override
     public Boolean isChecked(Checkable checkable) {
-        return Boolean.valueOf(evaljQuery("$('#" + ((Component) checkable).id() + "').is(':checked')"));
+        return Boolean.valueOf(attribute(((Component) checkable).id(), Attribute.checked));
     }
 
     /**
@@ -336,7 +335,7 @@ public final class SeleniumHtmlEvaluator extends EvaluatorSkeleton<Selenium> imp
      */
     @Override
     public String label(Option option) {
-        return property(option.id(), Attribute.label);
+        return attribute(option.id(), Attribute.label);
     }
 
     /**
@@ -565,7 +564,7 @@ public final class SeleniumHtmlEvaluator extends EvaluatorSkeleton<Selenium> imp
                             ".val($('#" + currentFocusedComponent.id() + "').val() + String.fromCharCode(" + charCode + "));");
                 }
                 evaljQuery("$('#" + currentFocusedComponent.id() + "')" +
-                            ".val($('#" + currentFocusedComponent.id() + "').val() + String.fromCharCode(" + charCode + "));");
+                        ".val($('#" + currentFocusedComponent.id() + "').val() + String.fromCharCode(" + charCode + "));");
             }
         } else {
             for (char charCode : text.toCharArray()) {
@@ -617,27 +616,33 @@ public final class SeleniumHtmlEvaluator extends EvaluatorSkeleton<Selenium> imp
         release();
     }
 
-    /**
-     * @see org.testatoo.cartridge.html4.HtmlEvaluator
-     */
-    @Override
-    public String attribute(String id, Attribute attribute) {
-        String attributeValue = evaljQuery("$('#" + id + "').attr('" + attribute + "');");
-        if (attributeValue.equals("null")) {
-            return "";
-        }
-        return attributeValue;
-    }
+    /* Attributes don't work with jQuery prop method */
+    final private static Set<Attribute> specialsAttributes = new HashSet<Attribute>() {{
+        add(Attribute.style);
+        add(Attribute.action);
+        add(Attribute.href);
+        add(Attribute.src);
+        add(Attribute.accept);
+        add(Attribute.classid);
+        add(Attribute.longdesc);
+        add(Attribute.cellhalign);
+        add(Attribute.cellvalign);
+    }};
 
     /**
      * @see org.testatoo.cartridge.html4.HtmlEvaluator
      */
     @Override
-    public String property(String id, Attribute attribute) {
-        String attributeValue = evaljQuery("$('#" + id + "').prop('" + attribute + "');");
-        if (attributeValue.equals("null")) {
+    public String attribute(String id, Attribute attribute) {
+        String attributeValue;
+        if (specialsAttributes.contains(attribute))
+            attributeValue = evaljQuery("$('#" + id + "').attr('" + attribute + "');");
+        else
+            attributeValue = evaljQuery("$('#" + id + "').prop('" + attribute + "');");
+
+        if (attributeValue.equals("null"))
             return "";
-        }
+
         return attributeValue;
     }
 
@@ -849,7 +854,7 @@ public final class SeleniumHtmlEvaluator extends EvaluatorSkeleton<Selenium> imp
     public Selection<Th> th(Tr tr) {
         List<Th> th = new ArrayList<Th>();
         try {
-            for (String id :$("#" + tr.id() + " th").ids(this)) {
+            for (String id : $("#" + tr.id() + " th").ids(this)) {
                 th.add(new Th(this, id));
             }
         } catch (EvaluatorException e) {
