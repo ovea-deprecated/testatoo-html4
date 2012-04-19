@@ -24,8 +24,6 @@ import org.testatoo.core.Selection;
 import org.testatoo.core.component.Component;
 import org.testatoo.core.component.Field;
 
-import java.util.List;
-
 /**
  * This interface gives the methods that an html Evaluator must have, whatever UI Test engine used
  *
