@@ -163,8 +163,6 @@ public final class Frame extends Component implements Coreattrs {
         return attributeSupport.scrolling(this);
     }
 
-    // TODO : contains ??
-
     /**
      * To get the string describing the frame.
      *

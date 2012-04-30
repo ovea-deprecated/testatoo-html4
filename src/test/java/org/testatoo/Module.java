@@ -46,7 +46,7 @@ public class Module extends AbstractTestatooModule {
 
         // 2. Ability to add annotation support:
         // Exemple of currently supported annotation:
-        // TODO: See SeleniumTest for usage
+        // See SeleniumTest for usage
         useAnnotations();
     }
 }

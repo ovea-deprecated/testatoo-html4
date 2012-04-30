@@ -29,6 +29,8 @@ import static org.junit.Assert.fail;
 import static org.testatoo.cartridge.html4.By.$;
 import static org.testatoo.core.ComponentFactory.*;
 import static org.testatoo.core.Language.clickOn;
+import static org.testatoo.core.Language.into;
+import static org.testatoo.core.Language.type;
 
 public class AutoCompleterTest extends WebTest {
 
@@ -41,15 +43,20 @@ public class AutoCompleterTest extends WebTest {
             component(Div.class, $("[title=March]"));
             fail();
         } catch (Exception e) {
-
         }
+
+        type("M", into(autoCompletedField()));
+
+        component(Div.class, $("[title=March]"));
+        component(Div.class, $("[title=May]"));
+
+        // TODO need keyboard refactor
 
         // Fail with pure selenium cause none native keyboard events
 //        Selenium selenium = (Selenium) EvaluatorHolder.get().implementation();
 //        selenium.type("months", "m");
 
         // Success with Testatoo and native keyboard events
-        // TODO need keyboard refactor ASAP => Romain
         clickOn(component(InputText.class, "months"));
 
         SeleniumHtmlEvaluator eval = (SeleniumHtmlEvaluator)EvaluatorHolder.get();
@@ -64,5 +71,9 @@ public class AutoCompleterTest extends WebTest {
 
         component(Div.class, $("[title=March]"));
         component(Div.class, $("[title=May]"));
+    }
+
+    private InputText autoCompletedField(){
+        return component(InputText.class, $("#months"));
     }
 }

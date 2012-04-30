@@ -26,7 +26,7 @@ import static org.testatoo.core.ComponentFactory.page;
 
 public class SeleniumTest extends WebTest {
 
-    //TODO: document - ability to inject underlying implementation if annotation support is enabled
+    // require ability to inject underlying implementation if annotation support is enabled
     @Implementation
     Current<Selenium> currentSelenium;
 
