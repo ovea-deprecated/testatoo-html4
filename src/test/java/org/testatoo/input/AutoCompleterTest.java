@@ -45,7 +45,7 @@ public class AutoCompleterTest extends WebTest {
         } catch (Exception e) {
         }
 
-        type("M", into(autoCompetedField()));
+        type("M", into(autoCompletedField()));
 
         component(Div.class, $("[title=March]"));
         component(Div.class, $("[title=May]"));
@@ -73,7 +73,7 @@ public class AutoCompleterTest extends WebTest {
         component(Div.class, $("[title=May]"));
     }
 
-    private InputText autoCompetedField(){
+    private InputText autoCompletedField(){
         return component(InputText.class, $("#months"));
     }
 }
