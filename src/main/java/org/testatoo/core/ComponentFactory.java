@@ -19,10 +19,7 @@ package org.testatoo.core;
 import com.google.common.base.Function;
 import org.testatoo.cartridge.html4.By;
 import org.testatoo.cartridge.html4.HtmlEvaluator;
-import org.testatoo.cartridge.html4.element.InputText;
-import org.testatoo.cartridge.html4.element.Select;
 import org.testatoo.core.component.*;
-import org.testatoo.core.component.datagrid.DataGrid;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -34,29 +31,8 @@ public final class ComponentFactory {
         return new Page(evaluator(), evaluator().pageId());
     }
 
-    public static <T extends Component> T component(Class<T> componentType) {
-        if (componentType.equals(AlertBox.class) || componentType.equals(org.testatoo.cartridge.html4.element.AlertBox.class))
-            return (T) new org.testatoo.cartridge.html4.element.AlertBox(evaluator());
-        else {
-            Selection<T> components = findAll(componentType);
-            if (components.size() == 1)
-                return components.get(0);
-            else if (components.size() > 1) {
-                throw new ComponentException("Find more than one component for type : " + componentType.getSimpleName());
-            } else {
-                throw new ComponentException("Cannot find component for type " + componentType.getSimpleName());
-            }
-        }
-    }
-
-    public static <T extends Component> Selection<T> components(Class<T> componentType) {
-        //TODO refactor of findAll method
-        return findAll(componentType);
-    }
-
     public static <T extends Component> T component(Class<T> componentType, String id) {
         if (id.startsWith("$"))
-            //@Deprecated
             return component(componentType, $(id));
         else
             return component(componentType, By.id(id));
@@ -79,81 +55,8 @@ public final class ComponentFactory {
         });
     }
 
-    public static <T extends Component> Selection<T> findAll(Class<T> componentType) {
-
-        if (componentType == Button.class) {
-            return ListSelection.compose(
-                    components(Button.class, $("input[type=button]")),
-                    components(Button.class, $("input[type=reset]")),
-                    components(Button.class, $("input[type=submit]")),
-                    components(Button.class, $("button")),
-                    components(Button.class, $("input:image")))
-                    .transform(componentType);
-        }
-
-        if (componentType == TextField.class) {
-            return components(InputText.class, $("input:text")).transform(componentType);
-        }
-
-        if (componentType == PasswordField.class) {
-            return components(PasswordField.class, $("input:password")).transform(componentType);
-        }
-
-        if (componentType == Field.class) {
-
-            Selection<PasswordField> passwords = ListSelection.empty();
-            Selection<TextField> texts = ListSelection.empty();
-
-            try {
-                passwords = components(PasswordField.class, $("input:password"));
-            } catch (ComponentException e) {
-                // Not available in the page so continue
-            }
-
-            try {
-                texts = components(TextField.class, $("input:text"));
-            } catch (ComponentException e) {
-                // Not available in the page so continue
-            }
-
-            return ListSelection.compose(passwords, texts).transform(componentType);
-        }
-
-        if (componentType == Image.class) {
-            return components(Image.class, $("img")).transform(componentType);
-        }
-
-        if (componentType == Link.class) {
-            return components(Link.class, $("a")).transform(componentType);
-        }
-
-        if (componentType == Radio.class) {
-            return components(Radio.class, $("input:radio")).transform(componentType);
-        }
-
-        if (componentType == CheckBox.class) {
-            return components(CheckBox.class, $("input:checkbox")).transform(componentType);
-        }
-
-        if (componentType == ListBox.class) {
-            // TODO see with mathieu
-            return (Selection<T>) components(Select.class, $("select"));
-        }
-
-        if (componentType == Panel.class) {
-            return components(Panel.class, $("div")).transform(componentType);
-        }
-
-        // Image
-        // Dropdown
-        // Combobox
-        // Checkbox
-
-        if (componentType == DataGrid.class) {
-            return components(DataGrid.class, $("table")).transform(componentType);
-        }
-
-        return ListSelection.empty();
+    public static org.testatoo.cartridge.html4.element.AlertBox alertBox() {
+        return new org.testatoo.cartridge.html4.element.AlertBox(evaluator());
     }
 
     private static HtmlEvaluator evaluator() {
@@ -163,8 +66,6 @@ public final class ComponentFactory {
     private static <T extends Component> T loadComponent(Class<T> componentType, String id) {
         Class cmpType = componentType;
 
-        if (componentType.equals(AlertBox.class) || componentType.equals(org.testatoo.cartridge.html4.element.AlertBox.class))
-            return (T) new org.testatoo.cartridge.html4.element.AlertBox(evaluator());
         if (componentType.equals(DropDown.class))
             cmpType = org.testatoo.cartridge.html4.element.DropDown.class;
         if (componentType.equals(ListBox.class))
