@@ -49,7 +49,7 @@ public class AutoCompleterTest extends WebTest {
 //        selenium.type("months", "m");
 
         // Success with Testatoo and native keyboard events
-        // TODO need keyboard refactor ASAP => Romain
+        // TODO need keyboard refactor
         clickOn(component(InputText.class, "months"));
 
         SeleniumHtmlEvaluator eval = (SeleniumHtmlEvaluator)EvaluatorHolder.get();

@@ -91,15 +91,6 @@ public class IFrameTest extends WebTest {
         assertThat(iFrame_2.scrolling(), is(Scrolling.auto));
     }
 
-    // TODO Fail : see why later
-    @Test
-    @Ignore
-    public void test_contains() {
-        IFrame iFrame_1 = component(IFrame.class, $("#iFrame_1"));
-        A a = component(A.class, $("#a_1"));
-        assertThat(iFrame_1, contains(a));
-    }
-
     @Test
     public void test_toString() {
         assertThat(component(IFrame.class, $("#iFrame_1")).toString(), is("class org.testatoo.cartridge.html4.element.IFrame with state : enabled:true, visible:true, title:iFrameTitle1"));

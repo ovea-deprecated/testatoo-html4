@@ -123,6 +123,13 @@ public class FinderTest extends WebTest {
     }
 
     @Test
+    public void can_find_all_Panels() {
+        page().open("Panel.html");
+        Selection<Panel> panels = findAll(Panel.class);
+        assertThat(panels, has(size(2)));
+    }
+
+    @Test
     public void can_see_explicit_exception_when_no_element_is_found_on_simple_search() {
         page().open("MultipleElements.html");
 

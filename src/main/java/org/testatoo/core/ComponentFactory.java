@@ -50,6 +50,7 @@ public final class ComponentFactory {
     }
 
     public static <T extends Component> Selection<T> components(Class<T> componentType) {
+        //TODO refactor of findAll method
         return findAll(componentType);
     }
 
@@ -136,10 +137,9 @@ public final class ComponentFactory {
 
         if (componentType == ListBox.class) {
             // TODO see with mathieu
-            return (Selection<T>) components(Select.class, $("select"));
+            return components(Select.class, $("select")).transform(componentType);
         }
 
-        //TODO test
         if (componentType == Panel.class) {
             return components(Panel.class, $("div")).transform(componentType);
         }
