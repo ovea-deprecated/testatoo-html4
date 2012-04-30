@@ -137,7 +137,7 @@ public final class ComponentFactory {
 
         if (componentType == ListBox.class) {
             // TODO see with mathieu
-            return components(Select.class, $("select")).transform(componentType);
+            return (Selection<T>) components(Select.class, $("select"));
         }
 
         if (componentType == Panel.class) {
