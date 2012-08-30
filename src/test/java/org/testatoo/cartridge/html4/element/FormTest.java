@@ -163,7 +163,7 @@ public class FormTest extends WebTest {
     }
 
     @Test
-    public void can_submit_a_form() throws Exception {
+    public void can_submit_a_form() {
         assertThat(page().title(), is("Form tests"));
 
         Button submitButton = component(Button.class, $("#submitImage"));

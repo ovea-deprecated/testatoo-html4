@@ -97,7 +97,7 @@ public class LinkTest extends WebTest {
     }
 
     @Test
-    public void click_on_A_change_page() throws Exception {
+    public void click_on_A_change_page() {
         A a_link = component(A.class, $("#a_1"));
         assertThat(page().title(), is("Link tests"));
         clickOn(a_link);
@@ -105,7 +105,7 @@ public class LinkTest extends WebTest {
     }
 
     @Test
-    public void can_click_on_link() throws Exception {
+    public void can_click_on_link() {
         // 1 - Link without js
         page().open("Link.html");
         assertThat(page(), has(title("Link tests")));
