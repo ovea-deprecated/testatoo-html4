@@ -52,6 +52,8 @@ import static org.testatoo.core.input.KeyModifier.*;
  */
 public final class SeleniumHtmlEvaluator extends EvaluatorSkeleton<Selenium> implements HtmlEvaluator {
 
+    private final Properties _props = new Properties();
+
     private final Selenium selenium;
     private final String name;
     private Component currentFocusedComponent;
@@ -309,7 +311,7 @@ public final class SeleniumHtmlEvaluator extends EvaluatorSkeleton<Selenium> imp
         for (Option option : select.options()) {
             if (option.value().equals(value)) {
                 evaljQuery("$('#" + option.id() + "').prop('selected', 'selected');");
-                // use fix for IE
+                // Use fix for IE
                 evaljQuery("null; if (window.tQuery.browser.msie) {window.tQuery('#" + select.id() + "').simulate('click');} " +
                         "else {window.tQuery('#" + select.id() + "').simulate('change');}");
             }
@@ -559,7 +561,7 @@ public final class SeleniumHtmlEvaluator extends EvaluatorSkeleton<Selenium> imp
         String keyModifier = keyModifier();
         if (currentFocusedComponent != null) {
             for (byte charCode : text.getBytes()) {
-                if (Boolean.valueOf(evaljQuery("$.browser.msie"))) {
+                if (isIe()) {
                     evaljQuery("$('#" + currentFocusedComponent.id() + "')" +
                             ".val($('#" + currentFocusedComponent.id() + "').val() + String.fromCharCode(" + charCode + "));");
                 }
@@ -1095,4 +1097,10 @@ public final class SeleniumHtmlEvaluator extends EvaluatorSkeleton<Selenium> imp
         }
     }
 
+    private boolean isIe() {
+        if (!_props.containsKey("IE")) {
+            _props.setProperty("IE", evaluate("$.browser.msie"));
+        }
+        return Boolean.valueOf(_props.getProperty("IE"));
+    }
 }
