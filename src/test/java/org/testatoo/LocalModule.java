@@ -40,8 +40,8 @@ final class LocalModule extends AbstractTestatooModule {
 
         seleniumSessions().register(createSeleniumSession()
                 .website("http://" + System.getProperty("host") + ":" + System.getProperty("port"))
-                .browser("*firefox")
-//            .browser("*googlechrome")
+//                .browser("*firefox")
+            .browser("*googlechrome")
                 .serverHost("localhost")
                 .serverPort(seleniumPort).build())
                 .scope(Scope.TEST_SUITE)

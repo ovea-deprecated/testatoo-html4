@@ -122,7 +122,7 @@ public class LinkTest extends WebTest {
         page().open("Link.html");
         assertThat(component(P.class, $("#message")), has(text("")));
         clickOn(component(A.class, $("#jsHookedLink")));
-        waitUntil(component(P.class, $("#message")), has(text("Success")), max(10, SECONDS));
+        waitUntil(component(P.class, $("#message")), has(text("Success")), max(2, SECONDS));
     }
 
     @Test
