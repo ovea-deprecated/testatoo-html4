@@ -226,10 +226,16 @@ public final class SeleniumHtmlEvaluator extends EvaluatorSkeleton<Selenium> imp
             return nodeTextContent(label);
         } catch (ComponentException e) {
             try {
-                Component label = new Component(this, $("$('#" + ((Component) labelSupport).id() + "').parent()").id(this));
+                Component label = new Component(this, $("$('#" + ((Component) labelSupport).id() + "').prev('label')").id(this));
                 return nodeTextContent(label);
             } catch (ComponentException ex) {
-                return "";
+                try {
+                    Component label = new Component(this, $("$('#" + ((Component) labelSupport).id() + "').parent()").id(this));
+                    return nodeTextContent(label);
+                } catch (ComponentException exp) {
+                    return "";
+                }
+
             }
         }
     }
