@@ -55,10 +55,6 @@ public final class ComponentFactory {
         });
     }
 
-    public static org.testatoo.cartridge.html4.element.AlertBox alertBox() {
-        return new org.testatoo.cartridge.html4.element.AlertBox(evaluator());
-    }
-
     private static HtmlEvaluator evaluator() {
         return EvaluatorHolder.get();
     }

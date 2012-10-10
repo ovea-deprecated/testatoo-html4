@@ -26,9 +26,7 @@ import org.testatoo.cartridge.html4.element.Map;
 import org.testatoo.cartridge.html4.element.Object;
 import org.testatoo.core.*;
 import org.testatoo.core.component.*;
-import org.testatoo.core.component.AlertBox;
 import org.testatoo.core.component.Button;
-import org.testatoo.core.component.DialogBox;
 import org.testatoo.core.component.Link;
 import org.testatoo.core.component.datagrid.*;
 import org.testatoo.core.input.Click;
@@ -42,7 +40,6 @@ import java.io.Reader;
 import java.util.*;
 
 import static org.testatoo.cartridge.html4.By.$;
-import static org.testatoo.core.ComponentType.AlertBox;
 import static org.testatoo.core.input.KeyModifier.*;
 
 /**
@@ -57,9 +54,6 @@ public final class SeleniumHtmlEvaluator extends EvaluatorSkeleton<Selenium> imp
     private final Selenium selenium;
     private final String name;
     private Component currentFocusedComponent;
-
-    private java.util.Map<String, String> alertBoxMessage = new HashMap<String, String>();
-
     private static final String PAGE_ID = "_PAGE_ID_";
 
     /**
@@ -102,11 +96,6 @@ public final class SeleniumHtmlEvaluator extends EvaluatorSkeleton<Selenium> imp
     public Boolean existComponent(String id) {
         if (id.equals(PAGE_ID)) {
             return true;
-        }
-
-        if (id.startsWith(org.testatoo.cartridge.html4.element.AlertBox.ID)) {
-            alertBoxMessage.clear();
-            return selenium.isAlertPresent();
         }
         // Cannot use jQuery cause only present after page loaded (not the case when existComponent is a page)
         return selenium.isElementPresent("id=" + id);
@@ -163,7 +152,7 @@ public final class SeleniumHtmlEvaluator extends EvaluatorSkeleton<Selenium> imp
      */
     @Override
     public Boolean isEnabled(Component component) {
-        return selenium.isAlertPresent() || !Boolean.valueOf(evaljQuery("$('#" + component.id() + "').is(':disabled');"))
+        return !Boolean.valueOf(evaljQuery("$('#" + component.id() + "').is(':disabled');"))
                 && !Boolean.valueOf(evaljQuery("$('#" + component.id() + "').prop('readonly') == true;"));
     }
 
@@ -385,11 +374,6 @@ public final class SeleniumHtmlEvaluator extends EvaluatorSkeleton<Selenium> imp
             return "";
         }
 
-        if (titleSupport instanceof AlertBox || titleSupport instanceof Prompt || titleSupport instanceof DialogBox) {
-            selenium.isAlertPresent();
-            return "";
-        }
-
         if (titleSupport instanceof Column) {
             return nodeTextContent((Component) titleSupport);
         }
@@ -401,11 +385,7 @@ public final class SeleniumHtmlEvaluator extends EvaluatorSkeleton<Selenium> imp
      */
     @Override
     public String message(AlertBox alertbox) {
-        String key = alertbox.id().substring(12);
-        if (selenium.isAlertPresent()) {
-            alertBoxMessage.put(key, selenium.getAlert());
-        }
-        return (alertBoxMessage.get(key) != null) ? alertBoxMessage.get(key) : "";
+        throw new ComponentException("Alertbox is not implemented in HTML4 cartridge");
     }
 
     /**
@@ -490,8 +470,6 @@ public final class SeleniumHtmlEvaluator extends EvaluatorSkeleton<Selenium> imp
      */
     @Override
     public ComponentType componentType(String id) {
-        if (id.equals(org.testatoo.cartridge.html4.element.AlertBox.ID))
-            return AlertBox;
         return ComponentType.valueOf(evaljQuery("$('#" + id + "').componentType()"));
     }
 
@@ -594,9 +572,7 @@ public final class SeleniumHtmlEvaluator extends EvaluatorSkeleton<Selenium> imp
      */
     @Override
     public void close(AbstractWindow window) {
-        if (window instanceof AlertBox && selenium.isAlertPresent()) {
-            selenium.getAlert();
-        }
+        throw new ComponentException("Close window is not implemented in HTML4 cartridge");
     }
 
     /**
@@ -614,11 +590,6 @@ public final class SeleniumHtmlEvaluator extends EvaluatorSkeleton<Selenium> imp
      */
     @Override
     public void open(String url) {
-        // Selenium issue !!!!!
-        if (selenium.isAlertPresent()) {
-            selenium.getAlert();
-        }
-
         selenium.open(url);
         currentFocusedComponent = null;
         release();
@@ -940,7 +911,6 @@ public final class SeleniumHtmlEvaluator extends EvaluatorSkeleton<Selenium> imp
      */
     @Override
     public String[] elementsId(String expression) {
-
         if (!expression.startsWith("jquery:")) {
             expression = "jquery:$('#" + expression.replace(".", "\\\\.") + "')";
         }
