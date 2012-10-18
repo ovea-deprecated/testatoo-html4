@@ -91,7 +91,7 @@ public class TextAreaTest extends WebTest {
     }
 
     @Test
-    public void test_enability() {
+    public void test_is_enabled() {
         TextArea textArea_1 = component(TextArea.class, $("#textArea_1"));
         TextArea textArea_2 = component(TextArea.class, $("#textArea_2"));
         TextArea textArea_3 = component(TextArea.class, $("[name=textArea3linesName]"));

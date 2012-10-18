@@ -106,7 +106,7 @@ public class ButtonTest extends WebTest {
     }
 
     @Test
-    public void test_enability() {
+    public void test_is_enabled() {
         Button button1 = component(Button.class, $("#button"));
         assertThat(button1.isEnabled(), is(true));
         assertThat(button1.isDisabled(), is(false));

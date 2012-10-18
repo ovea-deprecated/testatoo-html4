@@ -96,7 +96,7 @@ public class OptionGroupTest extends WebTest {
     }
 
     @Test
-    public void test_enability() {
+    public void test_is_enabled() {
         OptionGroup myLinux = component(OptionGroup.class, $("#linux"));
         assertThat(myLinux, is(enabled()));
         assertThat(myLinux, is(not(disabled())));

@@ -37,7 +37,7 @@ public class ComponentTest extends WebTest {
     }
 
     @Test
-    public void test_component_enability() {
+    public void test_is_enabled() {
         Button invisible_button = component(Button.class, "hidden_button_1");
 
         assertThat(invisible_button, is(not(disabled())));

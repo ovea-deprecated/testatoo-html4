@@ -79,7 +79,7 @@ public class OptionTest extends WebTest {
     }
 
     @Test
-    public void test_enability() {
+    public void test_is_enabled() {
         assertThat(component(Option.class, $("#1")), is(not(disabled())));
         assertThat(component(Option.class, $("#2")), is(disabled()));
     }

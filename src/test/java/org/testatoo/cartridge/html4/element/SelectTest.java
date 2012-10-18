@@ -92,7 +92,7 @@ public class SelectTest extends WebTest {
     }
 
     @Test
-    public void test_enability() {
+    public void test_is_enabled() {
         Select select = component(Select.class, $("#elements"));
         assertThat(select, is(enabled()));
         assertThat(select, is(not(disabled())));

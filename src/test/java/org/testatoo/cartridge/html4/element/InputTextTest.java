@@ -98,7 +98,7 @@ public class InputTextTest extends WebTest {
     }
 
     @Test
-    public void test_enability() {
+    public void test_is_enabled() {
         assertTrue(component(InputText.class, $("#text")).isReadOnly());
         assertTrue(component(InputText.class, $("#readonlytext")).isReadOnly());
         assertThat(component(InputText.class, $("#input_language")).isReadOnly(), is(false));

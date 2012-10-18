@@ -186,7 +186,7 @@ public class LinkTest extends WebTest {
     }
 
     @Test
-    public void test_enability() {
+    public void test_is_enabled() {
         Link link = component(Link.class, $("#link_1"));
         assertThat(link.isVisible(), is(false));
     }
