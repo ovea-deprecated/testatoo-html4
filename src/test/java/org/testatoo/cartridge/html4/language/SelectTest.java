@@ -38,11 +38,11 @@ public class SelectTest extends WebTest {
         Select select = component(Select.class, "elements");
 
         assertThat(select, has(5, options()));
-        and(containsValues("84", "88", "20"));
+        and(containsValues("Polonium", "Radium", "Calcium"));
         and(it(), has(not(selectedValues())));
 
-        on(select).select("20");
-        assertThat(select, has(selectedValues("20")));
+        on(select).select("Calcium");
+        assertThat(select, has(selectedValues("Calcium")));
 
         select = component(Select.class, "os");
 

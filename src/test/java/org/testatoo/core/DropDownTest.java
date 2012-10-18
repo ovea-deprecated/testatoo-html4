@@ -69,11 +69,11 @@ public class DropDownTest extends WebTest {
 
         // List with explicit values
         DropDown elementsList = component(DropDown.class, "elements");
-        assertThat(elementsList.values(), hasItems("1", "5", "84", "20", "88"));
-        assertThat(elementsList.values(), hasItems("20", "5", "84", "1", "88"));
+        assertThat(elementsList.values(), hasItems("Helium", "Boron", "Polonium", "Calcium", "Radium"));
+        assertThat(elementsList.values(), hasItems("Calcium", "Boron", "Polonium", "Helium", "Radium"));
 
         Selection<String> values = component(DropDown.class, "elements").values();
-        assertThat(values.containsAll(Arrays.asList("1", "5", "84", "20", "88")), is(true));
+        assertThat(values.containsAll(Arrays.asList("Helium", "Boron", "Polonium", "Calcium", "Radium")), is(true));
     }
 
     @Test
@@ -81,8 +81,8 @@ public class DropDownTest extends WebTest {
         DropDown dropdown = component(DropDown.class, "elements");
 
         assertThat(dropdown.selectedValue(), is(""));
-        dropdown.select("84");
-        assertThat(dropdown.selectedValue(), is("84"));
+        dropdown.select("Polonium");
+        assertThat(dropdown.selectedValue(), is("Polonium"));
     }
 
     // Test specific for Html
@@ -97,10 +97,10 @@ public class DropDownTest extends WebTest {
 
         // List with explicit values
         DropDown elementsList = component(DropDown.class, "elements");
-        elementsList.select("84");
-        assertThat(elementsList.selectedValue(), is("84"));
-        elementsList.select("20");
-        assertThat(elementsList.selectedValue(), is("20"));
+        elementsList.select("Polonium");
+        assertThat(elementsList.selectedValue(), is("Polonium"));
+        elementsList.select("Calcium");
+        assertThat(elementsList.selectedValue(), is("Calcium"));
     }
 
     @Test
@@ -111,6 +111,6 @@ public class DropDownTest extends WebTest {
     @Test
     public void test_toString() {
         page().open("Select.html");
-        assertThat(component(DropDown.class, "elements").toString(), is("class org.testatoo.cartridge.html4.element.DropDown with state : enabled:true, visible:true, values:[1, 5, 84, 20, 88], selectedValues:[], label:Elements list"));
+        assertThat(component(DropDown.class, "elements").toString(), is("class org.testatoo.cartridge.html4.element.DropDown with state : enabled:true, visible:true, values:[Helium, Boron, Polonium, Calcium, Radium], selectedValues:[], label:Elements list"));
     }
 }

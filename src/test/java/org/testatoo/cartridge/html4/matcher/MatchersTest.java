@@ -34,7 +34,7 @@ public class MatchersTest {
             assertThat(selectWith3Options(), has(2, options()));
             fail();
         } catch (AssertionError e) {
-            assertEquals(format(e.getMessage()), "Expected: option values size : 2 but: was <class org.testatoo.cartridge.html4.element.Select with state : enabled:true, visible:true, values:[UK, Canada, Italy], selectedValues:[UK, Italy], optionGroup:[], visibleRows:2>");
+            assertEquals(format(e.getMessage()), "Expected: option values size : 2 but: was <class org.testatoo.cartridge.html4.element.Select with state : enabled:true, visible:true, values:[UK, Canada, Italy], selectedValues:[UK, Italy], visibleRows:2>");
         }
     }
 
@@ -46,7 +46,7 @@ public class MatchersTest {
             assertThat(selectWith2OptionGroups(), has(3, optionGroups()));
             fail();
         } catch (AssertionError e) {
-            assertEquals(format(e.getMessage()), "Expected: optionGroup size : 3 but: was <class org.testatoo.cartridge.html4.element.Select with state : enabled:true, visible:true, values:[], selectedValues:[], optionGroup:[labelOptionGrp, labelOptionGrp], visibleRows:2>");
+            assertEquals(format(e.getMessage()), "Expected: optionGroup size : 3 but: was <class org.testatoo.cartridge.html4.element.Select with state : enabled:true, visible:true, values:[], selectedValues:[], visibleRows:2>");
         }
     }
 
@@ -58,7 +58,7 @@ public class MatchersTest {
             assertThat(selectWith3Options(), has(3, visibleRows()));
             fail();
         } catch (AssertionError e) {
-            assertEquals(format(e.getMessage()), "Expected: visible rows : 3 but: was <class org.testatoo.cartridge.html4.element.Select with state : enabled:true, visible:true, values:[UK, Canada, Italy], selectedValues:[UK, Italy], optionGroup:[], visibleRows:2>");
+            assertEquals(format(e.getMessage()), "Expected: visible rows : 3 but: was <class org.testatoo.cartridge.html4.element.Select with state : enabled:true, visible:true, values:[UK, Canada, Italy], selectedValues:[UK, Italy], visibleRows:2>");
         }
     }
 

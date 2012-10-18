@@ -19,14 +19,14 @@ package org.testatoo.cartridge.html4.element;
 import org.junit.Before;
 import org.junit.Test;
 import org.testatoo.WebTest;
-import org.testatoo.cartridge.html4.By;
 import org.testatoo.core.ComponentException;
 import org.testatoo.core.Selection;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.fail;
 import static org.testatoo.cartridge.html4.By.$;
-import static org.testatoo.core.ComponentFactory.*;
+import static org.testatoo.core.ComponentFactory.component;
+import static org.testatoo.core.ComponentFactory.page;
 import static org.testatoo.core.Language.assertThat;
 import static org.testatoo.core.matcher.Matchers.*;
 
@@ -149,7 +149,7 @@ public class SelectTest extends WebTest {
         assertThat(osSelect.optionGroups().get(0), has(label("linux")));
 
         assertThat(osSelect.options(), has(size(8)));
-        osSelect.select("KubuntuValue");
+        osSelect.select("Kubuntu");
 
         assertThat(osSelect.selectedOptions(), has(size(1)));
         Option osSelectedOption = osSelect.selectedOptions().get(0);
@@ -158,7 +158,7 @@ public class SelectTest extends WebTest {
         assertThat(osSelectedOption.value(), is("KubuntuValue"));
         assertThat(osSelectedOption.content(), is("Kubuntu"));
 
-        osSelect.select("FreeBSDValue");
+        osSelect.select("FreeBSD");
 
         assertThat(osSelect.selectedOptions(), has(size(1)));
         osSelectedOption = osSelect.selectedOptions().get(0);
@@ -169,8 +169,8 @@ public class SelectTest extends WebTest {
 
         // Multiple
         Select planetsSelect = component(Select.class, $("#planets"));
-        planetsSelect.select("3");
-        planetsSelect.select("5");
+        planetsSelect.select("Earth");
+        planetsSelect.select("Jupiter");
 
         assertThat(planetsSelect.selectedOptions(), has(size(2)));
         Selection<Option> planetsSelectedOptions = planetsSelect.selectedOptions();
@@ -192,9 +192,9 @@ public class SelectTest extends WebTest {
 
         // List with explicit values
         Select oceansList = component(Select.class, $("#oceans"));
-        assertThat(oceansList.values(), hasItems("304", "208", "378", "153", "357"));
-        assertThat(oceansList.values(), hasItems("357", "208", "378", "153", "304"));
-        assertThat(oceansList.values(), not(hasItems("305", "209", "378", "153", "357")));
+        assertThat(oceansList.values(), hasItems("Arctic", "Atlantic", "Pacific", "Indian", "Caribbean"));
+        assertThat(oceansList.values(), hasItems("Caribbean", "Atlantic", "Pacific", "Indian", "Arctic"));
+        assertThat(oceansList.values(), not(hasItems("Baltic", "Mediterranean", "Caspian", "Indian", "Caribbean")));
     }
 
     @Test
@@ -206,57 +206,52 @@ public class SelectTest extends WebTest {
 
         // Single
         Select componentsList = component(Select.class, $("#elements"));
-        componentsList.select("1");
-        assertThat(componentsList.selectedValues().get(0), is("1"));
-        componentsList.select("20");
-        assertThat(componentsList.lstSelectedValues().get(0), is("20"));
-        assertThat(componentsList.lstSelectedValues(), hasItems("20"));
+        componentsList.select("Helium");
+        assertThat(componentsList.selectedValues().get(0), is("Helium"));
+        componentsList.select("Calcium");
+        assertThat(componentsList.selectedValues().get(0), is("Calcium"));
+        assertThat(componentsList.selectedValues(), hasItems("Calcium"));
 
         try {
-            componentsList.select("2");
+            componentsList.select("Oxygen");
         } catch (Exception e) {
-            assertThat(e.getMessage(), is("ERROR: Option with value '2' not found"));
+            assertThat(e.getMessage(), is("ERROR: Option with value 'Oxygen' not found"));
         }
 
         // Multiple with simple values
         Select planetsSelect = component(Select.class, $("#planets"));
-        planetsSelect.select("2");
-        planetsSelect.select("4");
-        planetsSelect.select("6");
-        assertThat(planetsSelect.selectedValues().get(0), is("2"));
-        assertThat(planetsSelect.selectedValues().get(1), is("4"));
-        assertThat(planetsSelect.selectedValues().get(2), is("6"));
-        assertThat(planetsSelect.lstSelectedValues().get(0), is("2"));
-        assertThat(planetsSelect.lstSelectedValues().get(1), is("4"));
-        assertThat(planetsSelect.lstSelectedValues().get(2), is("6"));
-
-        assertThat(planetsSelect.lstSelectedValues(), hasItems("2", "4", "6"));
+        planetsSelect.select("Venus");
+        planetsSelect.select("Mars");
+        planetsSelect.select("Saturn");
+        assertThat(planetsSelect.selectedValues().get(0), is("Venus"));
+        assertThat(planetsSelect.selectedValues().get(1), is("Mars"));
+        assertThat(planetsSelect.selectedValues().get(2), is("Saturn"));
 
         // Multiple with complex values
         Select oceansList = component(Select.class, $("#oceans"));
-        oceansList.select("378");
-        oceansList.select("153");
-        assertThat(oceansList.selectedValues().get(0), is("378"));
-        assertThat(oceansList.selectedValues().get(1), is("153"));
-        assertThat(oceansList.selectedValues(), hasItems("378", "153"));
+        oceansList.select("Pacific");
+        oceansList.select("Indian");
+        assertThat(oceansList.selectedValues().get(0), is("Pacific"));
+        assertThat(oceansList.selectedValues().get(1), is("Indian"));
+        assertThat(oceansList.selectedValues(), hasItems("Pacific", "Indian"));
     }
 
     @Test
-    public void can_unselect_options() {
+    public void can_un_select_options() {
         // Single
         Select osSelect = component(Select.class, $("#os"));
 
         assertThat(osSelect.selectedOptions(), has(size(1)));
         assertThat(osSelect.selectedOptions().get(0), has(value("none")));
 
-        osSelect.select("KubuntuValue");
+        osSelect.select("Kubuntu");
 
         assertThat(osSelect.selectedOptions(), has(size(1)));
         assertThat(osSelect.selectedOptions().get(0), has(value("KubuntuValue")));
 
         // Cannot unselect an component in a single select
         try {
-            osSelect.unselect("KubuntuValue");
+            osSelect.unselect("Kubuntu");
             fail();
         } catch (ComponentException e) {
             assertThat(true, is(true));
@@ -264,15 +259,15 @@ public class SelectTest extends WebTest {
 
         // Multiple
         Select planetsSelect = component(Select.class, $("#planets"));
-        planetsSelect.select("3");
-        planetsSelect.select("5");
+        planetsSelect.select("Earth");
+        planetsSelect.select("Jupiter");
 
         assertThat(planetsSelect.selectedOptions(), has(size(2)));
 
-        planetsSelect.unselect("5");
+        planetsSelect.unselect("Jupiter");
         assertThat(planetsSelect.selectedOptions(), has(size(1)));
 
-        planetsSelect.unselect("3");
+        planetsSelect.unselect("Earth");
         assertThat(planetsSelect.selectedOptions(), has(size(0)));
 
         osSelect = component(Select.class, $("#os"));
@@ -286,12 +281,11 @@ public class SelectTest extends WebTest {
         }
 
         planetsSelect = component(Select.class, $("#planets"));
-        planetsSelect.select("1");
-        planetsSelect.select("2");
+        planetsSelect.select("Mercury");
+        planetsSelect.select("Venus");
         assertThat(planetsSelect.selectedOptions(), has(size(2)));
 
         planetsSelect.unselectAll();
-
         assertThat(planetsSelect.selectedOptions(), has(size(0)));
     }
 
@@ -304,6 +298,6 @@ public class SelectTest extends WebTest {
     @Test
     public void test_toString() {
         assertThat(component(Select.class, $("#cities")).toString(),
-                is("class org.testatoo.cartridge.html4.element.Select with state : enabled:true, visible:true, values:[Montreal, Quebec, Montpellier, New York, Casablanca, Munich], selectedValues:[New York, Munich], optionGroup:[], visibleRows:3"));
+                is("class org.testatoo.cartridge.html4.element.Select with state : enabled:true, visible:true, values:[Montreal, Quebec, Montpellier, New York, Casablanca, Munich], selectedValues:[New York, Munich], visibleRows:3"));
     }
 }

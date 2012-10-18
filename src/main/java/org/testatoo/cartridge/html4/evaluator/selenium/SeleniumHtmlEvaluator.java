@@ -269,11 +269,11 @@ public final class SeleniumHtmlEvaluator extends EvaluatorSkeleton<Selenium> imp
     @Override
     public void unselect(String value, ListModel listModel) {
         Select select = findEmbeddedSelect(listModel);
-        String[] values = parseCSV(evaljQuery("window.tQuery.map(window.tQuery('#" + select.id() + " :selected'), function(e) { return window.tQuery(e).val(); });"));
+        String[] values = parseCSV(evaljQuery("window.tQuery.map(window.tQuery('#" + select.id() + " :selected'), function(e) { return window.tQuery(e).text(); });"));
         for (Option option : select.options()) {
             List<String> selectedValues = Arrays.asList(values);
-            if (option.value().equals(value)) {
-                if (selectedValues.contains(option.value())) {
+            if (option.content().equals(value)) {
+                if (selectedValues.contains(option.content())) {
                     evaljQuery("$('#" + option.id() + "').prop('selected', false)");
                     evaljQuery("$('#" + select.id() + "').simulate('change');");
                 }
@@ -304,7 +304,7 @@ public final class SeleniumHtmlEvaluator extends EvaluatorSkeleton<Selenium> imp
     public void select(String value, ListModel listModel) {
         Select select = findEmbeddedSelect(listModel);
         for (Option option : select.options()) {
-            if (option.value().equals(value)) {
+            if (option.content().equals(value)) {
                 evaljQuery("$('#" + option.id() + "').prop('selected', 'selected');");
                 // Use fix for IE
                 evaljQuery("null; if (window.tQuery.browser.msie) {window.tQuery('#" + select.id() + "').simulate('click');} " +

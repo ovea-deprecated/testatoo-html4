@@ -68,9 +68,7 @@ public class MockFactory {
         when(evaluator.options(optionGroup_2)).thenReturn(options_2);
 
         Selection<OptionGroup> optionGroups = ListSelection.of(optionGroup_1, optionGroup_2);
-
         when(evaluator.optionGroups(any(Select.class))).thenReturn(optionGroups);
-
         return new Select(evaluator, id);
     }
 
@@ -88,29 +86,27 @@ public class MockFactory {
 
         when(evaluator.htmlElementType(any(String.class))).thenReturn(HtmlElementType.Option);
         when(evaluator.label(any(Option.class))).thenReturn("label");
-        when(evaluator.content(any(Option.class))).thenReturn("text");
-        when(evaluator.selected(any(Option.class))).thenReturn(false);
-        when(evaluator.attribute(id, Attribute.size)).thenReturn("2");
 
         Option option_1 = new Option(evaluator, opt_1_id);
         Option option_2 = new Option(evaluator, opt_2_id);
         Option option_3 = new Option(evaluator, opt_3_id);
 
+        when(evaluator.content(option_1)).thenReturn("UK");
+        when(evaluator.content(option_2)).thenReturn("Canada");
+        when(evaluator.content(option_3)).thenReturn("Italy");
+
+        when(evaluator.selected(any(Option.class))).thenReturn(false);
+        when(evaluator.attribute(id, Attribute.size)).thenReturn("2");
+
         when(evaluator.optionGroups(any(Select.class))).thenReturn(ListSelection.<OptionGroup>empty());
-        when(evaluator.value(option_1)).thenReturn("UK");
-        when(evaluator.value(option_2)).thenReturn("Canada");
-        when(evaluator.value(option_3)).thenReturn("Italy");
 
         Selection<String> values = ListSelection.of("UK", "Canda", "Italy");
-
         when(evaluator.values(any(ListModel.class))).thenReturn(values);
 
         Selection<String> selectedValues = ListSelection.of("UK", "Italy");
-
         when(evaluator.selectedValues(any(ListModel.class))).thenReturn(selectedValues);
 
         Selection<Option> selectedOptions = ListSelection.of(option_1, option_3);
-
         when(evaluator.selectedOptions(any(Select.class))).thenReturn(selectedOptions);
 
         Selection<Option> options = ListSelection.of(option_1, option_2, option_3);

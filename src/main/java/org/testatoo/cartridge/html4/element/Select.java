@@ -24,7 +24,6 @@ import org.testatoo.core.nature.LabelSupport;
 import org.testatoo.core.nature.MultiSelectable;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -153,7 +152,7 @@ public final class Select extends org.testatoo.core.component.ListModel implemen
     public Selection<String> values() {
         List<String> optionsValue = new ArrayList<String>();
         for (Option option : options()) {
-            optionsValue.add(option.value());
+            optionsValue.add(option.content());
         }
         return ListSelection.from(optionsValue);
     }
@@ -256,22 +255,14 @@ public final class Select extends org.testatoo.core.component.ListModel implemen
      * @return string describing the list and its content
      */
     public String toString() {
-        return super.toString() + ", optionGroup:" + Arrays.deepToString(optionGroupValues().toArray()) + ", visibleRows:" + visibleRows();
+        return super.toString() + ", visibleRows:" + visibleRows();
     }
 
-    protected Selection<String> lstSelectedValues() {
+    private Selection<String> lstSelectedValues() {
         List<String> selectedValues = new ArrayList<String>();
         for (Option option : selectedOptions()) {
-            selectedValues.add(option.value());
+            selectedValues.add(option.content());
         }
         return ListSelection.from(selectedValues);
-    }
-
-    private List<String> optionGroupValues() {
-        List<String> optionGroupValues = new ArrayList<String>();
-        for (OptionGroup optionGroup : optionGroups()) {
-            optionGroupValues.add(optionGroup.label());
-        }
-        return optionGroupValues;
     }
 }
