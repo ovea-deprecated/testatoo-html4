@@ -10,7 +10,7 @@
 
     <groupId>org.testatoo.cartridge</groupId>
     <artifactId>testatoo-html4</artifactId>
-    <version>1.0-rc9-SNAPSHOT</version>
+    <version>1.0-rc9</version>
     <packaging>jar</packaging>
 
     <name>testatoo-html4</name>
