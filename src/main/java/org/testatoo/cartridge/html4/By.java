@@ -116,7 +116,7 @@ public abstract class By {
 
     @Deprecated
     public static By jQuery(final String jQueryExpression) {
-        return $(jQueryExpression, max(2, SECONDS));
+        return $(jQueryExpression, max(5, SECONDS));
     }
 
     @Deprecated
