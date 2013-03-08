@@ -16,26 +16,24 @@
 
 package org.testatoo.multisession;
 
+import com.ovea.tajin.server.Server;
 import org.testatoo.config.AbstractTestatooModule;
 import org.testatoo.config.Scope;
 import org.testatoo.config.cartridge.TestatooCartridge;
 import org.testatoo.core.Evaluator;
-
-import static org.testatoo.container.TestatooContainer.JETTY;
 
 final class ParallelMultiSessionModule extends AbstractTestatooModule {
 
     @Override
     protected void configure() {
         containers().register(createContainer()
-                .implementedBy(JETTY)
+                .implementedBy(Server.JETTY9)
                 .webappRoot("src/test/webapp")
                 .port(7772)
                 .build())
                 .scope(Scope.TEST_SUITE);
 
-        // setup one browser
-
+        // Setup first browser
         seleniumServers().register(createSeleniumServer()
                 .port(7783)
                 .useSingleWindow(true)
@@ -54,8 +52,7 @@ final class ParallelMultiSessionModule extends AbstractTestatooModule {
                 .withTimeout(20000)
                 .inCartridge(TestatooCartridge.HTML4);
 
-        // setup second browser
-
+        // Setup second browser
         seleniumServers().register(createSeleniumServer()
                 .port(7784)
                 .useSingleWindow(true)

@@ -154,7 +154,7 @@
         <dependency>
             <groupId>org.testatoo</groupId>
             <artifactId>testatoo-config</artifactId>
-            <version>1.0-rc2</version>
+            <version>1.0-rc3</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -164,15 +164,15 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.testatoo.container</groupId>
-            <artifactId>testatoo-container-jetty</artifactId>
-            <version>1.0-rc5</version>
+            <groupId>com.ovea.tajin.server</groupId>
+            <artifactId>tajin-server-jetty9</artifactId>
+            <version>1.0.b10</version>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.testatoo.container</groupId>
-            <artifactId>testatoo-container-tomcat</artifactId>
-            <version>1.0-rc5</version>
+            <groupId>com.ovea.tajin.server</groupId>
+            <artifactId>tajin-server-tomcat7</artifactId>
+            <version>1.0.b10</version>
             <scope>test</scope>
         </dependency>
         <dependency>

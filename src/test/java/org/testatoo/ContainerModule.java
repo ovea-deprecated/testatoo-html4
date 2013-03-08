@@ -16,10 +16,9 @@
 
 package org.testatoo;
 
+import com.ovea.tajin.server.Server;
 import org.testatoo.config.AbstractTestatooModule;
-
-import static org.testatoo.config.Scope.TEST_SUITE;
-import static org.testatoo.container.TestatooContainer.JETTY;
+import org.testatoo.config.Scope;
 
 /**
  * @author David Avenante
@@ -28,10 +27,10 @@ public class ContainerModule extends AbstractTestatooModule {
     @Override
     protected void configure() {
         containers().register(createContainer()
-                .implementedBy(JETTY)
+                .implementedBy(Server.JETTY9)
                 .webappRoot("src/test/webapp")
                 .port(Integer.parseInt(System.getProperty("port")))
                 .build())
-                .scope(TEST_SUITE);
+                .scope(Scope.TEST_SUITE);
     }
 }
